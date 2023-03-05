@@ -7,10 +7,10 @@ LogBox.ignoreAllLogs();
 
 export default function App() {
   const [loaded] = useFonts({
-    regular: require("./assets/Fonts/Roboto-Regular.ttf"),
-    bold: require("./assets/Fonts/Roboto-Bold.ttf"),
-    light: require("./assets/Fonts/Roboto-Light.ttf"),
-    semiBold: require("./assets/Fonts/Roboto-Medium.ttf"),
+    bold: require("./assets/fonts/Poppins-Bold.ttf"),
+    regular: require("./assets/fonts/Poppins-Regular.ttf"),
+    light: require("./assets/fonts/Poppins-Light.ttf"),
+    semiBold: require("./assets/fonts/Poppins-SemiBold.ttf"),
   });
 
   if (!loaded) return <View />;

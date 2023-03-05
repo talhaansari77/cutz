@@ -1,11 +1,18 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { createStackNavigator } from '@react-navigation/stack'
+import Signup from '../../Auth/Signup/Signup'
+import Login from '../../Auth/Login/Login'
 
 const AuthStack = () => {
+  const Stack=createStackNavigator()
   return (
-    <View>
-      <Text>AuthStack</Text>
-    </View>
+    <Stack.Navigator  screenOptions={{headerShown:false}}>
+      <Stack.Screen name="signup" component={Signup}/>
+      <Stack.Screen name="login" component={Login}/>
+    </Stack.Navigator>
+    
+    
   )
 }
 
