@@ -8,7 +8,7 @@ const RootNavigator = () => {
     const Stack=createStackNavigator()
   return (
       <NavigationContainer>
-          <Stack.Navigator screenOptions={{headerShown:false}}>
+          <Stack.Navigator screenOptions={{headerShown:false,}}>
               <Stack.Screen name='AuthStack' component={AuthStack}/>
 
 
