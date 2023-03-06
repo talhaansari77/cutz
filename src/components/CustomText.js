@@ -18,7 +18,6 @@ function CustomText(props) {
       <Text
         style={[
           {
-            fontSize: verticalScale(props.fontSize || 10),
             color: props.color || colors.black,
             fontSize: verticalScale(props.fontSize || 10),
             marginTop: verticalScale(props.marginTop || 0),
