@@ -1,7 +1,9 @@
 export const colors = {
   primary: "#F07E2B",
+  darkOrange: "#E25F00",
   secondary:"#0B0889",
   drakBlue:"#2D2C6D",
+  blue1:"#6D62B4",
   inputGray:"#F1F1F1",
   placeholder:"#D1D3D9",
   perFectDark:"#9B9B9B",
@@ -10,7 +12,13 @@ export const colors = {
   gray:"#C3C3C3",
   darkGray:"#A7A7A7",
   gray1:"#D9D9D9",
+  gray2:"#E8E8E8",
+  gray3:"#B1B1B1",
   white: "#FFFFFF",
   red: "red",
+  Brown1: "#DD790338",
+  Brown2: "#E7973B54",
+  Brown3: "#DD790387",
+  Brown4: "#DD79033D",
  
 };
