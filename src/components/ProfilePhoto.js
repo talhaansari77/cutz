@@ -2,9 +2,11 @@ import {Dimensions, StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
 import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 import {colors} from '../utils/Colors';
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import {Spacer} from './Spacer';
-import {icons} from '../assets/icons';
+import { icons } from '../../assets/icons';
+import { FontAwesome5 } from '@expo/vector-icons'; 
+
+
 
 const ProfilePhoto = (props) => {
   const height = Dimensions.get('screen').height;
@@ -12,21 +14,26 @@ const ProfilePhoto = (props) => {
     <View>
       <View
         style={{
-          width:  props.width ||  scale(110),
-          height:  props.height || scale(110),
+          width:  props.width ||  scale(60),
+          height:  props.height || scale(60),
           borderRadius: 100,
-          borderColor: colors.yellow,
-          borderWidth: 2,
-          backgroundColor: '#faedcd',
-          alignSelf: 'center',
-          position: 'absolute',
+          backgroundColor: '#0B0889',
+          // opacity:0.5,
           alignItems: 'center',
+          flexDirection:"row",
+          alignSelf:props.alignSelf,
+          justifyContent:"center",
           // marginTop: height/ 7.7
         }}>
-        <Image
+          <View style={{alignSelf:"center"}}>
+          <FontAwesome5 name="user-alt" size={moderateScale(38)} color={colors.white} />
+
+
+          </View>
+        {/* <Image
           source={icons.person}
           style={{width: '90%', height: '90%', alignSelf: 'center'}}
-        />
+        /> */}
         {
           props.addPhoto &&(
             <View
@@ -37,17 +44,18 @@ const ProfilePhoto = (props) => {
               backgroundColor: colors.white,
               position: 'absolute',
               alignSelf: 'flex-end',
-              marginTop: verticalScale(5),
-              right: -10,
+              marginTop: verticalScale(32),
+              right: -5,
               alignItems: 'center',
               justifyContent: 'center',
               position: 'absolute',
             }}>
-            <SimpleLineIcons
+              <Image source={icons.camera} style={{width:25,height:25}}/>
+            {/* <SimpleLineIcons
               name="camera"
               color={colors.black}
               size={moderateScale(19)}
-            />
+            /> */}
           </View>
 
           )
