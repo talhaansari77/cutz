@@ -24,9 +24,8 @@ const MainStack = () => {
           // height: verticalScale(65),
           // paddingTop: 5,
           backgroundColor: colors.white,
-          borderTopWidth:1,
-          borderTopColor:colors.gray1,
-          
+          borderTopWidth: 1,
+          borderTopColor: colors.gray1,
         },
         headerShown: false,
         tabBarLabel: ({ focused, size, color }) => {
@@ -61,15 +60,22 @@ const MainStack = () => {
                 tintColor: color,
                 height: 40,
                 width: 40,
-                marginTop:10
+                marginTop: 10,
               }}
             />
           );
         },
       })}
-      initialRouteName={"NewPost"}
+      initialRouteName={"Reservation"}
     >
       <Tab.Screen name="Welcome" component={WelcomeScreen} />
+      <Tab.Screen
+        options={{
+          tabBarItemStyle: { display: "none" },
+        }}
+        name="Reservation"
+        component={MakeReservation}
+      />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Receipt" component={ReceiptScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />

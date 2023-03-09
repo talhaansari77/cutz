@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AuthStack from "./AuthStack/AuthStack";
 import MainStack from "./MainStack";
+import MakeReservation from "../screens/MainScreens/MakeReservation/MakeReservation";
 
 const RootNavigator = () => {
   const Stack = createStackNavigator();
@@ -12,6 +13,7 @@ const RootNavigator = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {/* <Stack.Screen name="AuthStack" component={AuthStack} /> */}
         <Stack.Screen name="MainStack" component={MainStack} />
+        {/* <Stack.Screen name="Reservation" component={MakeReservation} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

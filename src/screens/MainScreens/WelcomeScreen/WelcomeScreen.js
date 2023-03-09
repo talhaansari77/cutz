@@ -118,7 +118,7 @@ const evenDateList = [
   },
 ];
 
-const WelcomeScreen = () => {
+const WelcomeScreen = ({navigation}) => {
   const Header = () => (
     <View
       style={{
@@ -282,8 +282,8 @@ const WelcomeScreen = () => {
       <Spacer height={40} />
       <Header />
       <View style={styles.shadowDivider} />
-      <Spacer height={20} />
       <ScrollView>
+        <Spacer height={20} />
         <View style={{ alignItems: "center" }}>
           <CustomText
             label={"WELCOME"}
@@ -388,7 +388,14 @@ const WelcomeScreen = () => {
         </View>
         <Spacer height={20} />
         <View style={{ alignItems: "center" }}>
-          <CustomButton title={"Make My Reservation"} width={"80%"} borderRadius={15} />
+          <CustomButton
+            title={"Make My Reservation"}
+            width={"80%"}
+            borderRadius={15}
+            onPress={()=>{
+              navigation.navigate("Reservation")
+            }}
+          />
         </View>
         <Spacer height={30} />
       </ScrollView>
