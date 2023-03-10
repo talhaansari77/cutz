@@ -393,7 +393,7 @@ const WelcomeScreen = ({navigation}) => {
             width={"80%"}
             borderRadius={15}
             onPress={()=>{
-              navigation.navigate("Reservation")
+              navigation.navigate("Receipt")
             }}
           />
         </View>
