@@ -6,6 +6,7 @@ import AuthStack from "./AuthStack/AuthStack";
 import MainStack from "./MainStack";
 import PersonalScreen from "../screens/MainScreens/PersonalScreen/PersonalScreen";
 import EditProfile from "../screens/MainScreens/EditProfile/EditProfile";
+import ManageNotification from "../screens/MainScreens/ManageNotification/ManageNotification";
 
 const RootNavigator = () => {
   const Stack = createStackNavigator();
@@ -16,6 +17,8 @@ const RootNavigator = () => {
         <Stack.Screen name="MainStack" component={MainStack} />
         <Stack.Screen name="PersonalScreen" component={PersonalScreen} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
+        <Stack.Screen name="ManageNotification" component={ManageNotification} />
+
 
 
       </Stack.Navigator>

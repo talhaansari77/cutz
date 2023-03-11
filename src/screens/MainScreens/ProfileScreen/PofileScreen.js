@@ -29,7 +29,7 @@ const ProfileScreen = ({ navigation }) => {
       id: 3,
       name: "Manage Notifications",
       img: icons.manage,
-      onPress: () => navigation.navigate(""),
+      onPress: () => navigation.navigate("ManageNotification"),
     },
     {
       id: 4,

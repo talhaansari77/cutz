@@ -6,6 +6,7 @@ export const colors = {
   inputGray:"#F1F1F1",
   placeholder:"#D1D3D9",
   perFectDark:"#9B9B9B",
+  
   btnDark:"#7E819A",
   black:"black",
   gray:"#C3C3C3",

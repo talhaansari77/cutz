@@ -28,7 +28,8 @@ const DetailContainer = (props) => {
           label={props.name}
         />
       </View>
-      <SepratorLine backgroundColor={"#C9C9C9"} />
+      <SepratorLine backgroundColor={"#9A9A9A"}
+        height={0.5} />
     </>
   );
 };

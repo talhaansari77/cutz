@@ -13,6 +13,10 @@ export const icons={
     next:require("./next.png"),
     cross:require("./cross.png"),
     editProfile:require("./editProfile.png"),
+    searchorg:require("./searchorg.png"),
+    searchSome:require("./searchSome.png"),
+
+
 
 
 

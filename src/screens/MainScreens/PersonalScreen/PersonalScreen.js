@@ -32,11 +32,11 @@ const PersonalScreen = () => {
 
         </PH20>
         <Spacer height={15}/>
+       
         <SepratorLine 
-        backgroundColor={"#C9C9C9"}
         height={1.5}
         style={{
-             shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+             shadowColor: Platform.OS == "ios" ? "black" : colors.black,
              shadowRadius: 2,
              elevation: 5,
              shadowOpacity: 0.4,
@@ -45,6 +45,8 @@ const PersonalScreen = () => {
 
 
         }}/>
+        <Spacer height={1}/>
+       
         <NameContainer name={"FULL NAME"} />
         <DetailContainer name={"First Name & Last Name"}/>
         <NameContainer name={"YOUR INFO"} />
