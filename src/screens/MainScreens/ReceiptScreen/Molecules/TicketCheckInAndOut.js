@@ -16,6 +16,7 @@ import CustomButton from "../../../../components/CustomButton";
 import CustomText from "../../../../components/CustomText";
 import { verticalScale } from "react-native-size-matters";
 import InputItem from "./InputItem";
+import { Platform } from "react-native";
 
 const TicketCheckInAndOut = ({ setState, state }) => {
   const [visible, setVisible] = useState(true);
@@ -80,6 +81,14 @@ const TicketCheckInAndOut = ({ setState, state }) => {
         <CustomButton
           title={"Next"}
           width={"50%"}
+          btnStyle={{
+            shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+            shadowRadius: 2,
+            elevation: 5,
+            shadowOpacity: 0.4,
+            // inputMarginTop:-20,
+            shadowOffset: { width: -1, height: 3 },
+          }}
           borderRadius={15}
           onPress={() => {
             state.checkIn
@@ -228,6 +237,14 @@ const TicketCheckInAndOut = ({ setState, state }) => {
           <Spacer height={20} />
           <View style={{ alignItems: "center" }}>
             <CustomButton
+                 btnStyle={{
+                  shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+                  shadowRadius: 2,
+                  elevation: 5,
+                  shadowOpacity: 0.4,
+                  // inputMarginTop:-20,
+                  shadowOffset: { width: -1, height: 3 },
+                }}
               title={state.checkIn ? "Check Out" : "Check In"}
               width={"50%"}
               borderRadius={10}

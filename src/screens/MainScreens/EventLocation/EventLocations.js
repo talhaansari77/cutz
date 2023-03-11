@@ -20,9 +20,7 @@ const EventLocations = ({ navigation,route }) => {
     >
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("Receipt");
-        }}
-      >
+          navigation.navigate("Receipt")}}>
         <Image
           source={icons.back}
           resizeMode={"contain"}

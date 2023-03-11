@@ -23,6 +23,7 @@ const ClientEditProfile = () => {
   };
   return (
     <>
+    <Spacer height={20}/>
       <View
         style={{
           flexDirection: "row",
@@ -111,9 +112,9 @@ const ClientEditProfile = () => {
         >
           <CustomText
             label={familySize}
-            fontFamily="bold"
+            fontFamily="regular"
             marginRight={15}
-            fontSize={20}
+            fontSize={15}
             color={colors.black}
           />
           <AntDesign name="caretdown" size={24} color="#727171" />
@@ -141,12 +142,14 @@ const ClientEditProfile = () => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
+          paddingHorizontal:5
         }}
       >
         <CustomButton
           title="Update"
+          fontFamily={"bold"}
           borderRadius={15}
-          width={"45%"}
+          width={"42%"}
           btnStyle={{
             shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
             shadowRadius: 2,
@@ -159,8 +162,10 @@ const ClientEditProfile = () => {
         />
         <CustomButton
           title="Delete"
+          fontFamily={"bold"}
+
           borderRadius={15}
-          width={"45%"}
+          width={"42%"}
           btnStyle={{
             shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
             shadowRadius: 2,

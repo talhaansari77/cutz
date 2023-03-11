@@ -37,7 +37,7 @@ const ProfileBody = (props) => {
       <Image
           resizeMode="contain"
           style={{ width: scale(17), height: scale(17) }}
-          source={icons.next}
+          source={icons.go}
         />
 
       

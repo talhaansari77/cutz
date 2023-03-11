@@ -41,6 +41,7 @@ const commonStyles = ScaledSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
+    
   },
   imgContainer: {
     width: moderateScale(25),

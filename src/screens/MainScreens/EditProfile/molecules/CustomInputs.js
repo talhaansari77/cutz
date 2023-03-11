@@ -1,7 +1,8 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, View,TouchableOpacity,Image } from "react-native";
 import React from "react";
 import { colors } from "../../../../utils/Colors";
-import { verticalScale } from "react-native-size-matters";
+import { scale, verticalScale } from "react-native-size-matters";
+import commonStyles from "../../../../utils/CommonStyles";
 
 const CustomInputs = (props) => {
   return (
@@ -18,13 +19,13 @@ const CustomInputs = (props) => {
         editable={props.editable}
         style={[
           {
-            width: "99%",
+            width:props.rigthIcon ?"90%": "99%",
             height: props.inputHeight || "100%",
             paddingRight: props.paddingRight || 10,
             paddingHorizontal: props.paddingHorizontal,
             fontFamily: props.fontFamily || "regular",
             color: props.color || colors.black,
-            fontSize: verticalScale(15),
+            fontSize:props.fontSize||  verticalScale(13),
             multiline: props.multiline,
           },
         ]}
@@ -35,9 +36,30 @@ const CustomInputs = (props) => {
         autoCapitalize="none"
         multiline={props.multiline}
         placeholder={props.placeholder}
-        placeholderTextColor={colors.secondary}
+        placeholderTextColor={ props.placeholderTextColor|| colors.secondary}
         secureTextEntry={props.secureTextEntry}
       />
+
+{ props.rigthIcon ? (
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={props .onRightPress}
+            style={{
+              width:props. iconWidth || scale(20),
+              height:props. iconHeight || verticalScale(20),
+              marginLeft: verticalScale(10),
+            }}
+          >
+            <Image
+              style={commonStyles.img}
+              resizeMode="contain"
+              source={ props.rigthIcon}
+            />
+          </TouchableOpacity>
+        ) : (
+          <></>
+        )}
+
     </View>
   );
 };

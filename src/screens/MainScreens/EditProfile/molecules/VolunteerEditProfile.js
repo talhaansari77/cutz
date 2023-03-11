@@ -35,14 +35,14 @@ const VolunteerEditProfile = (props) => {
     },
     {
       id: 4,
-      placeholder: "Employer",
+      placeholder: "Employeer (if any)",
 
       //   value: signupValues.country,
       editable: false,
     },
     {
       id: 5,
-      placeholder: "Organization",
+      placeholder: "Organization(s)",
 
       //   value: signupValues.country,
       editable: false,
@@ -136,12 +136,14 @@ const VolunteerEditProfile = (props) => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
+          paddingHorizontal:5
         }}
       >
         <CustomButton
           title="Update"
           borderRadius={15}
-          width={"45%"}
+          fontFamily={"bold"}
+          width={"40%"}
           btnStyle={{
             shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
             shadowRadius: 2,
@@ -155,7 +157,8 @@ const VolunteerEditProfile = (props) => {
         <CustomButton
           title="Delete"
           borderRadius={15}
-          width={"45%"}
+          fontFamily={"bold"}
+          width={"40%"}
           btnStyle={{
             shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
             shadowRadius: 2,

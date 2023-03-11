@@ -9,28 +9,31 @@ import { PH20 } from "../../../utils/CommonStyles";
 const NameContainer = (props) => {
   return (
     <>
-      <SepratorLine backgroundColor={"#C9C9C9"} />
+   
       <View
         style={{
           flexDirection: "row",
-          height: verticalScale(50),
+          height: verticalScale(48),
           alignItems: "flex-end",
-          backgroundColor: colors.gray1,
+          backgroundColor: colors.inputGray,
         }}
       >
         <PH20>
           <CustomText
-            color={colors.gray2}
+            color={colors.gray5}
             fontSize={14}
             fontFamily="medium"
             //   marginLeft={10}
-            marginBottom={10}
+            marginBottom={7}
             //   alignSelf="center"
             label={props.name}
           />
         </PH20>
       </View>
-      <SepratorLine backgroundColor={"#C9C9C9"} />
+      <SepratorLine
+backgroundColor={"#9A9A9A"}
+height={0.5}    
+    />
     </>
   );
 };

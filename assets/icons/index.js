@@ -18,10 +18,15 @@ export const icons={
     person:require("./person.png"),
     camera:require("./camera.png"),
     howuse:require("./howuse.png"),
+    go:require("./go.png"),
     manage:require("./manage.png"),
     next:require("./next.png"),
     cross:require("./cross.png"),
     editProfile:require("./editProfile.png"),
+    searchorg:require("./searchorg.png"),
+    searchSome:require("./searchSome.png"),
+
+
 
 
 

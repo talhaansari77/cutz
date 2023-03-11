@@ -11,7 +11,9 @@ import { colors } from "../../../utils/Colors";
 import CustomText from "../../../components/CustomText";
 import { scale } from "react-native-size-matters";
 
-const ProfileScreen = ({ navigation }) => {
+const ProfileScreen = ({ navigation ,route}) => {
+  console.log("RoutesType",route?.params)
+
   const profileData = [
     {
       id: 1,
@@ -29,7 +31,7 @@ const ProfileScreen = ({ navigation }) => {
       id: 3,
       name: "Manage Notifications",
       img: icons.manage,
-      onPress: () => navigation.navigate(""),
+      onPress: () => navigation.navigate("ManageNotification"),
     },
     {
       id: 4,

@@ -289,7 +289,6 @@ const WelcomeScreen = ({ navigation, route }) => {
       />
     </View>
   );
-
   const EventDateItem = ({ date, day, MMYY, indexx }) => (
     <TouchableOpacity
       style={{
@@ -476,6 +475,14 @@ const WelcomeScreen = ({ navigation, route }) => {
                 : "Yes, I Will Volunteer!"
             }
             width={"80%"}
+            btnStyle={{
+              shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+              shadowRadius: 2,
+              elevation: 5,
+              shadowOpacity: 0.4,
+              // inputMarginTop:-20,
+              shadowOffset: { width: -1, height: 3 },
+            }}
             borderRadius={15}
             onPress={() => {
               navigation.navigate("Receipt", {

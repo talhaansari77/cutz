@@ -31,22 +31,23 @@ function CustomText(props) {
             marginHorizontal:props.marginHorizontal,
             fontStyle: props.fontStyle,
             fontFamily: props.fontFamily || "regular",
-            numberOfLines: props.numberOfLines,
             ellipsizeMode: props.ellipsizeMode,
             marginVertical: verticalScale(props.marginVertical || 0),
             textAlign: props.textAlign,
             lineHeight:props.lineHeight,
-            textDecorationStyle:props.textDecorationStyle,
-            
-            
-
-            textDecorationLine: props.textDecorationLine,
-            textDecorationColor: props.textDecorationColor,
+           
             // text-decoration-color: "red";
           },
           props.textStyle,
         ]}
-        numberOfLines={props.numberOfLines}>
+        numberOfLines={props.numberOfLines}
+        textDecorationStyle={props.textDecorationStyle}
+            
+            
+
+        textDecorationLine={props.textDecorationLine}
+        textDecorationColor= {props.textDecorationColor}
+        >
         {props.label}
         {props.children}
       </Text>

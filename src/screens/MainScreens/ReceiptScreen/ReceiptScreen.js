@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View,Platform } from "react-native";
 import React, { useEffect, useState } from "react";
 import CustomText from "../../../components/CustomText";
 import { Spacer } from "../../../components/Spacer";
@@ -15,6 +15,8 @@ import ThumbGreeting from "./Molecules/ThumbGreeting";
 import SmileGreeting from "./Molecules/SmileGreeting";
 
 const ReceiptScreen = ({ navigation, route }) => {
+  console.log("RoutesType",route?.params)
+
   const [check, setCheck] = useState(false);
   const [state, setState] = useState({
     checkIn: false,
@@ -286,6 +288,14 @@ const ReceiptScreen = ({ navigation, route }) => {
               <View style={{ flexDirection: "row", justifyContent: "center" }}>
                 <CustomButton
                   title={check ? "Proceed" : "Confirm"}
+                  btnStyle={{
+                    shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+                    shadowRadius: 2,
+                    elevation: 5,
+                    shadowOpacity: 0.4,
+                    // inputMarginTop:-20,
+                    shadowOffset: { width: -1, height: 3 },
+                  }}
                   width={"37%"}
                   borderRadius={15}
                   onPress={() => {
@@ -301,6 +311,14 @@ const ReceiptScreen = ({ navigation, route }) => {
                 <Spacer width={20} />
                 <CustomButton
                   title={"Cancel"}
+                  btnStyle={{
+                    shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+                    shadowRadius: 2,
+                    elevation: 5,
+                    shadowOpacity: 0.4,
+                    // inputMarginTop:-20,
+                    shadowOffset: { width: -1, height: 3 },
+                  }}
                   width={"37%"}
                   backgroundColor={colors.gray}
                   color={colors.secondary}
@@ -440,6 +458,14 @@ const ReceiptScreen = ({ navigation, route }) => {
                       <CustomButton
                         title={state.checkIn ? "Done" : "All Set!"}
                         width={"50%"}
+                        btnStyle={{
+                          shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+                          shadowRadius: 2,
+                          elevation: 5,
+                          shadowOpacity: 0.4,
+                          // inputMarginTop:-20,
+                          shadowOffset: { width: -1, height: 3 },
+                        }}
                         height={40}
                         borderRadius={15}
                         backgroundColor={colors.btnDark}
@@ -612,6 +638,14 @@ const ReceiptScreen = ({ navigation, route }) => {
             <CustomButton
               title={check ? "Proceed" : "Confirm"}
               width={"37%"}
+              btnStyle={{
+                shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+                shadowRadius: 2,
+                elevation: 5,
+                shadowOpacity: 0.4,
+                // inputMarginTop:-20,
+                shadowOffset: { width: -1, height: 3 },
+              }}
               borderRadius={15}
               onPress={() => {
                 if (check) {
@@ -627,6 +661,14 @@ const ReceiptScreen = ({ navigation, route }) => {
             <CustomButton
               title={"Cancel"}
               width={"37%"}
+              btnStyle={{
+                shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+                shadowRadius: 2,
+                elevation: 5,
+                shadowOpacity: 0.4,
+                // inputMarginTop:-20,
+                shadowOffset: { width: -1, height: 3 },
+              }}
               backgroundColor={colors.gray}
               color={colors.secondary}
               borderRadius={15}

@@ -1,14 +1,15 @@
 export const colors = {
   primary: "#F07E2B",
   darkOrange: "#E25F00",
-  
   secondary:"#0B0889",
   drakBlue:"#2D2C6D",
   blue1:"#6D62B4",
-  blue1:"#2D2C6DCC",
+  blue2:"#2D2C6DCC",
   inputGray:"#F1F1F1",
   placeholder:"#D1D3D9",
   perFectDark:"#9B9B9B",
+  txtGray:"#969696",
+  
   btnDark:"#7E819A",
   black:"black",
   gray:"#C3C3C3",
