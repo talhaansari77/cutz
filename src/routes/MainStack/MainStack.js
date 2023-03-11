@@ -12,6 +12,7 @@ import SearchScreen from "../../screens/MainScreens/SearchScreen/SearchScreen";
 import ReceiptScreen from "../../screens/MainScreens/ReceiptScreen/ReceiptScreen";
 import ProfileScreen from "../../screens/MainScreens/ProfileScreen/PofileScreen";
 import EventLocations from "../../screens/MainScreens/EventLocation/EventLocations";
+import PersonalScreen from "../../screens/MainScreens/PersonalScreen/PersonalScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -81,6 +82,7 @@ const MainStack = () => {
         component={EventLocations}
       />
       <Tab.Screen name="Profile" component={ProfileScreen} />
+
     </Tab.Navigator>
   );
 };

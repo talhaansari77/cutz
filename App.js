@@ -10,6 +10,12 @@ export default function App() {
     bold: require("./assets/fonts/Poppins-Bold.ttf"),
     regular: require("./assets/fonts/Poppins-Regular.ttf"),
     light: require("./assets/fonts/Poppins-Light.ttf"),
+    medium: require("./assets/fonts/Poppins-Medium.ttf"),
+    mediumItalic: require("./assets/fonts/Poppins-MediumItalic.ttf"),
+    semiBoldItalic: require("./assets/fonts/Poppins-SemiBoldItalic.ttf"),
+
+
+
     semiBold: require("./assets/fonts/Poppins-SemiBold.ttf"),
     Righteous: require("./assets/fonts/Righteous-Regular.ttf"),
   });

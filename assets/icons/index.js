@@ -15,5 +15,18 @@ export const icons={
     thumb:require("./thumb.png"),
     smile:require("./smile.png"),
     next:require("./next.png"),
+    person:require("./person.png"),
+    camera:require("./camera.png"),
+    howuse:require("./howuse.png"),
+    manage:require("./manage.png"),
+    next:require("./next.png"),
+    cross:require("./cross.png"),
+    editProfile:require("./editProfile.png"),
+
+
+
+
+
+
     
 }

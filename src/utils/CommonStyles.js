@@ -43,8 +43,8 @@ const commonStyles = ScaledSheet.create({
     flexDirection: "row",
   },
   imgContainer: {
-    width: moderateScale(20),
-    height: verticalScale(20),
+    width: moderateScale(25),
+    height: verticalScale(25),
   },
   img: {
     width: "100%",
