@@ -17,6 +17,7 @@ export default function App() {
 
 
     semiBold: require("./assets/fonts/Poppins-SemiBold.ttf"),
+    Righteous: require("./assets/fonts/Righteous-Regular.ttf"),
   });
 
   if (!loaded) return <View />;

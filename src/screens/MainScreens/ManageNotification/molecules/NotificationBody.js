@@ -1,4 +1,11 @@
-import { Platform, StyleSheet, Text, View, Image } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
 import CustomText from "../../../../components/CustomText";
 import { colors } from "../../../../utils/Colors";
@@ -9,33 +16,37 @@ import { Spacer } from "../../../../components/Spacer";
 import ProfileBody from "../../ProfileScreen/molecules/ProfileBody";
 import NotificationContainer from "./NotificationContainer";
 
-const NotificationBody = (navigation) => {
-
-    const profileData = [
-        {
-          id: 1,
-          name: "Push Notification",
-          img: icons.person,
-        //   onPress: () => navigation.navigate("PersonalScreen"),
-        },
-        {
-          id: 2,
-          name: "(000) 000-0000",
-          img: icons.editProfile,
-        //   onPress: () => navigation.navigate("EditProfile"),
-        },
-        {
-          id: 3,
-          name: "email@gmail.com",
-          img: icons.manage,
-        //   onPress: () => navigation.navigate("ManageNotification"),
-        },
-      ];
+const NotificationBody = ({ navigation }) => {
+  const profileData = [
+    {
+      id: 1,
+      name: "Push Notification",
+      img: icons.person,
+      //   onPress: () => navigation.navigate("PersonalScreen"),
+    },
+    {
+      id: 2,
+      name: "(000) 000-0000",
+      img: icons.editProfile,
+      //   onPress: () => navigation.navigate("EditProfile"),
+    },
+    {
+      id: 3,
+      name: "email@gmail.com",
+      img: icons.manage,
+      //   onPress: () => navigation.navigate("ManageNotification"),
+    },
+  ];
   return (
     <>
       <PH20>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Image source={icons.cross} style={commonStyles.imgContainer} />
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() => navigation.navigate("Profile")}
+          >
+            <Image source={icons.cross} style={commonStyles.imgContainer} />
+          </TouchableOpacity>
 
           <CustomText
             color={colors.primary}
@@ -57,7 +68,7 @@ const NotificationBody = (navigation) => {
           elevation: 5,
           shadowOpacity: 0.4,
           // inputMarginTop:-20,
-          shadowOffset: { width: -1, height: 1},
+          shadowOffset: { width: -1, height: 1 },
         }}
       />
       <Spacer height={1} />
@@ -73,13 +84,13 @@ const NotificationBody = (navigation) => {
       </PH20>
       <SepratorLine backgroundColor={"#C9C9C9"} />
 
-
       {profileData.map((item) => {
         return (
           <>
             <NotificationContainer
               name={item.name}
               img={item.img}
+              enable
               onPress={item.onPress}
               family={item?.family}
             />
@@ -93,11 +104,4 @@ const NotificationBody = (navigation) => {
 
 export default NotificationBody;
 
-const styles = StyleSheet.create({
-
-
-
-
-
-
-});
+const styles = StyleSheet.create({});

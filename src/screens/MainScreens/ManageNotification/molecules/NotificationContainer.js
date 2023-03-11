@@ -21,35 +21,38 @@ const NotificationContainer = (props) => {
         padding: 20,
       }}
     >
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-      <TouchableOpacity
-          style={{...styles.checkCon,backgroundColor:check?colors.primary:null,
-            borderWidth:check?null: 1.5,
-            borderColor:check?null: "#949393",
-        }}
-          activeOpacity={0.6}
-          onPress={() => setCheck(!check)}
-        >
-          {check && <Feather name="check" size={20} color={colors.white} />}
-        </TouchableOpacity>
+      <View style={{ flexDirection: "row", alignItems: "center",}}>
+          {
+              props?.enable?(
+                <TouchableOpacity
+                style={{...styles.checkCon,backgroundColor:check?colors.primary:null,
+                  borderWidth:check?null: 1.5,
+                  borderColor:check?null: "#949393",
+              }}
+                activeOpacity={0.6}
+                onPress={() => setCheck(!check)}
+              >
+                {check && <Feather name="check" size={20} color={colors.white} />}
+              </TouchableOpacity>
+
+              ):<></>
+              
+          }
+    
         <CustomText
           label={props.name}
           fontSize={13}
         //   fontWeight="bold"
           fontFamily={props.family ||"medium"}
-          marginLeft={20}
+          marginLeft={ props?.enable?20:0}
           color={props.color|| colors.secondary}
         />
       </View>
-
-
       <Image
           resizeMode="contain"
           style={{ width: scale(17), height: scale(17) }}
-          source={icons.next}
+          source={icons.go}
         />
-
-      
     </TouchableOpacity>
   
   )

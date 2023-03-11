@@ -1,7 +1,7 @@
 // import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { Image, Text } from "react-native";
-import { verticalScale } from "react-native-size-matters";
+import { scale, verticalScale } from "react-native-size-matters";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import CustomText from "../../components/CustomText";
 import MakeReservation from "../../screens/MainScreens/MakeReservation/MakeReservation";
@@ -11,11 +11,16 @@ import { icons } from "../../../assets/icons";
 import SearchScreen from "../../screens/MainScreens/SearchScreen/SearchScreen";
 import ReceiptScreen from "../../screens/MainScreens/ReceiptScreen/ReceiptScreen";
 import ProfileScreen from "../../screens/MainScreens/ProfileScreen/PofileScreen";
+import EventLocations from "../../screens/MainScreens/EventLocation/EventLocations";
 import PersonalScreen from "../../screens/MainScreens/PersonalScreen/PersonalScreen";
+import EditProfile from "../../screens/MainScreens/EditProfile/EditProfile";
+import ManageNotification from "../../screens/MainScreens/ManageNotification/ManageNotification";
 
 const Tab = createBottomTabNavigator();
 
-const MainStack = () => {
+const MainStack = ({route}) => {
+  console.log("RoutesType",route?.params)
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -25,9 +30,9 @@ const MainStack = () => {
           // height: verticalScale(65),
           // paddingTop: 5,
           backgroundColor: colors.white,
-          borderTopWidth:1,
-          borderTopColor:colors.gray1,
-          
+          borderTopWidth: 1,
+          borderTopColor: colors.gray1,
+          display: route.name === "Event" ? "none" : "flex",
         },
         headerShown: false,
         tabBarLabel: ({ focused, size, color }) => {
@@ -49,7 +54,7 @@ const MainStack = () => {
             color = focused ? colors.primary : colors.secondary;
 
             // size = focused ? 35 : 30;
-          } else if (route.name === "Profile") {
+          } else if (route.name === "Profile" || "PersonalScreen") {
             iconName = icons.user;
             // size = focused ? 35 : 30;
             color = focused ? colors.primary : colors.secondary;
@@ -60,20 +65,47 @@ const MainStack = () => {
               resizeMode={"contain"}
               style={{
                 tintColor: color,
-                height: 40,
-                width: 40,
-                marginTop:10
+                height:scale(30),
+                width: scale(30),
+                marginTop: 10,
               }}
             />
           );
         },
       })}
-      initialRouteName={"NewPost"}
+      // initialRouteName={"Receipt"}
     >
       <Tab.Screen name="Welcome" component={WelcomeScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Receipt" component={ReceiptScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen
+        options={{
+          tabBarItemStyle: { display: "none" },
+        }}
+        name="Event"
+        component={EventLocations}
+      />
+      <Tab.Screen 
+  
+      name="Profile" component={ProfileScreen} />
+      <Tab.Screen 
+      initialParams={{ type:route?.params}}
+       options={{
+        tabBarItemStyle: { display: "none" },
+      }}
+      name="PersonalScreen" component={PersonalScreen} />
+        <Tab.Screen
+              initialParams={{ type:route?.params}}
+
+         options={{
+          tabBarItemStyle: { display: "none" },
+        }}
+         name="EditProfile" component={EditProfile} />
+        <Tab.Screen
+         options={{
+          tabBarItemStyle: { display: "none" },
+        }}
+         name="ManageNotification" component={ManageNotification} />
 
     </Tab.Navigator>
   );

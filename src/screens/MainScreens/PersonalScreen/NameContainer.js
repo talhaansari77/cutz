@@ -15,12 +15,12 @@ const NameContainer = (props) => {
           flexDirection: "row",
           height: verticalScale(48),
           alignItems: "flex-end",
-          backgroundColor: colors.gray1,
+          backgroundColor: colors.inputGray,
         }}
       >
         <PH20>
           <CustomText
-            color={colors.gray2}
+            color={colors.gray5}
             fontSize={14}
             fontFamily="medium"
             //   marginLeft={10}

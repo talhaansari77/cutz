@@ -1,28 +1,40 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import CustomButton from '../../../components/CustomButton'
-import { colors } from '../../../utils/Colors'
-import CustomText from '../../../components/CustomText'
-import { verticalScale } from 'react-native-size-matters'
-import CustomLogo from '../../../components/CustomLogo'
-import { Platform } from 'react-native'
-import { Spacer } from '../../../components/Spacer'
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import CustomButton from "../../../components/CustomButton";
+import { colors } from "../../../utils/Colors";
+import CustomText from "../../../components/CustomText";
+import { verticalScale } from "react-native-size-matters";
+import CustomLogo from "../../../components/CustomLogo";
+import { Platform } from "react-native";
+import { Spacer } from "../../../components/Spacer";
+import { useNavigation } from "@react-navigation/native";
 
 const SignupBottom = (props) => {
+  const navigation = useNavigation();
   return (
-    <View style={{alignItems:"center",marginTop:verticalScale(20)}}>
-        <CustomButton 
-          btnStyle={{
-            shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
-            shadowRadius: 2,
-            elevation: 5,
-            shadowOpacity: 0.4,
-            // inputMarginTop:-20,
-            shadowOffset: { width: -1, height: 3 },
-          }}
-        title={"Create"} width={"50%"} borderRadius={15}/>
+    <View style={{ alignItems: "center", marginTop: verticalScale(20) }}>
+      <CustomButton
+        btnStyle={{
+          shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+          shadowRadius: 2,
+          elevation: 5,
+          shadowOpacity: 0.4,
+          // inputMarginTop:-20,
+          shadowOffset: { width: -1, height: 3 },
+        }}
+        title={"Create"}
+        width={"50%"}
+        borderRadius={15}
+        onPress={() => {
+          navigation.navigate("MainStack", {
+            screen: "Welcome",
+            params: { userType: props.checkUser },
+            merge: true,
+          });
+        }}
+      />
 
-        <View
+      <View
         style={{
           flexDirection: "row",
           alignItems: "center",
@@ -36,7 +48,9 @@ const SignupBottom = (props) => {
           color={colors.darkGray}
         />
         <CustomText
-        onPress={()=> props.navigation.navigate("login",{checkUser:props.checkUser})}
+          onPress={() =>
+            props.navigation.navigate("login", { checkUser: props.checkUser })
+          }
           label="LOG IN"
           fontFamily="bold"
           marginLeft={4}
@@ -44,13 +58,12 @@ const SignupBottom = (props) => {
           color={colors.primary}
         />
       </View>
-      <Spacer height={10}/>
-      <CustomLogo logo width={70} height={70}/>
-        
+      <Spacer height={10} />
+      <CustomLogo logo width={70} height={70} />
     </View>
-  )
-}
+  );
+};
 
-export default SignupBottom
+export default SignupBottom;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

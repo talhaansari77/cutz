@@ -14,14 +14,24 @@ import { colors } from "../../../utils/Colors";
 import SepratorLine from "../../../components/SepratorLine";
 import { Spacer } from "../../../components/Spacer";
 import NotificationBody from "./molecules/NotificationBody";
+import NotificationContainer from "./molecules/NotificationContainer";
 
-const ManageNotification = () => {
+const ManageNotification = ({ navigation }) => {
   return (
     <SafeAreaView style={commonStyles.commonMain}>
       <Spacer height={5} />
-      <NotificationBody/>
+      <NotificationBody navigation={navigation} />
+      <Spacer height={40} />
+      <SepratorLine backgroundColor={"#C9C9C9"} />
 
-     
+      <NotificationContainer
+        name={"Choose Organizations"}
+        // img={item.img}
+        // enable
+        // onPress={item.onPress}
+        // family={item?.family}
+      />
+      <SepratorLine backgroundColor={"#C9C9C9"} />
 
       {/* if  account type volunteer */}
       {/* <NameContainer name={"FAMILY SIZE"} />
