@@ -183,7 +183,7 @@ const WelcomeScreen = ({ navigation, route }) => {
       style={{
         alignItems: "center",
         borderBottomColor: colors.white,
-        borderBottomWidth: dividerBottom ? dividerBottom : 0,
+        borderBottomWidth: dividerBottom ? 1 : 0,
         // paddingHorizontal: paddingHorizontal,
         width: scale(150),
         paddingVertical: paddingVertical,
