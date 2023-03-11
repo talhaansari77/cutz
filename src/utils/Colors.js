@@ -1,9 +1,11 @@
 export const colors = {
   primary: "#F07E2B",
   darkOrange: "#E25F00",
+  
   secondary:"#0B0889",
   drakBlue:"#2D2C6D",
   blue1:"#6D62B4",
+  blue2:"#2D2C6DCC",
   inputGray:"#F1F1F1",
   placeholder:"#D1D3D9",
   perFectDark:"#9B9B9B",
@@ -20,5 +22,5 @@ export const colors = {
   Brown2: "#E7973B54",
   Brown3: "#DD790387",
   Brown4: "#DD79033D",
- 
+  Brown5: "#F07E2BCC",
 };

@@ -1,5 +1,11 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import { colors } from "../../../utils/Colors";
 import commonStyles, { PH20 } from "../../../utils/CommonStyles";
 import { icons } from "../../../../assets/icons";
@@ -57,6 +63,18 @@ const eventTypeList = [
     color: colors.black,
     fontSize: verticalScale(8),
     dividerBottom: false,
+  },
+];
+
+const eventTimingListVolunteer = [
+  {
+    label: "Prep Event:  11AM - 3PM",
+  },
+  {
+    label: "Event:  2PM - 6PM",
+  },
+  {
+    label: "Clean Up:  6PM - 9PM",
   },
 ];
 const eventTimingList = [
@@ -118,7 +136,9 @@ const evenDateList = [
   },
 ];
 
-const WelcomeScreen = ({navigation}) => {
+const WelcomeScreen = ({ navigation, route }) => {
+  const [index, setIndex] = useState(0);
+  const [dateIndex, setDateIndex] = useState(0);
   const Header = () => (
     <View
       style={{
@@ -198,6 +218,7 @@ const WelcomeScreen = ({navigation}) => {
         borderRadius: borderRadius,
         alignItems: "center",
         marginBottom: dividerBottom ? 15 : 0,
+        // ...styles.shadow
       }}
     >
       <View style={{ width: width }}>
@@ -214,6 +235,7 @@ const WelcomeScreen = ({navigation}) => {
         paddingVertical: verticalScale(2),
         borderRadius: 5,
         marginBottom: dividerBottom ? 4 : 0,
+        // ...styles.shadow
       }}
     >
       <CustomText
@@ -222,6 +244,28 @@ const WelcomeScreen = ({navigation}) => {
         fontSize={fontSize}
         fontFamily={"bold"}
       />
+    </View>
+  );
+  const EventTimingListItemVolunteer = ({ label, indexx }) => (
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        // justifyContent:'center'
+        paddingHorizontal: "30%",
+        paddingVertical: 10,
+      }}
+    >
+      <TouchableOpacity
+        onPress={() => setIndex(indexx)}
+        style={{
+          height: 20,
+          width: 20,
+          backgroundColor: index === indexx ? colors.primary : colors.gray1,
+        }}
+      />
+      <Spacer width={10} />
+      <CustomText label={label} fontFamily={"semiBold"} />
     </View>
   );
   const EventTimingListItem = ({ label, color, fontSize, dividerBottom }) => (
@@ -246,14 +290,18 @@ const WelcomeScreen = ({navigation}) => {
     </View>
   );
 
-  const EventDateItem = ({ date, day, MMYY }) => (
-    <View
+  const EventDateItem = ({ date, day, MMYY, indexx }) => (
+    <TouchableOpacity
       style={{
         alignItems: "center",
-        backgroundColor: colors.gray2,
+        backgroundColor: dateIndex === indexx ? colors.white : colors.gray2,
+        borderWidth: dateIndex === indexx ? 1 : 0,
+        borderColor: colors.secondary,
         paddingHorizontal: scale(18),
         paddingVertical: verticalScale(6),
+        ...styles.shadow,
       }}
+      onPress={() => setDateIndex(indexx)}
     >
       <CustomText
         label={day}
@@ -275,8 +323,13 @@ const WelcomeScreen = ({navigation}) => {
         // fontSize={18}
         fontFamily={"semiBold"}
       />
-    </View>
+    </TouchableOpacity>
   );
+
+  useEffect(() => {
+    // console.log(route.params?.userType);
+  }, []);
+
   return (
     <View style={styles.container}>
       <Spacer height={40} />
@@ -285,12 +338,29 @@ const WelcomeScreen = ({navigation}) => {
       <ScrollView>
         <Spacer height={20} />
         <View style={{ alignItems: "center" }}>
-          <CustomText
-            label={"WELCOME"}
-            color={colors.primary}
-            fontSize={18}
-            fontFamily={"semiBold"}
-          />
+          {route.params?.userType === "Client" ? (
+            <CustomText
+              label={"WELCOME"}
+              color={colors.primary}
+              fontSize={18}
+              fontFamily={"semiBold"}
+            />
+          ) : (
+            <>
+              <CustomText
+                label={"WELCOME VOLUNTEER"}
+                color={colors.primary}
+                fontSize={18}
+                fontFamily={"semiBold"}
+              />
+              <CustomText
+                label={"CHOOSE AN ORGANIZATION & DATE"}
+                color={colors.primary}
+                fontSize={14}
+                fontFamily={"semiBold"}
+              />
+            </>
+          )}
         </View>
 
         <Spacer height={30} />
@@ -347,8 +417,8 @@ const WelcomeScreen = ({navigation}) => {
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            {evenDateList.map(({ date, day, MMYY }) => (
-              <EventDateItem date={date} day={day} MMYY={MMYY} />
+            {evenDateList.map(({ date, day, MMYY }, index) => (
+              <EventDateItem date={date} day={day} MMYY={MMYY} indexx={index} />
             ))}
           </View>
         </PH20>
@@ -376,24 +446,43 @@ const WelcomeScreen = ({navigation}) => {
         </PH20>
 
         <Spacer height={20} />
-        <View style={{ alignItems: "center" }}>
-          {eventTimingList.map(({ label, color, fontSize, dividerBottom }) => (
-            <EventTimingListItem
-              label={label}
-              fontSize={fontSize}
-              color={color}
-              dividerBottom={dividerBottom}
-            />
-          ))}
+        <View style={{}}>
+          {route?.params?.userType === "Client"
+            ? eventTimingList.map(
+                ({ label, color, fontSize, dividerBottom }) => (
+                  <EventTimingListItem
+                    label={label}
+                    fontSize={fontSize}
+                    color={color}
+                    dividerBottom={dividerBottom}
+                  />
+                )
+              )
+            : // Volunteer
+              eventTimingListVolunteer.map(({ label }, index) => (
+                <EventTimingListItemVolunteer
+                  label={label}
+                  indexx={index}
+                  key={index}
+                />
+              ))}
         </View>
         <Spacer height={20} />
         <View style={{ alignItems: "center" }}>
           <CustomButton
-            title={"Make My Reservation"}
+            title={
+              route?.params?.userType === "Client"
+                ? "Make My Reservation"
+                : "Yes, I Will Volunteer!"
+            }
             width={"80%"}
             borderRadius={15}
-            onPress={()=>{
-              navigation.navigate("Receipt")
+            onPress={() => {
+              navigation.navigate("Receipt", {
+                userType: route?.params?.userType,
+                // params: { userType: route?.params?.userType },
+                // merge: true,
+              });
             }}
           />
         </View>
@@ -426,5 +515,16 @@ const styles = StyleSheet.create({
   },
   orgListItem: {
     alignItems: "center",
+  },
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+
+    elevation: 9,
   },
 });

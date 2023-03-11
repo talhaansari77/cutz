@@ -11,6 +11,7 @@ import { icons } from "../../../assets/icons";
 import SearchScreen from "../../screens/MainScreens/SearchScreen/SearchScreen";
 import ReceiptScreen from "../../screens/MainScreens/ReceiptScreen/ReceiptScreen";
 import ProfileScreen from "../../screens/MainScreens/ProfileScreen/PofileScreen";
+import EventLocations from "../../screens/MainScreens/EventLocation/EventLocations";
 
 const Tab = createBottomTabNavigator();
 
@@ -26,6 +27,7 @@ const MainStack = () => {
           backgroundColor: colors.white,
           borderTopWidth: 1,
           borderTopColor: colors.gray1,
+          display: route.name === "Event" ? "none" : "flex",
         },
         headerShown: false,
         tabBarLabel: ({ focused, size, color }) => {
@@ -66,18 +68,18 @@ const MainStack = () => {
           );
         },
       })}
-      initialRouteName={"Reservation"}
+      // initialRouteName={"Receipt"}
     >
       <Tab.Screen name="Welcome" component={WelcomeScreen} />
+      <Tab.Screen name="Search" component={SearchScreen} />
+      <Tab.Screen name="Receipt" component={ReceiptScreen} />
       <Tab.Screen
         options={{
           tabBarItemStyle: { display: "none" },
         }}
-        name="Reservation"
-        component={MakeReservation}
+        name="Event"
+        component={EventLocations}
       />
-      <Tab.Screen name="Search" component={SearchScreen} />
-      <Tab.Screen name="Receipt" component={ReceiptScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );

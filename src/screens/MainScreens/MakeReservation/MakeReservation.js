@@ -11,7 +11,7 @@ import CustomButton from "../../../components/CustomButton";
 import commonStyles from "../../../utils/CommonStyles";
 
 const MakeReservation = ({ navigation }) => {
-  const [check, setCheck] = useState(false)
+  const [check, setCheck] = useState(false);
   const Header = () => (
     <View
       style={{
@@ -166,7 +166,7 @@ const MakeReservation = ({ navigation }) => {
           <Image
             source={icons.ticket1}
             resizeMode={"contain"}
-            style={{ tintColor:check?colors.secondary: colors.white }}
+            style={{ tintColor: check ? colors.secondary : colors.white }}
             containerStyle={{ height: 40, width: 40 }}
           />
           <Spacer width={15} />
@@ -195,12 +195,17 @@ const MakeReservation = ({ navigation }) => {
       <Spacer height={60} />
       <View style={{ flexDirection: "row", justifyContent: "center" }}>
         <CustomButton
-          title={check?"Proceed":"Confirm"}
+          title={check ? "Proceed" : "Confirm"}
           width={"37%"}
           borderRadius={15}
           onPress={() => {
+            console.log('nav')
             // navigation.navigate("Receipt");
-            setCheck(true)
+            // if (check) {
+            //   navigation.navigate("Event");
+            // } else {
+            //   setCheck(true);
+            // }
           }}
         />
         <Spacer width={20} />
@@ -212,7 +217,6 @@ const MakeReservation = ({ navigation }) => {
           borderRadius={15}
           onPress={() => {
             // navigation.navigate("Receipt")
-           
           }}
         />
       </View>
