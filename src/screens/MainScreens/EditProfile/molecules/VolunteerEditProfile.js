@@ -65,7 +65,7 @@ const VolunteerEditProfile = (props) => {
   return (
     <>
       <View>
-        <Spacer height={30} />
+        <Spacer height={20} />
           <View
             style={{
               flexDirection: "row",
@@ -136,7 +136,7 @@ const VolunteerEditProfile = (props) => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          paddingHorizontal:5
+          padding:5
         }}
       >
         <CustomButton
@@ -147,7 +147,7 @@ const VolunteerEditProfile = (props) => {
           btnStyle={{
             shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
             shadowRadius: 2,
-            elevation: 5,
+            elevation: 3,
             shadowOpacity: 0.4,
             // inputMarginTop:-20,
             shadowOffset: { width: -1, height: 3 },
@@ -162,7 +162,7 @@ const VolunteerEditProfile = (props) => {
           btnStyle={{
             shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
             shadowRadius: 2,
-            elevation: 5,
+            elevation: 3,
             shadowOpacity: 0.4,
             // inputMarginTop:-20,
             shadowOffset: { width: -1, height: 3 },

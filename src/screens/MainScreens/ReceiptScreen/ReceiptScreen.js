@@ -1,4 +1,11 @@
-import { StyleSheet, Text, TouchableOpacity, View,Platform } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Platform,
+  SafeAreaView,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import CustomText from "../../../components/CustomText";
 import { Spacer } from "../../../components/Spacer";
@@ -15,7 +22,7 @@ import ThumbGreeting from "./Molecules/ThumbGreeting";
 import SmileGreeting from "./Molecules/SmileGreeting";
 
 const ReceiptScreen = ({ navigation, route }) => {
-  console.log("RoutesType",route?.params)
+  console.log("RoutesType", route?.params);
 
   const [check, setCheck] = useState(false);
   const [state, setState] = useState({
@@ -79,11 +86,30 @@ const ReceiptScreen = ({ navigation, route }) => {
             color={colors.secondary}
             fontFamily={"semiBold"}
           />
-          <CustomText
-            label={"CONFIRM OR CANCEL"}
-            color={colors.secondary}
-            fontFamily={"semiBold"}
-          />
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            {check ? (
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <CustomText
+                  label={"Proceed"}
+                  color={colors.secondary}
+                  marginRight={5}
+                  fontFamily={"bold"}
+                />
+                <CustomText
+                  label={"OR CANCEL"}
+                  color={colors.secondary}
+                  fontFamily={"semiBold"}
+                />
+              </View>
+            ) : (
+              <CustomText
+                label={"CONFIRM OR CANCEL"}
+                color={colors.secondary}
+                fontFamily={"semiBold"}
+              />
+            )}
+          </View>
+
           <Spacer height={15} />
           <CustomText
             label={"DO NOT enter the property,"}
@@ -103,11 +129,19 @@ const ReceiptScreen = ({ navigation, route }) => {
             color={colors.secondary}
             fontFamily={"semiBold"}
           />
-          <CustomText
-            label={"CONFIRM OR CANCEL"}
-            color={colors.secondary}
-            fontFamily={"semiBold"}
-          />
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <CustomText
+                  label={"Proceed"}
+                  color={colors.secondary}
+                  marginRight={5}
+                  fontFamily={"bold"}
+                />
+                <CustomText
+                  label={"OR CANCEL"}
+                  color={colors.secondary}
+                  fontFamily={"semiBold"}
+                />
+              </View>
           <Spacer height={15} />
           <CustomText
             label={"DO NOT enter the property,"}
@@ -153,7 +187,7 @@ const ReceiptScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       {route?.params?.userType === "Client" ? (
         <>
-          <Spacer height={40} />
+          <Spacer height={Platform.OS == "ios" ? 0 : 30} />
           <Header />
           <View style={styles.shadowDivider} />
           <Spacer
@@ -200,7 +234,7 @@ const ReceiptScreen = ({ navigation, route }) => {
                     <Image
                       source={icons.calender}
                       resizeMode={"contain"}
-                      containerStyle={{ height: 40, width: 40 }}
+                      containerStyle={{ height: scale(30), width: scale(30) }}
                     />
                     <Spacer width={15} />
                     <View>
@@ -218,13 +252,13 @@ const ReceiptScreen = ({ navigation, route }) => {
                       />
                     </View>
                   </View>
-                  <Spacer height={20} />
+                  <Spacer height={15} />
                   <View style={{ flexDirection: "row" }}>
                     <Spacer width={10} />
                     <Image
                       source={icons.marker}
                       resizeMode={"contain"}
-                      containerStyle={{ height: 40, width: 40 }}
+                      containerStyle={{ height: scale(30), width: scale(30) }}
                     />
                     <Spacer width={15} />
                     <View>
@@ -249,7 +283,7 @@ const ReceiptScreen = ({ navigation, route }) => {
                     </View>
                   </View>
                 </View>
-                <Spacer height={30} />
+                <Spacer height={15} />
 
                 <View style={{ flexDirection: "row" }}>
                   <Spacer width={10} />
@@ -259,7 +293,7 @@ const ReceiptScreen = ({ navigation, route }) => {
                     style={{
                       tintColor: check ? colors.secondary : colors.white,
                     }}
-                    containerStyle={{ height: 40, width: 40 }}
+                    containerStyle={{ height: scale(30), width: scale(30) }}
                   />
                   <Spacer width={15} />
                   <View>
@@ -288,8 +322,11 @@ const ReceiptScreen = ({ navigation, route }) => {
               <View style={{ flexDirection: "row", justifyContent: "center" }}>
                 <CustomButton
                   title={check ? "Proceed" : "Confirm"}
+                  fontFamily="bold"
+
                   btnStyle={{
-                    shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+                    shadowColor:
+                      Platform.OS == "ios" ? "#343a40" : colors.black,
                     shadowRadius: 2,
                     elevation: 5,
                     shadowOpacity: 0.4,
@@ -311,8 +348,10 @@ const ReceiptScreen = ({ navigation, route }) => {
                 <Spacer width={20} />
                 <CustomButton
                   title={"Cancel"}
+                  fontFamily="bold"
                   btnStyle={{
-                    shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+                    shadowColor:
+                      Platform.OS == "ios" ? "#343a40" : colors.black,
                     shadowRadius: 2,
                     elevation: 5,
                     shadowOpacity: 0.4,
@@ -334,7 +373,7 @@ const ReceiptScreen = ({ navigation, route }) => {
         </>
       ) : route?.params?.ticketDetail ? (
         <>
-          <Spacer height={40} />
+          <Spacer height={Platform.OS=="ios"?0 :30} />
           <Header />
           <View style={styles.shadowDivider} />
           {state.greet ? (
@@ -459,7 +498,8 @@ const ReceiptScreen = ({ navigation, route }) => {
                         title={state.checkIn ? "Done" : "All Set!"}
                         width={"50%"}
                         btnStyle={{
-                          shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+                          shadowColor:
+                            Platform.OS == "ios" ? "#343a40" : colors.black,
                           shadowRadius: 2,
                           elevation: 5,
                           shadowOpacity: 0.4,
@@ -489,7 +529,10 @@ const ReceiptScreen = ({ navigation, route }) => {
                   </View>
                 </View>
                 <Spacer height={20} />
-                <TouchableOpacity style={{ width: "75%" }} onPress={()=>navigation.navigate("Welcome")}>
+                <TouchableOpacity
+                  style={{ width: "75%" }}
+                  onPress={() => navigation.navigate("Welcome")}
+                >
                   <Image
                     source={icons.back}
                     containerStyle={{
@@ -506,7 +549,7 @@ const ReceiptScreen = ({ navigation, route }) => {
         </>
       ) : (
         <>
-        <Spacer height={40} />
+          <Spacer height={40} />
           <Header />
           <View style={styles.shadowDivider} />
           <Spacer
@@ -542,14 +585,14 @@ const ReceiptScreen = ({ navigation, route }) => {
                 fontSize={14}
               />
             </View>
-            <Spacer height={20} />
+            <Spacer height={15} />
             <View>
               <View style={{ flexDirection: "row" }}>
                 <Spacer width={10} />
                 <Image
                   source={icons.calender}
                   resizeMode={"contain"}
-                  containerStyle={{ height: 40, width: 40 }}
+                  containerStyle={{ height: scale(30), width: scale(30) }}
                 />
                 <Spacer width={15} />
                 <View>
@@ -567,13 +610,13 @@ const ReceiptScreen = ({ navigation, route }) => {
                   />
                 </View>
               </View>
-              <Spacer height={20} />
+              <Spacer height={15} />
               <View style={{ flexDirection: "row" }}>
                 <Spacer width={10} />
                 <Image
                   source={icons.marker}
                   resizeMode={"contain"}
-                  containerStyle={{ height: 40, width: 40 }}
+                  containerStyle={{ height: scale(30), width: scale(30) }}
                 />
                 <Spacer width={15} />
                 <View>
@@ -598,7 +641,7 @@ const ReceiptScreen = ({ navigation, route }) => {
                 </View>
               </View>
             </View>
-            <Spacer height={30} />
+            <Spacer height={20} />
 
             <View style={{ flexDirection: "row" }}>
               <Spacer width={10} />
@@ -608,7 +651,7 @@ const ReceiptScreen = ({ navigation, route }) => {
                 style={{
                   tintColor: check ? colors.secondary : colors.white,
                 }}
-                containerStyle={{ height: 40, width: 40 }}
+                containerStyle={{ height: scale(30), width: scale(30) }}
               />
               <Spacer width={15} />
               <View>

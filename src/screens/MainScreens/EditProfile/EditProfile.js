@@ -13,10 +13,10 @@ import { icons } from "../../../../assets/icons";
 
 const EditProfile = ({ route }) => {
   return (
-    <SafeAreaView style={commonStyles.commonMain}>
+    <View style={commonStyles.commonMain}>
       <ScrollView>
         <PH20>
-          <Spacer height={10} />
+          <Spacer height={50} />
           <View
             style={{
               height: 85,
@@ -59,7 +59,7 @@ const EditProfile = ({ route }) => {
           )}
         </PH20>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

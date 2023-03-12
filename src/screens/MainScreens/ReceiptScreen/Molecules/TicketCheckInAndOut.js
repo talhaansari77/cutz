@@ -67,8 +67,7 @@ const TicketCheckInAndOut = ({ setState, state }) => {
               fontSize={16}
             />
             <Spacer height={20} />
-
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: "row" ,alignItems:"center"}}>
               <InputItem value={"3"} />
               <InputItem value={"2"} spacer />
               <InputItem value={"4"} spacer />
@@ -194,14 +193,14 @@ const TicketCheckInAndOut = ({ setState, state }) => {
                 label={"EVENT ID: 0001"}
                 color={colors.white}
                 fontFamily={"bold"}
-                fontSize={16}
+                fontSize={15}
               />
               <Spacer height={5} />
               <CustomText
                 label={"2/12/23 @ 2PM"}
                 color={colors.white}
                 fontFamily={"bold"}
-                fontSize={24}
+                fontSize={23}
               />
               <Spacer height={5} />
               <View style={{ marginVertical: -30 }}>
@@ -223,14 +222,14 @@ const TicketCheckInAndOut = ({ setState, state }) => {
                   label={"C"}
                   color={colors.white}
                   fontFamily={"Righteous"}
-                  fontSize={140}
+                  fontSize={120}
                 />
               </View>
               <CustomText
                 label={"7 People"}
                 color={colors.white}
                 fontFamily={"bold"}
-                fontSize={30}
+                fontSize={27}
               />
             </View>
           </View>
@@ -262,7 +261,7 @@ export default TicketCheckInAndOut;
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.drakBlue,
-    height: "66%",
+    height: "62%",
     width: "90%",
     borderRadius: 10,
     paddingHorizontal: 10,

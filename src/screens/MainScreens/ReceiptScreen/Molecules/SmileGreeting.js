@@ -4,6 +4,7 @@ import { colors } from "../../../../utils/Colors";
 import { icons } from "../../../../../assets/icons";
 import CustomText from "../../../../components/CustomText";
 import { Image } from "react-native-elements";
+import { scale, verticalScale } from "react-native-size-matters";
 
 const SmileGreeting = ({ setState, state }) => {
   return (
@@ -19,22 +20,22 @@ const SmileGreeting = ({ setState, state }) => {
         label={"Please stay on this window"}
         fontFamily={"semiBold"}
         color={colors.white}
-        fontSize={14}
+        fontSize={13}
         marginBottom={10}
       />
       <CustomText
         label={"until the end of your scheduled time."}
         fontFamily={"semiBold"}
         color={colors.white}
-        fontSize={14}
+        fontSize={13}
       />
       <Image
         source={icons.smile}
         resizeMode={"contain"}
         containerStyle={{
-          height: 200,
-          width: 200,
-          marginVertical: 80,
+          height: verticalScale(150),
+          width: scale(150),
+          marginVertical: "20%",
         }}
       />
       <CustomText
@@ -48,7 +49,7 @@ const SmileGreeting = ({ setState, state }) => {
         label={"Your time, help and smiles are needed."}
         fontFamily={"semiBold"}
         color={colors.white}
-        fontSize={14}
+        fontSize={13}
       />
 
       <TouchableOpacity
@@ -56,9 +57,9 @@ const SmileGreeting = ({ setState, state }) => {
           setState({ checkIn: false, checkOut: false, greet: false })
         }
         style={{
-            position: "absolute",
-            right: 30,
-            bottom: 40,
+          position: "absolute",
+          right: 30,
+          bottom: 40,
         }}
       >
         <Image
@@ -67,7 +68,6 @@ const SmileGreeting = ({ setState, state }) => {
           containerStyle={{
             height: 40,
             width: 40,
-            
           }}
         />
       </TouchableOpacity>

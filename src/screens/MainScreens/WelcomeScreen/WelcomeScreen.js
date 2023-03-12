@@ -14,6 +14,7 @@ import { Spacer } from "../../../components/Spacer";
 import { scale, verticalScale } from "react-native-size-matters";
 import CustomText from "../../../components/CustomText";
 import CustomButton from "../../../components/CustomButton";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const orgListItem = [
   {
@@ -330,8 +331,8 @@ const WelcomeScreen = ({ navigation, route }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Spacer height={40} />
+    <SafeAreaView style={styles.container}>
+      {/* <Spacer height={40} /> */}
       <Header />
       <View style={styles.shadowDivider} />
       <ScrollView>
@@ -495,7 +496,7 @@ const WelcomeScreen = ({ navigation, route }) => {
         </View>
         <Spacer height={30} />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

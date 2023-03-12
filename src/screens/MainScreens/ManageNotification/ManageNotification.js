@@ -18,8 +18,8 @@ import NotificationContainer from "./molecules/NotificationContainer";
 
 const ManageNotification = ({ navigation }) => {
   return (
-    <SafeAreaView style={commonStyles.commonMain}>
-      <Spacer height={5} />
+    <View style={commonStyles.commonMain}>
+      <Spacer height={40} />
       <NotificationBody navigation={navigation} />
       <Spacer height={40} />
       <SepratorLine backgroundColor={"#C9C9C9"} />
@@ -36,7 +36,7 @@ const ManageNotification = ({ navigation }) => {
       {/* if  account type volunteer */}
       {/* <NameContainer name={"FAMILY SIZE"} />
 <DetailContainer name={"# of mouths"}/> */}
-    </SafeAreaView>
+    </View>
   );
 };
 export default ManageNotification;

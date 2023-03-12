@@ -41,8 +41,10 @@ const CustomTextInput = ({
           width: props.width || "100%",
           alignSelf: props.alignSelf,
           height: props.height || verticalScale(42),
+          flexDirection:"row",
+          alignItems:"center",
           borderRadius: props.borderRadius || moderateScale(10),
-          padding: scale(10),
+          // padding: scale(10),
           marginTop: props.marginTop || verticalScale(0),
           borderColor: props.borderColor,
           paddingLeft: props.paddingLeft,
@@ -57,13 +59,7 @@ const CustomTextInput = ({
         props.inputStyle,
       ]}
     >
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          width: "100%",
-        }}
-      >
+ 
         <TextInput
           onPressIn={props.onInputPress}
           editable={props.editable}
@@ -81,9 +77,10 @@ const CustomTextInput = ({
           ]}
           onChangeText={props.onChangeText}
           value={props.value}
+          
           numberOfLines={props.numberOfLines}
           keyboardType={props.keyboardType}
-          autoCapitalize="none"
+          // autoCapitalize="none"
           multiline={props.multiline}
           placeholder={props.placeholder}
           placeholderTextColor={colors.placeholder}
@@ -108,7 +105,6 @@ const CustomTextInput = ({
         ) : (
           <></>
         )}
-      </View>
     </TouchableOpacity>
   );
 };
