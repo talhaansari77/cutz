@@ -1,6 +1,6 @@
 // import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import { Image, Text } from "react-native";
+import { Image, Platform, Text } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import CustomText from "../../components/CustomText";
@@ -18,8 +18,8 @@ import ManageNotification from "../../screens/MainScreens/ManageNotification/Man
 
 const Tab = createBottomTabNavigator();
 
-const MainStack = ({route}) => {
-  console.log("RoutesType",route?.params)
+const MainStack = ({ route }) => {
+  console.log("RoutesType", route?.params);
 
   return (
     <Tab.Navigator
@@ -27,8 +27,8 @@ const MainStack = ({route}) => {
         // tabBarColor: ({focused, size, color}) => {},
         // tabBarStyle:()=>{innerHeight:1000},
         tabBarStyle: {
-          // height: verticalScale(65),
-          // paddingTop: 5,
+          height: verticalScale(Platform.OS == "ios" ? 55 : 50),
+          paddingTop: Platform.OS == "ios" ? 10 : 0,
           backgroundColor: colors.white,
           borderTopWidth: 1,
           borderTopColor: colors.gray1,
@@ -65,9 +65,9 @@ const MainStack = ({route}) => {
               resizeMode={"contain"}
               style={{
                 tintColor: color,
-                height:scale(30),
+                height: scale(30),
                 width: scale(30),
-                marginTop: 10,
+                marginVertical: 10,
               }}
             />
           );
@@ -85,28 +85,30 @@ const MainStack = ({route}) => {
         name="Event"
         component={EventLocations}
       />
-      <Tab.Screen 
-  
-      name="Profile" component={ProfileScreen} />
-      <Tab.Screen 
-      initialParams={{ type:route?.params}}
-       options={{
-        tabBarItemStyle: { display: "none" },
-      }}
-      name="PersonalScreen" component={PersonalScreen} />
-        <Tab.Screen
-              initialParams={{ type:route?.params}}
-
-         options={{
+      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen
+        initialParams={{ type: route?.params }}
+        options={{
           tabBarItemStyle: { display: "none" },
         }}
-         name="EditProfile" component={EditProfile} />
-        <Tab.Screen
-         options={{
+        name="PersonalScreen"
+        component={PersonalScreen}
+      />
+      <Tab.Screen
+        initialParams={{ type: route?.params }}
+        options={{
           tabBarItemStyle: { display: "none" },
         }}
-         name="ManageNotification" component={ManageNotification} />
-
+        name="EditProfile"
+        component={EditProfile}
+      />
+      <Tab.Screen
+        options={{
+          tabBarItemStyle: { display: "none" },
+        }}
+        name="ManageNotification"
+        component={ManageNotification}
+      />
     </Tab.Navigator>
   );
 };
