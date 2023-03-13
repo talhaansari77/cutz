@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StatusBar, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -17,10 +17,6 @@ const RootNavigator = () => {
         <Stack.Screen name="AuthStack" component={AuthStack} />
         <Stack.Screen name="MainStack" component={MainStack} />
         {/* <Stack.Screen name="Reservation" component={MakeReservation} /> */}
-      
-
-
-
       </Stack.Navigator>
     </NavigationContainer>
   );

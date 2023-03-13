@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, LogBox } from "react-native";
 import RootNavigator from "./src/routes";
 import { useFonts } from "expo-font";
+
 LogBox.ignoreLogs(["VirtualizedLists", "Warning:..."]);
 LogBox.ignoreAllLogs();
 

@@ -1,4 +1,5 @@
 import {
+  Dimensions,
   Platform,
   ScrollView,
   StyleSheet,
@@ -16,35 +17,28 @@ import { scale, verticalScale } from "react-native-size-matters";
 import CustomText from "../../../components/CustomText";
 import CustomButton from "../../../components/CustomButton";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Carousel from "react-native-reanimated-carousel";
 
-const orgListItem = [
-  {
-    label: "EAGLES",
-    backgroundColor: colors.primary,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    paddingHorizontal: scale(40),
-    paddingVertical: verticalScale(5),
-    dividerBottom: true,
-  },
-  {
-    label: "EHH",
-    backgroundColor: colors.darkOrange,
-    //   borderTopLeftRadius: 10,
-    //   borderTopRightRadius: 10,
-    paddingHorizontal: scale(40),
-    paddingVertical: verticalScale(5),
-    dividerBottom: true,
-  },
-  {
-    label: "GLEANERS",
-    backgroundColor: colors.primary,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
-    paddingHorizontal: scale(40),
-    paddingVertical: verticalScale(5),
-    dividerBottom: false,
-  },
+const { height, width } = Dimensions.get("window");
+// data being used
+const companyData = [
+  { index: 0, title: "EAGLES" },
+  { index: 1, title: "EHH" },
+  { index: 2, title: "GLENAERS" },
+  { index: 3, title: "APPLE" },
+  { index: 4, title: "GOOGLE" },
+  { index: 5, title: "SONY" },
+  { index: 6, title: "HUAWEI" },
+];
+
+const eventData = [
+  { index: 0, title: "FOOD DISTRIBUTION" },
+  { index: 1, title: "HOMELESS SHELTER" },
+  { index: 2, title: "FUNDRAISING EVENTS" },
+  { index: 3, title: "CHARITY" },
+  { index: 4, title: "SOUP KITCHEN" },
+  { index: 5, title: "CLOTHES DONATE" },
+  { index: 6, title: "FUNDRAISING EVENTS" },
 ];
 
 const eventTypeList = [
@@ -100,27 +94,52 @@ const eventTimingList = [
   },
 ];
 
-const addressList = [
+const addressData = [
   {
-    label:
-      "THURSTON HIGH SCHOOL 26265 Schoolcraft St Redford Carter Twp, MI 48239",
-    paddingVertical: verticalScale(5),
-    width: "70%",
-    backgroundColor: colors.Brown3,
-    borderRadius: 5,
-    dividerBottom: true,
+    index: 0,
+    place: "THURSTON HIGH SCHOOL",
+    house: "26255 Schoolcraft St",
+    zip: "Redford",
   },
   {
-    label: "21906 Garrison St, DearBorn, MI 48128",
-    paddingVertical: verticalScale(5),
-    width: "70%",
-    backgroundColor: colors.Brown4,
-    borderRadius: 5,
-    dividerBottom: false,
+    index: 1,
+    place: "Ford Garage Dearborn",
+    house: "21906 Garrison Street",
+    zip: "Dearborn, MI 48124",
+  },
+  {
+    index: 2,
+    place: "Jack Dimmer",
+    house: "21531 Michigan Ave",
+    zip: "Dearborn, MI 48124",
+  },
+  {
+    index: 3,
+    place: "Mexican Fiesta - Dearborn Hgts.",
+    house: "24310 Ford Rd, ",
+    zip: "Dearborn, MI 48124",
+  },
+  {
+    index: 4,
+    place: "THURSTON HIGH SCHOOL",
+    house: "26255 Schoolcraft St",
+    zip: "Redford",
+  },
+  {
+    index: 5,
+    place: "Ford Garage Dearborn",
+    house: "21906 Garrison Street",
+    zip: "Dearborn, MI 48124",
+  },
+  {
+    index: 6,
+    place: "Jack Dimmer",
+    house: "21531 Michigan Ave",
+    zip: "Dearborn, MI 48124",
   },
 ];
 
-const evenDateList = [
+const eventDateList = [
   {
     day: "Thursday",
     date: "19",
@@ -136,11 +155,32 @@ const evenDateList = [
     date: "21",
     MMYY: "Jan 2023",
   },
+  {
+    day: "Thursday",
+    date: "22",
+    MMYY: "Jan 2023",
+  },
+  {
+    day: "Friday",
+    date: "23",
+    MMYY: "Jan 2023",
+  },
+  {
+    day: "Saturday",
+    date: "24",
+    MMYY: "Jan 2023",
+  },
 ];
 
 const WelcomeScreen = ({ navigation, route }) => {
   const [index, setIndex] = useState(0);
   const [dateIndex, setDateIndex] = useState(0);
+  const [companyIndex, setCompanyIndex] = useState(0);
+  const [companyName, setCompany] = useState("EAGLES");
+  const [eventType, setEventType] = useState("FOOD DISTRIBUTION");
+  const [eventIndex, setEventIndex] = useState(0);
+  const [timingIndex, setTimingIndex] = useState(0);
+
   const Header = () => (
     <View
       style={{
@@ -185,15 +225,15 @@ const WelcomeScreen = ({ navigation, route }) => {
       style={{
         alignItems: "center",
         borderBottomColor: colors.white,
-        borderBottomWidth: dividerBottom ? 1 : 0,
+        borderBottomWidth: 1,
         // paddingHorizontal: paddingHorizontal,
-        width: scale(150),
-        paddingVertical: paddingVertical,
+        // width: scale(150),
+
         backgroundColor: backgroundColor,
-        borderTopRightRadius: borderTopRightRadius,
-        borderTopLeftRadius: borderTopLeftRadius,
-        borderBottomLeftRadius: borderBottomLeftRadius,
-        borderBottomRightRadius: borderBottomRightRadius,
+        // borderTopLeftRadius: 10,
+        // borderTopRightRadius: 10,
+        // paddingHorizontal: scale(40),
+        paddingVertical: verticalScale(5),
       }}
     >
       <CustomText
@@ -205,29 +245,22 @@ const WelcomeScreen = ({ navigation, route }) => {
     </View>
   );
 
-  const AddressContainer = ({
-    label,
-    paddingVertical,
-    backgroundColor,
-    width,
-    borderRadius,
-    dividerBottom,
-  }) => (
+  const AddressContainer = ({ place, house, zip, backgroundColor }) => (
     <View
       style={{
-        paddingVertical: paddingVertical,
+        paddingVertical: verticalScale(10),
         backgroundColor: backgroundColor,
-        borderRadius: borderRadius,
+        borderRadius: 5,
         alignItems: "center",
-        marginBottom: dividerBottom ? 15 : 0,
-        
-        
-        // ...styles.shadow
+        justifyContent: "center",
+        marginBottom: 15,
+
+        ...styles.shadow,
       }}
     >
-      <View style={{ width: width }}>
-        <CustomText label={label} fontSize={12} textAlign={"center"} />
-      </View>
+      <CustomText label={place} fontSize={12} textAlign={"center"} />
+      <CustomText label={house} fontSize={12} textAlign={"center"} />
+      <CustomText label={zip} fontSize={12} textAlign={"center"} />
     </View>
   );
 
@@ -235,10 +268,12 @@ const WelcomeScreen = ({ navigation, route }) => {
     <View
       style={{
         backgroundColor: colors.Brown1,
-        paddingHorizontal: scale(40),
+        // paddingHorizontal: scale(40),
         paddingVertical: verticalScale(2),
         borderRadius: 5,
-        marginBottom: dividerBottom ? verticalScale(5) : 0,
+        alignItems: "center",
+        justifyContent: "center",
+        // marginBottom: 5,
         // shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
         // // shadowRadius: 2,
         // elevation: 5,
@@ -251,7 +286,7 @@ const WelcomeScreen = ({ navigation, route }) => {
       <CustomText
         label={label}
         color={color}
-        fontSize={fontSize}
+        fontSize={24}
         fontFamily={"bold"}
       />
     </View>
@@ -286,10 +321,9 @@ const WelcomeScreen = ({ navigation, route }) => {
         // paddingVertical: verticalScale(2),
         width: "100%",
         borderRadius: 5,
-        borderBottomWidth: dividerBottom ? 1 : 0,
+        borderBottomWidth: 1,
         borderBottomColor: colors.gray3,
         alignItems: "center",
-        
       }}
     >
       <CustomText
@@ -322,7 +356,7 @@ const WelcomeScreen = ({ navigation, route }) => {
       />
       <CustomText
         label={date}
-        color={ dateIndex === indexx ? colors.secondary:"#9B9B9B"}
+        color={dateIndex === indexx ? colors.secondary : "#9B9B9B"}
         fontSize={36}
         fontFamily={"bold"}
         marginBottom={-10}
@@ -342,10 +376,14 @@ const WelcomeScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Spacer height={10} />
+      {/* <Spacer height={10} /> */}
+
       <Header />
       <View style={styles.shadowDivider} />
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        nestedScrollEnabled={true}
+      >
         <Spacer height={20} />
         <View style={{ alignItems: "center" }}>
           {route.params?.userType === "Client" ? (
@@ -374,34 +412,50 @@ const WelcomeScreen = ({ navigation, route }) => {
         </View>
 
         <Spacer height={30} />
-
-        <View style={{ alignItems: "center" }}>
-          {orgListItem.map(
-            ({
-              paddingHorizontal,
-              paddingVertical,
-              backgroundColor,
-              borderTopRightRadius,
-              borderTopLeftRadius,
-              borderBottomRightRadius,
-              borderBottomLeftRadius,
-              dividerBottom,
-              label,
-            }) => (
-              <OrgListItem
-                paddingHorizontal={paddingHorizontal}
-                paddingVertical={paddingVertical}
-                backgroundColor={backgroundColor}
-                borderTopRightRadius={borderTopRightRadius}
-                borderTopLeftRadius={borderTopLeftRadius}
-                borderBottomRightRadius={borderBottomRightRadius}
-                borderBottomLeftRadius={borderBottomLeftRadius}
-                dividerBottom={dividerBottom}
-                label={label}
-              />
-            )
+        {/* COmpanies List */}
+        <Carousel
+          width={174}
+          height={
+            companyData.length === 1 ? 35 : companyData.length === 2 ? 70 : 105
+          }
+          enabled={companyData.length === 1 ? false : true}
+          defaultIndex={companyData.length > 1 && 1}
+          autoFillData={false}
+          // height={40}
+          vertical="true"
+          mode="parallax"
+          modeConfig={{
+            parallaxScrollingOffset: companyData.length < 3 ? 35 : 70,
+            parallaxScrollingScale: 1,
+            // parallaxAdjacentItemScale: 0.82,
+          }}
+          loop={companyData.length === 1 ? false : true}
+          // loop={true}
+          style={{
+            // width: 174,
+            backgroundColor: colors.primary,
+            borderRadius: 10,
+            alignSelf: "center",
+            // height: 200,
+          }}
+          scrollAnimationDuration={1}
+          data={companyData}
+          onSnapToItem={(index) => {
+            setCompany(
+              companyData[index < companyData.length - 1 ? index + 1 : 0].title
+            );
+            setCompanyIndex(index < companyData.length - 1 ? index + 1 : 0);
+          }}
+          renderItem={({ item }) => (
+            <OrgListItem
+              label={item.title}
+              backgroundColor={
+                companyIndex == item.index ? colors.darkOrange : colors.Brown3
+              }
+            />
           )}
-        </View>
+        />
+
         <Spacer height={15} />
         <View style={{ alignItems: "center" }}>
           <CustomText
@@ -412,7 +466,8 @@ const WelcomeScreen = ({ navigation, route }) => {
           />
         </View>
         <Spacer height={10} />
-        <View style={{ alignItems: "center",
+
+        {/* <View style={{ alignItems: "center",
         
        }}>
           {eventTypeList.map(({ label, color, fontSize, dividerBottom }) => (
@@ -423,63 +478,131 @@ const WelcomeScreen = ({ navigation, route }) => {
               dividerBottom={dividerBottom}
             />
           ))}
-        </View>
-        <Spacer height={20} />
-        <PH20>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            {evenDateList.map(({ date, day, MMYY }, index) => (
-              <EventDateItem date={date} day={day} MMYY={MMYY} indexx={index} />
-            ))}
-          </View>
-        </PH20>
-        <Spacer height={20} />
-        <PH20>
-          {addressList.map(
-            ({
-              label,
-              paddingVertical,
-              backgroundColor,
-              width,
-              borderRadius,
-              dividerBottom,
-            }) => (
-              <AddressContainer
-                label={label}
-                paddingVertical={paddingVertical}
-                backgroundColor={backgroundColor}
-                width={width}
-                borderRadius={borderRadius}
-                dividerBottom={dividerBottom}
-              />
-            )
+        </View> */}
+        <Carousel
+          // width={Dimensions.get("window").width * 0.85}
+          height={eventData.length == 1 ? 40 : eventData.length == 2 ? 80 : 150}
+          enabled={eventData.length === 1 ? false : true}
+          mode="parallax"
+          loop={eventData.length > 2 ? true : false}
+          vertical={true}
+          onSnapToItem={(index) => {
+            setEventType(eventData[index].title);
+            setEventIndex(index);
+          }}
+          // pagingEnabled
+          // snapEnabled
+          style={{}}
+          modeConfig={{
+            parallaxScrollingScale: 0.9,
+            parallaxScrollingOffset: 90,
+          }}
+          scrollAnimationDuration={1}
+          data={eventData}
+          renderItem={({ item }) => (
+            <EventListItem
+              label={item.title}
+              color={eventIndex === item.index ? colors.blue1 : colors.black}
+            />
           )}
+        />
+        <Spacer height={20} />
+        <PH20>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            // style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            {eventDateList.map(({ date, day, MMYY }, index) => (
+              <>
+                <EventDateItem
+                  date={date}
+                  day={day}
+                  MMYY={MMYY}
+                  indexx={index}
+                />
+                <Spacer width={20} />
+              </>
+            ))}
+          </ScrollView>
         </PH20>
+        <Spacer height={20} />
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          nestedScrollEnabled={true}
+          style={{ height: height / 4.4 }}
+        >
+          <PH20>
+            {addressData.map(({ place, house, zip, index }) => (
+              <AddressContainer
+                place={place}
+                house={house}
+                zip={zip}
+                backgroundColor={
+                  eventIndex === index ? colors.Brown3 : colors.Brown4
+                }
+              />
+            ))}
+          </PH20>
+        </ScrollView>
 
         <Spacer height={20} />
         <View style={{}}>
-          {route?.params?.userType === "Client"
-            ? eventTimingList.map(
-                ({ label, color, fontSize, dividerBottom }) => (
-                  <EventTimingListItem
-                    label={label}
-                    fontSize={fontSize}
-                    color={color}
-                    dividerBottom={dividerBottom}
-                  />
-                )
-              )
-            : // Volunteer
-              eventTimingListVolunteer.map(({ label }, index) => (
-                <EventTimingListItemVolunteer
+          {route?.params?.userType === "Client" ? (
+            <Carousel
+              // width={Dimensions.get("window").width * 0.85}
+              height={
+                eventData.length == 1 ? 40 : eventData.length == 2 ? 80 : 150
+              }
+              enabled={eventData.length === 1 ? false : true}
+              mode="parallax"
+              loop={eventData.length > 2 ? true : false}
+              vertical={true}
+              onSnapToItem={(index) => {
+                // setEventType(eventData[index].title);
+                setTimingIndex(index);
+              }}
+              // style={{backgroundColor:"red"}}
+              modeConfig={{
+                parallaxScrollingScale: 0.9,
+                parallaxScrollingOffset: 100,
+              }}
+              scrollAnimationDuration={1}
+              data={eventTimingList}
+              renderItem={({ item: { label }, index }) => (
+                <EventTimingListItem
                   label={label}
-                  indexx={index}
-                  key={index}
+                  color={
+                    timingIndex === index ? colors.secondary : colors.blue1
+                  }
+                  // color={eventIndex===item.index?colors.blue1:colors.black}
+                  // color={color}
+                  fontSize={24}
                 />
-              ))}
+              )}
+            />
+          ) : (
+            // eventTimingList.map(
+            //     ({ label, color, fontSize, dividerBottom }) => (
+            //       <EventTimingListItem
+            //         label={label}
+            //         fontSize={fontSize}
+            //         color={color}
+            //         dividerBottom={dividerBottom}
+            //       />
+            //     )
+            //   )
+            // Volunteer
+            eventTimingListVolunteer.map(({ label }, index) => (
+              <EventTimingListItemVolunteer
+                label={label}
+                indexx={index}
+                key={index}
+              />
+            ))
+          )}
         </View>
-        <Spacer height={20} />
+        {/* <Spacer height={20} /> */}
         <View style={{ alignItems: "center" }}>
           <CustomButton
             title={
@@ -489,7 +612,6 @@ const WelcomeScreen = ({ navigation, route }) => {
             }
             width={"80%"}
             fontFamily={"bold"}
-
             btnStyle={{
               shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
               shadowRadius: 2,
