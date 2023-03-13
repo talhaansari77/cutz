@@ -33,7 +33,7 @@ const CustomDropDown = ({ dropData,modalVisible,setModalVisible }) => {
         shadowOpacity: 0.5,
         // inputMarginTop:-20,
         shadowOffset: { width: 1, height: 3 },
-        top: "17%",
+        top: verticalScale(100),
         left: "30%",
       }}
     >
@@ -84,9 +84,7 @@ export default CustomDropDown;
 
 const styles = StyleSheet.create({
     centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        
         marginTop: 22,
       },
 

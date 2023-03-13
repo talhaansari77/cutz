@@ -54,7 +54,9 @@ const MainStack = ({ route }) => {
             color = focused ? colors.primary : colors.secondary;
 
             // size = focused ? 35 : 30;
-          } else if (route.name === "Profile" || "PersonalScreen") {
+          } else if (
+            route.name === "Profile"
+          ) {
             iconName = icons.user;
             // size = focused ? 35 : 30;
             color = focused ? colors.primary : colors.secondary;
@@ -78,6 +80,7 @@ const MainStack = ({ route }) => {
       <Tab.Screen name="Welcome" component={WelcomeScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Receipt" component={ReceiptScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen
         options={{
           tabBarItemStyle: { display: "none" },
@@ -85,9 +88,8 @@ const MainStack = ({ route }) => {
         name="Event"
         component={EventLocations}
       />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen
-        initialParams={{ type: route?.params }}
+        // initialParams={{ type: route?.params }}
         options={{
           tabBarItemStyle: { display: "none" },
         }}
@@ -95,7 +97,7 @@ const MainStack = ({ route }) => {
         component={PersonalScreen}
       />
       <Tab.Screen
-        initialParams={{ type: route?.params }}
+        // initialParams={{ type: route?.params }}
         options={{
           tabBarItemStyle: { display: "none" },
         }}

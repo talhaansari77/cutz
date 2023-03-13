@@ -23,7 +23,7 @@ const Login = ({navigation,route}) => {
          setCheckUser={setCheckUser}
          checkUser={checkUser}
         user={user}/>
-        <LoginBottom navigation={navigation}/>
+        <LoginBottom navigation={navigation}  checkUser={checkUser}/>
 
         </ScrollView>
    

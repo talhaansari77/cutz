@@ -187,7 +187,7 @@ const ReceiptScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       {route?.params?.userType === "Client" ? (
         <>
-          <Spacer height={Platform.OS == "ios" ? 0 : 30} />
+          <Spacer height={Platform.OS == "ios" ? 40 : 30} />
           <Header />
           <View style={styles.shadowDivider} />
           <Spacer
@@ -230,13 +230,13 @@ const ReceiptScreen = ({ navigation, route }) => {
                 <Spacer height={20} />
                 <View>
                   <View style={{ flexDirection: "row" }}>
-                    <Spacer width={10} />
+                    <Spacer width={15} />
                     <Image
                       source={icons.calender}
                       resizeMode={"contain"}
                       containerStyle={{ height: scale(30), width: scale(30) }}
                     />
-                    <Spacer width={15} />
+                    <Spacer width={10} />
                     <View>
                       <CustomText
                         label={"Friday, January 20"}
@@ -252,8 +252,9 @@ const ReceiptScreen = ({ navigation, route }) => {
                       />
                     </View>
                   </View>
-                  <Spacer height={15} />
-                  <View style={{ flexDirection: "row" }}>
+                  <Spacer height={25} />
+                  <View style={{ flexDirection: "row",
+                 }}>
                     <Spacer width={10} />
                     <Image
                       source={icons.marker}
@@ -359,7 +360,7 @@ const ReceiptScreen = ({ navigation, route }) => {
                     shadowOffset: { width: -1, height: 3 },
                   }}
                   width={"37%"}
-                  backgroundColor={colors.gray}
+                  backgroundColor={colors.gray2}
                   color={colors.secondary}
                   borderRadius={15}
                   onPress={() => {
@@ -373,7 +374,7 @@ const ReceiptScreen = ({ navigation, route }) => {
         </>
       ) : route?.params?.ticketDetail ? (
         <>
-          <Spacer height={Platform.OS=="ios"?0 :30} />
+          <Spacer height={Platform.OS=="ios"?40 :30} />
           <Header />
           <View style={styles.shadowDivider} />
           {state.greet ? (
@@ -385,9 +386,9 @@ const ReceiptScreen = ({ navigation, route }) => {
           ) : (
             <>
               <Spacer height={40} />
-              <View style={{ alignItems: "center" }}>
-                <View>
-                  <View style={{ flexDirection: "row" }}>
+              <View style={{ alignItems: "center",}}>
+                <View style={{marginRight:40}}>
+                  <View style={{ flexDirection: "row",marginLeft:5 }}>
                     <Spacer width={10} />
                     <Image
                       source={icons.calender}
@@ -411,7 +412,7 @@ const ReceiptScreen = ({ navigation, route }) => {
                     </View>
                   </View>
                   <Spacer height={20} />
-                  <View style={{ flexDirection: "row" }}>
+                  <View style={{ flexDirection: "row",marginTop:10 }}>
                     <Spacer width={10} />
                     <Image
                       source={icons.marker}
@@ -441,9 +442,9 @@ const ReceiptScreen = ({ navigation, route }) => {
                     </View>
                   </View>
                 </View>
-                <Spacer height={30} />
+                <Spacer height={20} />
 
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: "row" ,marginRight:20,alignItems:"center"}}>
                   <Spacer width={10} />
                   <Image
                     source={icons.ticket1}
@@ -610,7 +611,7 @@ const ReceiptScreen = ({ navigation, route }) => {
                   />
                 </View>
               </View>
-              <Spacer height={15} />
+              <Spacer height={25} />
               <View style={{ flexDirection: "row" }}>
                 <Spacer width={10} />
                 <Image
@@ -641,7 +642,7 @@ const ReceiptScreen = ({ navigation, route }) => {
                 </View>
               </View>
             </View>
-            <Spacer height={20} />
+            <Spacer height={15} />
 
             <View style={{ flexDirection: "row" }}>
               <Spacer width={10} />
@@ -704,6 +705,8 @@ const ReceiptScreen = ({ navigation, route }) => {
             <CustomButton
               title={"Cancel"}
               width={"37%"}
+              fontFamily={"bold"}
+              
               btnStyle={{
                 shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
                 shadowRadius: 2,
@@ -712,7 +715,7 @@ const ReceiptScreen = ({ navigation, route }) => {
                 // inputMarginTop:-20,
                 shadowOffset: { width: -1, height: 3 },
               }}
-              backgroundColor={colors.gray}
+              backgroundColor={colors.gray2}
               color={colors.secondary}
               borderRadius={15}
               onPress={() => {

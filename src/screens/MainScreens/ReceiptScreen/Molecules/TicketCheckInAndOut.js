@@ -80,6 +80,8 @@ const TicketCheckInAndOut = ({ setState, state }) => {
         <CustomButton
           title={"Next"}
           width={"50%"}
+          fontFamily={"bold"}
+
           btnStyle={{
             shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
             shadowRadius: 2,
@@ -207,7 +209,7 @@ const TicketCheckInAndOut = ({ setState, state }) => {
                 <View
                   style={{
                     position: "absolute",
-                    top: verticalScale(85),
+                    top: verticalScale(72),
                     left: verticalScale(-65),
                   }}
                 >
@@ -247,6 +249,7 @@ const TicketCheckInAndOut = ({ setState, state }) => {
               title={state.checkIn ? "Check Out" : "Check In"}
               width={"50%"}
               borderRadius={10}
+              fontFamily={"bold"}
               onPress={modelOpen}
             />
           </View>
@@ -263,9 +266,16 @@ const styles = StyleSheet.create({
     backgroundColor: colors.drakBlue,
     height: "62%",
     width: "90%",
-    borderRadius: 10,
+    borderRadius: 12,
     paddingHorizontal: 10,
     alignSelf: "center",
+      shadowColor:
+                      Platform.OS == "ios" ? "#343a40" : colors.black,
+                    shadowRadius: 2,
+                    elevation: 5,
+                    shadowOpacity: 0.4,
+                    // inputMarginTop:-20,
+                    shadowOffset: { width: -1, height: 3 },
   },
   whiteCircle: {
     backgroundColor: colors.white,
@@ -303,5 +313,12 @@ const styles = StyleSheet.create({
     width: "75%",
     backgroundColor: colors.white,
     borderRadius: 10,
+    shadowColor:
+    Platform.OS == "ios" ? "#343a40" : colors.black,
+  shadowRadius: 2,
+  elevation: 5,
+  shadowOpacity: 0.4,
+  // inputMarginTop:-20,
+  shadowOffset: { width: -1, height: 3 },
   },
 });

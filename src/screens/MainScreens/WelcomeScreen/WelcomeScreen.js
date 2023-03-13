@@ -1,4 +1,5 @@
 import {
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -219,6 +220,8 @@ const WelcomeScreen = ({ navigation, route }) => {
         borderRadius: borderRadius,
         alignItems: "center",
         marginBottom: dividerBottom ? 15 : 0,
+        
+        
         // ...styles.shadow
       }}
     >
@@ -235,7 +238,13 @@ const WelcomeScreen = ({ navigation, route }) => {
         paddingHorizontal: scale(40),
         paddingVertical: verticalScale(2),
         borderRadius: 5,
-        marginBottom: dividerBottom ? 4 : 0,
+        marginBottom: dividerBottom ? verticalScale(5) : 0,
+        // shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+        // // shadowRadius: 2,
+        // elevation: 5,
+        // shadowOpacity: 0.4,
+        // // inputMarginTop:-20,
+        // shadowOffset: { width: 1, height: 1  },
         // ...styles.shadow
       }}
     >
@@ -280,6 +289,7 @@ const WelcomeScreen = ({ navigation, route }) => {
         borderBottomWidth: dividerBottom ? 1 : 0,
         borderBottomColor: colors.gray3,
         alignItems: "center",
+        
       }}
     >
       <CustomText
@@ -312,7 +322,7 @@ const WelcomeScreen = ({ navigation, route }) => {
       />
       <CustomText
         label={date}
-        color={colors.secondary}
+        color={ dateIndex === indexx ? colors.secondary:"#9B9B9B"}
         fontSize={36}
         fontFamily={"bold"}
         marginBottom={-10}
@@ -332,7 +342,7 @@ const WelcomeScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Spacer height={40} /> */}
+      <Spacer height={10} />
       <Header />
       <View style={styles.shadowDivider} />
       <ScrollView>
@@ -397,12 +407,14 @@ const WelcomeScreen = ({ navigation, route }) => {
           <CustomText
             label={"TYPE OF EVENT"}
             color={colors.blue1}
-            fontSize={8}
+            fontSize={11}
             fontFamily={"semiBold"}
           />
         </View>
         <Spacer height={10} />
-        <View style={{ alignItems: "center" }}>
+        <View style={{ alignItems: "center",
+        
+       }}>
           {eventTypeList.map(({ label, color, fontSize, dividerBottom }) => (
             <EventListItem
               label={label}
@@ -476,6 +488,8 @@ const WelcomeScreen = ({ navigation, route }) => {
                 : "Yes, I Will Volunteer!"
             }
             width={"80%"}
+            fontFamily={"bold"}
+
             btnStyle={{
               shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
               shadowRadius: 2,

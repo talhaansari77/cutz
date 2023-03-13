@@ -5,7 +5,7 @@ import { icons } from "../../../../assets/icons";
 import { Spacer } from "../../../components/Spacer";
 import CustomButton from "../../../components/CustomButton";
 import { colors } from "../../../utils/Colors";
-import { verticalScale } from "react-native-size-matters";
+import { scale, verticalScale } from "react-native-size-matters";
 
 const SignupHeader = ({ navigation,setCheckUser,checkUser }) => {
   const checkUserData=[
@@ -24,7 +24,7 @@ const SignupHeader = ({ navigation,setCheckUser,checkUser }) => {
           <Image
             resizeMode="contain"
             source={icons.back}
-            style={{ width: 40, height: 40 }}
+            style={{ width:scale(45), height: scale(45)}}
           />
         </TouchableOpacity>
         <Spacer height={20} />

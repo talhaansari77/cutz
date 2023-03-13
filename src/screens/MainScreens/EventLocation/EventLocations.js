@@ -65,7 +65,7 @@ const EventLocations = ({ navigation,route }) => {
       <Spacer height={40} />
       <Header />
       <View style={styles.shadowDivider} />
-      {/* <MapView
+      <MapView
         initialRegion={{
           latitude: 37.78825,
           longitude: -122.4324,
@@ -73,15 +73,15 @@ const EventLocations = ({ navigation,route }) => {
           longitudeDelta: 0.0421,
         }}
         style={styles.map}
-      /> */}
-      <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+      />
+      {/* <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
       <CustomText
         label={"This Text Will Replace Map"}
         color={colors.black}
         fontSize={14}
         fontFamily={"semiBold"}
       />
-      </View>
+      </View> */}
     </View>
   );
 };

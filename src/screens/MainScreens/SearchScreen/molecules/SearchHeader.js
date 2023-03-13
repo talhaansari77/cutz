@@ -25,14 +25,14 @@ const SearchHeader = () => {
           label="Organization"
           fontFamily="semiBold"
           fontSize={18}
-          color={colors.lightGray}
+          color={"#969696"}
         />
         {/* <Spacer width={5}/> */}
         <View style={{ marginTop: 7 }}>
           <Feather
             name="chevron-down"
             size={moderateScale(27)}
-            color="#2C2929"
+            color="#969696"
           />
         </View>
       </View>

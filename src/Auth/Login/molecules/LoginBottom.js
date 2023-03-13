@@ -13,7 +13,7 @@ import CustomButton from "../../../components/CustomButton";
 import { verticalScale } from "react-native-size-matters";
 import { Feather } from "@expo/vector-icons";
 
-const LoginBottom = ({navigation}) => {
+const LoginBottom = ({navigation,checkUser}) => {
   const [check, setCheck] = useState(false);
   return (
     <View style={{ alignItems: "center" }}>
@@ -47,6 +47,14 @@ const LoginBottom = ({navigation}) => {
       <CustomButton
         width={"55%"}
         fontFamily={"bold"}
+        onPress={()=>{
+          navigation.navigate("MainStack", {
+            screen: "Welcome",
+            params: { userType: checkUser },
+            merge: true,
+          });
+
+        }}
         borderRadius={15}
         title="Log In"
         btnStyle={{

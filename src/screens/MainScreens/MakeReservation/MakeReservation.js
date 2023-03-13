@@ -198,6 +198,7 @@ const MakeReservation = ({ navigation }) => {
           title={check ? "Proceed" : "Confirm"}
           width={"37%"}
           borderRadius={15}
+          fontFamily={"bold"}
           onPress={() => {
             console.log('nav')
             // navigation.navigate("Receipt");
@@ -212,7 +213,9 @@ const MakeReservation = ({ navigation }) => {
         <CustomButton
           title={"Cancel"}
           width={"37%"}
-          backgroundColor={colors.gray}
+                    fontFamily={"bold"}
+
+          backgroundColor={colors.gray2}
           color={colors.secondary}
           borderRadius={15}
           onPress={() => {
