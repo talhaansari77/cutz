@@ -5,12 +5,16 @@ import CustomTextInput from "../../../components/CustomTextInput";
 import PhoneInput from "react-native-phone-number-input";
 import { colors } from "../../../utils/Colors";
 import { PH20 } from "../../../utils/CommonStyles";
-import { scale } from "react-native-size-matters";
+import { scale, verticalScale } from "react-native-size-matters";
 import { Spacer } from "../../../components/Spacer";
+import { icons } from "../../../../assets/icons";
 
 const VolunteerBody = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [familySize, setFamilySize] = useState("");
+  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword1, setShowPassword1] = useState(true);
+
   const SignupData = [
     {
       id: 1,
@@ -131,6 +135,29 @@ const VolunteerBody = (props) => {
                   alignSelf="center"
                   width="100%"
                   borderRadius={15}
+                  iconWidth={scale(15)}
+                  secureTextEntry={
+                    item.placeholder === "Password"
+                      ? showPassword
+                      : showPassword1
+                  }
+                  onRightPress={() => {
+                    if (item.placeholder === "Password")
+                      setShowPassword(!showPassword);
+                    else setShowPassword1(!showPassword1);
+                  }}
+                  iconHeight={verticalScale(15)}
+                  rigthIcon={
+                    item.placeholder === "Password"
+                      ? showPassword
+                        ? icons.eyeSlash
+                        : icons.eye
+                      : item.placeholder === "Confirm Password"
+                      ? showPassword1
+                        ? icons.eyeSlash
+                        : icons.eye
+                      : ""
+                  }
                 />
               </>
             );

@@ -10,12 +10,15 @@ import { Platform } from "react-native";
 import CustomText from "../../../components/CustomText";
 import { AntDesign } from '@expo/vector-icons'; 
 import CustomBottomSheet from "../../../components/CustomBottomSheet";
+import { icons } from "../../../../assets/icons";
 
 
 
 const SignupBody = (props) => {
     const [modalVisible, setModalVisible] = useState(false)
     const [familySize, setFamilySize] = useState("")
+    const [showPassword, setShowPassword] = useState(true);
+    const [showPassword1, setShowPassword1] = useState(true);
 
     const onSetValue=(item)=>{
         console.log("Item",item)
@@ -144,6 +147,13 @@ const SignupBody = (props) => {
           alignSelf="center"
           width="100%"
           borderRadius={15}
+          iconWidth={scale(15)}
+        secureTextEntry={showPassword}
+        onRightPress={() => {
+          setShowPassword(!showPassword);
+        }}
+        iconHeight={verticalScale(15)}
+        rigthIcon={showPassword ? icons.eyeSlash : icons.eye}
         />
         <Spacer height={20} />
 
@@ -153,6 +163,13 @@ const SignupBody = (props) => {
           alignSelf="center"
           width="100%"
           borderRadius={15}
+          iconWidth={scale(15)}
+        secureTextEntry={showPassword1}
+        onRightPress={() => {
+          setShowPassword1(!showPassword1);
+        }}
+        iconHeight={verticalScale(15)}
+        rigthIcon={showPassword1 ? icons.eyeSlash : icons.eye}
         />
       </PH20>
     </View>

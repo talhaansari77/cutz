@@ -93,7 +93,7 @@ const CustomTextInput = ({
             style={{
               width: iconWidth || scale(20),
               height: iconHeight || verticalScale(20),
-              marginLeft: verticalScale(10),
+              // marginLeft: verticalScale(20),
             }}
           >
             <Image

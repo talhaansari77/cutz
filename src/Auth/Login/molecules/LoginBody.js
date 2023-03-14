@@ -1,12 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import CustomTextInput from "../../../components/CustomTextInput";
 import { Spacer } from "../../../components/Spacer";
 import CustomButton from "../../../components/CustomButton";
-import { verticalScale } from "react-native-size-matters";
+import { scale, verticalScale } from "react-native-size-matters";
 import { colors } from "../../../utils/Colors";
+import { icons } from "../../../../assets/icons";
 
 const LoginBody = ({ user, setCheckUser, checkUser }) => {
+  const [showPassword, setShowPassword] = useState(true);
   const checkUserData = ["Client", "Volunteer"];
   return (
     <View style={{ paddingHorizontal: 20 }}>
@@ -50,7 +52,15 @@ const LoginBody = ({ user, setCheckUser, checkUser }) => {
         alignSelf="center"
         width="90%"
         borderRadius={15}
+        iconWidth={scale(15)}
+        secureTextEntry={showPassword}
+        onRightPress={() => {
+          setShowPassword(!showPassword);
+        }}
+        iconHeight={verticalScale(15)}
+        rigthIcon={showPassword ? icons.eyeSlash : icons.eye}
       />
+      
     </View>
   );
 };
