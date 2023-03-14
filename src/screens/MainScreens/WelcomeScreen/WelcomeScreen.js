@@ -286,7 +286,7 @@ const WelcomeScreen = ({ navigation, route }) => {
       <CustomText
         label={label}
         color={color}
-        fontSize={24}
+        fontSize={20}
         fontFamily={"bold"}
       />
     </View>
@@ -481,7 +481,7 @@ const WelcomeScreen = ({ navigation, route }) => {
         </View> */}
         <Carousel
           // width={Dimensions.get("window").width * 0.85}
-          height={eventData.length == 1 ? 40 : eventData.length == 2 ? 80 : 150}
+          height={eventData.length == 1 ? 40 : eventData.length == 2 ? 80 : 140}
           enabled={eventData.length === 1 ? false : true}
           mode="parallax"
           loop={eventData.length > 2 ? true : false}
@@ -552,7 +552,7 @@ const WelcomeScreen = ({ navigation, route }) => {
             <Carousel
               // width={Dimensions.get("window").width * 0.85}
               height={
-                eventData.length == 1 ? 40 : eventData.length == 2 ? 80 : 150
+                eventData.length == 1 ? 40 : eventData.length == 2 ? 70 : 135
               }
               enabled={eventData.length === 1 ? false : true}
               mode="parallax"
@@ -577,7 +577,7 @@ const WelcomeScreen = ({ navigation, route }) => {
                   }
                   // color={eventIndex===item.index?colors.blue1:colors.black}
                   // color={color}
-                  fontSize={24}
+                  fontSize={20}
                 />
               )}
             />
