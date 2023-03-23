@@ -3,17 +3,19 @@ import React, { useState } from "react";
 import CustomTextInput from "../../../components/CustomTextInput";
 import { Spacer } from "../../../components/Spacer";
 import CustomButton from "../../../components/CustomButton";
-import { verticalScale } from "react-native-size-matters";
+import { scale, verticalScale } from "react-native-size-matters";
 import { colors } from "../../../utils/Colors";
 import LoginBottom from "./LoginBottom";
 import { useLogin } from "../useLogin";
 import { ClientLogin, VolunteerLogin } from "../../../services/LoginSignupApi";
 import { useDispatch } from "react-redux";
+import { icons } from "../../../../assets/icons";
 
 const LoginBody = ({ user, setCheckUser, checkUser, navigation }) => {
   const checkUserData = ["Client", "Volunteer"];
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [showPassword, setShowPassword] = useState(true);
   const [passwordError, setPasswordError] = useState("");
   const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -38,6 +40,7 @@ const LoginBody = ({ user, setCheckUser, checkUser, navigation }) => {
       if (checkUser == "Client") {
         await ClientLogin(data, setLoading, navigation, checkUser,dispatch,remember);
       } else if (checkUser == "Volunteer") {
+        console.log("Colluneter",checkUser)
        await VolunteerLogin(data, setLoading, navigation, checkUser,dispatch,remember);
       }
     }
@@ -97,6 +100,11 @@ const LoginBody = ({ user, setCheckUser, checkUser, navigation }) => {
           alignSelf="center"
           width="90%"
           borderRadius={15}
+          onRightPress={() => {
+            setShowPassword(!showPassword);
+          }}
+          iconHeight={verticalScale(15)}
+          rigthIcon={showPassword ? icons.eyeSlash : icons.eye}
         />
       </View>
 
@@ -108,7 +116,9 @@ const LoginBody = ({ user, setCheckUser, checkUser, navigation }) => {
         loading={loading}
         onPress={() => onSubmitLogin()}
       />
-    </>
+      </>
+
+      
   );
 };
 

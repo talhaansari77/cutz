@@ -9,7 +9,7 @@ import PersonalScreen from "../screens/MainScreens/PersonalScreen/PersonalScreen
 import EditProfile from "../screens/MainScreens/EditProfile/EditProfile";
 import ManageNotification from "../screens/MainScreens/ManageNotification/ManageNotification";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { GetClientEvent } from "../services/EventClientsApi";
+import { GetClientEvent, GetVolunteerEvent } from "../services/EventClientsApi";
 import { useDispatch } from "react-redux";
 import { LoginActions } from "../redux/actions";
 import { useSelector } from "react-redux";
@@ -27,12 +27,25 @@ const RootNavigator = () => {
       let AsyncData = JSON.parse?.(user);
       if (AsyncData?.token) {
         setAuthData(AsyncData);
-        const res = await GetClientEvent(AsyncData?.token);
-        const data = res?.data;
-        data["token"] = AsyncData?.token;
-        data["rememberMe"] = AsyncData?.rememberMe;
-        data["currentUser"] = AsyncData?.checkUser;
-        dispatch(LoginActions(data));
+        if(AsyncData?.checkUser=="Client"){
+          const res = await GetClientEvent(AsyncData?.token);
+          const data = res?.data;
+          data["token"] = AsyncData?.token;
+          data["rememberMe"] = AsyncData?.rememberMe;
+          data["currentUser"] = AsyncData?.checkUser;
+          dispatch(LoginActions(data));
+
+        }
+        else{
+          const res = await GetVolunteerEvent(AsyncData?.token);
+          const data = res?.data;
+          data["token"] = AsyncData?.token;
+          data["rememberMe"] = AsyncData?.rememberMe;
+          data["currentUser"] = AsyncData?.checkUser;
+          dispatch(LoginActions(data));
+
+        }
+     
       }
     })();
   }, []);

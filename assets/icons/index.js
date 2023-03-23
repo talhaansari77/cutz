@@ -25,6 +25,8 @@ export const icons={
     editProfile:require("./editProfile.png"),
     searchorg:require("./searchorg.png"),
     searchSome:require("./searchSome.png"),
+    eye:require("./eye.png"),
+    eyeSlash:require("./hidden.png"),
 
 
 

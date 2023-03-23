@@ -14,10 +14,13 @@ import CustomBottomSheet from "../../../components/CustomBottomSheet";
 import SignupBottom from "./SignupBottom";
 import { useSignup } from "../useSignup";
 import { ClientSignup } from "../../../services/LoginSignupApi";
+import { icons } from "../../../../assets/icons";
 
 const SignupBody = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [familySize, setFamilySize] = useState("");
+  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword1, setShowPassword1] = useState(true);
   const [loading, setLoading] = useState(false);
   const dispatch=useDispatch()
   const [signupErrors, setSignupError] = useState({
@@ -256,6 +259,12 @@ const SignupBody = (props) => {
             width="100%"
             value={signupValue.password}
             error={signupErrors.passwordError}
+            secureTextEntry={showPassword}
+            onRightPress={() => {
+              setShowPassword(!showPassword);
+            }}
+            iconHeight={verticalScale(15)}
+            rigthIcon={showPassword ? icons.eyeSlash : icons.eye}
             onChangeText={(txt) => {
               setSignupValue({ ...signupValue, password: txt });
               setSignupError({ ...signupErrors, passwordError: "" });
@@ -271,6 +280,13 @@ const SignupBody = (props) => {
             width="100%"
             value={signupValue.confirmPassword}
             error={signupErrors.confirmError}
+            secureTextEntry={showPassword1}
+            onRightPress={() => {
+              setShowPassword1(!showPassword1);
+            }}
+            iconHeight={verticalScale(15)}
+            rigthIcon={showPassword1? icons.eyeSlash : icons.eye}
+            
             onChangeText={(txt) => {
               setSignupValue({ ...signupValue, confirmPassword: txt });
               setSignupError({ ...signupErrors, confirmError: "" });

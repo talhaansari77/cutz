@@ -3,7 +3,7 @@ import Toast from "react-native-root-toast";
 import { client } from "./client";
 import { URLS } from "./Urls";
 import { LoginActions, SignupActions } from "../redux/actions";
-import { GetClientEvent } from "./EventClientsApi";
+import { GetClientEvent, GetVolunteerEvent } from "./EventClientsApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import Toast from "react-native-root-toast";
 
@@ -210,7 +210,7 @@ export const VolunteerLogin = async (
       .then(async function (response) {
         console.log("userCreated", response.data);
         if (response) {
-          const res = await GetClientEvent(response.data.token);
+          const res = await GetVolunteerEvent(response.data.token);
           const data = res?.data;
           //  console.log("ResData",res?.data)
           data["token"] = response.data?.token;

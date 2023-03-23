@@ -5,18 +5,21 @@ import CustomTextInput from "../../../components/CustomTextInput";
 import PhoneInput from "react-native-phone-number-input";
 import { colors } from "../../../utils/Colors";
 import { PH20 } from "../../../utils/CommonStyles";
-import { scale } from "react-native-size-matters";
+import { scale, verticalScale } from "react-native-size-matters";
 import { Spacer } from "../../../components/Spacer";
 import SignupBottom from "./SignupBottom";
 import { useSignup } from "../useSignup";
 import { VolunteerSignup } from "../../../services/LoginSignupApi";
 import { useVolunteerSignup } from "../useVolunteerSignup";
 import { useDispatch } from "react-redux";
+import { icons } from "../../../../assets/icons";
 
 const VolunteerBody = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [familySize, setFamilySize] = useState("");
   const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword1, setShowPassword1] = useState(true);
   const dispatch=useDispatch()
   const [signupErrors, setSignupError] = useState({
     firstError: "",
@@ -112,6 +115,18 @@ const VolunteerBody = (props) => {
       id: 7,
       placeholder: "Password",
       error: signupErrors.passwordError,
+      secureTextEntry:showPassword,
+      rigthIcon:showPassword? icons.eyeSlash : icons.eye,
+
+      onRightPress:()=>{
+        setShowPassword(!showPassword)
+
+      },
+      // {() => {
+      //   if (item.placeholder === "Password")
+      //     setShowPassword(!showPassword);
+      //   else setShowPassword1(!showPassword1);
+      // }}
 
       value: signupValue.password,
       onChangeText: (txt) => {
@@ -127,6 +142,13 @@ const VolunteerBody = (props) => {
       placeholder: "Confirm Password",
       error: signupErrors.confirmError,
       value: signupValue.confirmPassword,
+      rigthIcon:showPassword1? icons.eyeSlash : icons.eye,
+
+      secureTextEntry:showPassword1,
+      onRightPress:()=>{
+        setShowPassword1(!showPassword1)
+
+      },
       onChangeText: (txt) => {
         setSignupValue({ ...signupValue, confirmPassword: txt });
         setSignupError({ ...signupErrors, confirmError: "" });
@@ -259,8 +281,13 @@ const VolunteerBody = (props) => {
                   value={item.value}
                   onChangeText={item.onChangeText}
                   alignSelf="center"
-                  width="100%"
+                  // width="100%"
                   borderRadius={15}
+                  iconWidth={scale(15)}
+                  secureTextEntry={item.secureTextEntry}
+                  onRightPress={item.onRightPress}
+                  iconHeight={verticalScale(15)}
+                  rigthIcon={item.rigthIcon}
                 />
               </>
             );
