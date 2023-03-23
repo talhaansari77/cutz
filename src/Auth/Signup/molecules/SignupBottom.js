@@ -14,6 +14,8 @@ const SignupBottom = (props) => {
   return (
     <View style={{ alignItems: "center", marginTop: verticalScale(20) }}>
       <CustomButton
+      onPress={props.onSubmit}
+      loading={props?.loading}
         btnStyle={{
           shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
           shadowRadius: 2,
@@ -25,13 +27,7 @@ const SignupBottom = (props) => {
         title={"Create"}
         width={"50%"}
         borderRadius={15}
-        onPress={() => {
-          navigation.navigate("MainStack", {
-            screen: "Welcome",
-            params: { userType: props.checkUser },
-            merge: true,
-          });
-        }}
+       
       />
 
       <View

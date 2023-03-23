@@ -18,6 +18,9 @@ import CustomText from "../../../components/CustomText";
 import CustomButton from "../../../components/CustomButton";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Carousel from "react-native-reanimated-carousel";
+import { useSelector } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { height, width } = Dimensions.get("window");
 // data being used
@@ -180,7 +183,9 @@ const WelcomeScreen = ({ navigation, route }) => {
   const [eventType, setEventType] = useState("FOOD DISTRIBUTION");
   const [eventIndex, setEventIndex] = useState(0);
   const [timingIndex, setTimingIndex] = useState(0);
-
+  const isFocused=useIsFocused()
+  const data=useSelector((state)=>state.authReducers.authState)
+  console.log("DataIS",data)
   const Header = () => (
     <View
       style={{

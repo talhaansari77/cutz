@@ -13,8 +13,7 @@ import CustomButton from "../../../components/CustomButton";
 import { verticalScale } from "react-native-size-matters";
 import { Feather } from "@expo/vector-icons";
 
-const LoginBottom = ({navigation,checkUser}) => {
-  const [check, setCheck] = useState(false);
+const LoginBottom = ({navigation,checkUser,remember, setRemember,onPress,loading}) => {
   return (
     <View style={{ alignItems: "center" }}>
       <Spacer height={30} />
@@ -29,9 +28,9 @@ const LoginBottom = ({navigation,checkUser}) => {
         <TouchableOpacity
           style={styles.checkCon}
           activeOpacity={0.6}
-          onPress={() => setCheck(!check)}
+          onPress={() => setRemember(!remember)}
         >
-          {check && <Feather name="check" size={24} color={colors.secondary} />}
+          {remember && <Feather name="check" size={24} color={colors.secondary} />}
         </TouchableOpacity>
 
         <CustomText
@@ -47,14 +46,8 @@ const LoginBottom = ({navigation,checkUser}) => {
       <CustomButton
         width={"55%"}
         fontFamily={"bold"}
-        onPress={()=>{
-          navigation.navigate("MainStack", {
-            screen: "Welcome",
-            params: { userType: checkUser },
-            merge: true,
-          });
-
-        }}
+        onPress={onPress}
+        loading={loading}
         borderRadius={15}
         title="Log In"
         btnStyle={{

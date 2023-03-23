@@ -11,15 +11,21 @@ const Signup = ({ navigation }) => {
   return (
     <SafeAreaView style={commonStyles.commonMain}>
       <ScrollView>
-        {/* <Text>jbjbcdbkcbdkb</Text> */}
         <SignupHeader
           setCheckUser={setCheckUser}
           checkUser={checkUser}
           navigation={navigation}
         />
-        {checkUser =="Client" ? <SignupBody /> : <VolunteerBody />}
-        {/* <SignupBody/> */}
-        <SignupBottom navigation={navigation} checkUser={checkUser} />
+        {checkUser == "Client" ? (
+          <SignupBody 
+          navigation={navigation}
+          checkUser={checkUser} />
+        ) : (
+          <VolunteerBody 
+          navigation={navigation}
+          checkUser={checkUser}
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   );

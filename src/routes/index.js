@@ -1,5 +1,5 @@
 import { StatusBar, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AuthStack from "./AuthStack/AuthStack";
@@ -8,14 +8,48 @@ import MakeReservation from "../screens/MainScreens/MakeReservation/MakeReservat
 import PersonalScreen from "../screens/MainScreens/PersonalScreen/PersonalScreen";
 import EditProfile from "../screens/MainScreens/EditProfile/EditProfile";
 import ManageNotification from "../screens/MainScreens/ManageNotification/ManageNotification";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { GetClientEvent } from "../services/EventClientsApi";
+import { useDispatch } from "react-redux";
+import { LoginActions } from "../redux/actions";
+import { useSelector } from "react-redux";
+import authReducers from "../redux/reducers/authReducers";
 
 const RootNavigator = () => {
+  const dispatch = useDispatch();
+  // const data = useSelector((state) => state.authReducers.authState);
+  // console.log("DataSIUser", data);
+  const [AuthData, setAuthData] = useState(null);
+
+  useEffect(() => {
+    (async function () {
+      let user = await AsyncStorage?.getItem("CurrentAuth");
+      let AsyncData = JSON.parse?.(user);
+      if (AsyncData?.token) {
+        setAuthData(AsyncData);
+        const res = await GetClientEvent(AsyncData?.token);
+        const data = res?.data;
+        data["token"] = AsyncData?.token;
+        data["rememberMe"] = AsyncData?.rememberMe;
+        data["currentUser"] = AsyncData?.checkUser;
+        dispatch(LoginActions(data));
+      }
+    })();
+  }, []);
   const Stack = createStackNavigator();
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="AuthStack" component={AuthStack} />
-        <Stack.Screen name="MainStack" component={MainStack} />
+        {AuthData?.rememberMe ? (
+          <>
+            <Stack.Screen name="MainStack" component={MainStack} />
+          </>
+        ) : (
+          <>
+            <Stack.Screen name="AuthStack" component={AuthStack} />
+          </>
+        )}
         {/* <Stack.Screen name="Reservation" component={MakeReservation} /> */}
       </Stack.Navigator>
     </NavigationContainer>
