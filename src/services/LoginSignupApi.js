@@ -2,7 +2,7 @@ import axios from "axios";
 import Toast from "react-native-root-toast";
 import { client } from "./client";
 import { URLS } from "./Urls";
-import { LoginActions, SignupActions } from "../redux/actions";
+import { LoginActions} from "../redux/actions";
 import { GetClientEvent, GetVolunteerEvent } from "./EventClientsApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import Toast from "react-native-root-toast";
@@ -35,7 +35,7 @@ export const ClientSignup = async (
           Toast.show("Account is created successfully");
           data["token"] = response.data?.token;
           data["currentUser"] = checkUser;
-          dispatch(SignupActions(data));
+          dispatch(LoginActions(data));
           setTimeout(() => {
             navigation.navigate("MainStack", {
               screen: "Welcome",
@@ -89,7 +89,7 @@ export const VolunteerSignup = async (
           Toast.show("Account is created successfully");
           data["token"] = response.data?.token;
           data["currentUser"] = checkUser;
-          dispatch(SignupActions(data));
+          dispatch(LoginActions(data));
           setTimeout(() => {
             navigation.navigate("MainStack", {
               screen: "Welcome",
@@ -141,11 +141,7 @@ export const ClientLogin = async (
           const res = await GetClientEvent(response.data.token);
           const data = res?.data;
           //  console.log("ResData",res?.data)
-          data["token"] = response.data?.token;
-          data["rememberMe"] = remember;
-          data["currentUser"] = checkUser;
-
-          dispatch(LoginActions(data));
+        
           if (remember) {
             const CurrentAuth = {
               token: response.data?.token,
@@ -159,6 +155,10 @@ export const ClientLogin = async (
               JSON.stringify(CurrentAuth)
             );
           }
+          data["token"] = response.data?.token;
+          data["rememberMe"] = remember;
+          data["currentUser"] = checkUser;
+          dispatch(LoginActions(data));
           setLoading(false);
 
           Toast.show("Login successfully");
@@ -213,10 +213,7 @@ export const VolunteerLogin = async (
           const res = await GetVolunteerEvent(response.data.token);
           const data = res?.data;
           //  console.log("ResData",res?.data)
-          data["token"] = response.data?.token;
-          data["rememberMe"] = remember;
-          data["currentUser"] = checkUser;
-          dispatch(LoginActions(data));
+        
           if (remember) {
             const CurrentAuth = {
               token: response.data?.token,
@@ -230,6 +227,10 @@ export const VolunteerLogin = async (
               JSON.stringify(CurrentAuth)
             );
           }
+          data["token"] = response.data?.token;
+          data["rememberMe"] = remember;
+          data["currentUser"] = checkUser;
+          dispatch(LoginActions(data));
           setLoading(false);
 
           Toast.show("Login successfully");

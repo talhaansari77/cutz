@@ -33,6 +33,7 @@ const RootNavigator = () => {
           data["token"] = AsyncData?.token;
           data["rememberMe"] = AsyncData?.rememberMe;
           data["currentUser"] = AsyncData?.checkUser;
+
           dispatch(LoginActions(data));
 
         }
@@ -41,7 +42,9 @@ const RootNavigator = () => {
           const data = res?.data;
           data["token"] = AsyncData?.token;
           data["rememberMe"] = AsyncData?.rememberMe;
-          data["currentUser"] = AsyncData?.checkUser;
+          data["currentUser"] = AsyncData?.currentUser;
+          console.log("currentUserAsyncData",data)
+
           dispatch(LoginActions(data));
 
         }
