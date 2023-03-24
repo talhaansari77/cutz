@@ -69,7 +69,7 @@ const VolunteerBody = (props) => {
   return (
     <>
       <View>
-        <Spacer height={20} />
+        <Spacer height={10} />
         <PH20>
           <View
             style={{
@@ -95,73 +95,40 @@ const VolunteerBody = (props) => {
             />
           </View>
 
-          {SignupData.map((item) => {
-            return item.id == 2 ? (
-              <>
-                <Spacer height={20} />
-
-                <PhoneInput
-                  onChangeText={(num) => {
-                    // if (num.charAt(0) == 0) {
-                    //   console.log("numValue", num);
-                    // } else {
-                    //   console.log("numValue", num);            }
-                  }}
-                  containerStyle={{
-                    backgroundColor: "#EBEBEB",
-                    borderWidth: -1,
-                    borderRadius: scale(15),
-                    width: "100%",
-                    shadowColor:
-                      Platform.OS == "ios" ? "#343a40" : colors.black,
-                    shadowRadius: 2,
-                    elevation: 5,
-                    shadowOpacity: 0.4,
-                    shadowOffset: { width: -1, height: 3 },
-                  }}
-                  textContainerStyle={{
-                    backgroundColor: "#EBEBEB",
-                    borderRadius: scale(15),
-                  }}
-                />
-              </>
-            ) : (
-              <>
-                <Spacer height={20} />
-
-                <CustomTextInput
-                  placeholder={item.placeholder}
-                  paddingLeft={20}
-                  alignSelf="center"
-                  width="100%"
-                  borderRadius={15}
-                  iconWidth={scale(15)}
-                  secureTextEntry={
-                    item.placeholder === "Password"
-                      ? showPassword
-                      : showPassword1
-                  }
-                  onRightPress={() => {
-                    if (item.placeholder === "Password")
-                      setShowPassword(!showPassword);
-                    else setShowPassword1(!showPassword1);
-                  }}
-                  iconHeight={verticalScale(15)}
-                  rigthIcon={
-                    item.placeholder === "Password"
-                      ? showPassword
-                        ? icons.eyeSlash
-                        : icons.eye
-                      : item.placeholder === "Confirm Password"
-                      ? showPassword1
-                        ? icons.eyeSlash
-                        : icons.eye
-                      : ""
-                  }
-                />
-              </>
-            );
-          })}
+          {SignupData.map((item) => (
+            <>
+              <Spacer height={11} />
+              <CustomTextInput
+                placeholder={item.placeholder}
+                paddingLeft={20}
+                alignSelf="center"
+                width="100%"
+                // height={verticalScale(35)}
+                borderRadius={15}
+                iconWidth={scale(15)}
+                secureTextEntry={
+                  item.placeholder === "Password" ? showPassword : showPassword1
+                }
+                onRightPress={() => {
+                  if (item.placeholder === "Password")
+                    setShowPassword(!showPassword);
+                  else setShowPassword1(!showPassword1);
+                }}
+                iconHeight={verticalScale(15)}
+                rigthIcon={
+                  item.placeholder === "Password"
+                    ? showPassword
+                      ? icons.eyeSlash
+                      : icons.eye
+                    : item.placeholder === "Confirm Password"
+                    ? showPassword1
+                      ? icons.eyeSlash
+                      : icons.eye
+                    : ""
+                }
+              />
+            </>
+          ))}
         </PH20>
       </View>
     </>

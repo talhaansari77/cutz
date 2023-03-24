@@ -17,8 +17,10 @@ import CustomText from "../../../../components/CustomText";
 import { verticalScale } from "react-native-size-matters";
 import InputItem from "./InputItem";
 import { Platform } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const TicketCheckInAndOut = ({ setState, state }) => {
+  const navigation = useNavigation();
   const [visible, setVisible] = useState(true);
   const modelClose = () => {
     setVisible(false);
@@ -67,7 +69,7 @@ const TicketCheckInAndOut = ({ setState, state }) => {
               fontSize={16}
             />
             <Spacer height={20} />
-            <View style={{ flexDirection: "row" ,alignItems:"center"}}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
               <InputItem value={"3"} />
               <InputItem value={"2"} spacer />
               <InputItem value={"4"} spacer />
@@ -81,7 +83,6 @@ const TicketCheckInAndOut = ({ setState, state }) => {
           title={"Next"}
           width={"50%"}
           fontFamily={"bold"}
-
           btnStyle={{
             shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
             shadowRadius: 2,
@@ -104,6 +105,7 @@ const TicketCheckInAndOut = ({ setState, state }) => {
   );
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
+      <Spacer height={20} />
       {state.greet ? (
         <View
           style={{
@@ -139,13 +141,14 @@ const TicketCheckInAndOut = ({ setState, state }) => {
             title={"Okay"}
             width={"50%"}
             borderRadius={10}
-            onPress={() =>
+            onPress={() => {
               setState({
                 checkIn: false,
                 checkOut: false,
                 greet: false,
-              })
-            }
+              });
+              navigation.navigate("Welcome");
+            }}
           />
         </View>
       ) : (
@@ -238,14 +241,14 @@ const TicketCheckInAndOut = ({ setState, state }) => {
           <Spacer height={20} />
           <View style={{ alignItems: "center" }}>
             <CustomButton
-                 btnStyle={{
-                  shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
-                  shadowRadius: 2,
-                  elevation: 5,
-                  shadowOpacity: 0.4,
-                  // inputMarginTop:-20,
-                  shadowOffset: { width: -1, height: 3 },
-                }}
+              btnStyle={{
+                shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+                shadowRadius: 2,
+                elevation: 5,
+                shadowOpacity: 0.4,
+                // inputMarginTop:-20,
+                shadowOffset: { width: -1, height: 3 },
+              }}
               title={state.checkIn ? "Check Out" : "Check In"}
               width={"50%"}
               borderRadius={10}
@@ -269,13 +272,12 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 10,
     alignSelf: "center",
-      shadowColor:
-                      Platform.OS == "ios" ? "#343a40" : colors.black,
-                    shadowRadius: 2,
-                    elevation: 5,
-                    shadowOpacity: 0.4,
-                    // inputMarginTop:-20,
-                    shadowOffset: { width: -1, height: 3 },
+    shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+    shadowRadius: 2,
+    elevation: 5,
+    shadowOpacity: 0.4,
+    // inputMarginTop:-20,
+    shadowOffset: { width: -1, height: 3 },
   },
   whiteCircle: {
     backgroundColor: colors.white,
@@ -313,12 +315,11 @@ const styles = StyleSheet.create({
     width: "75%",
     backgroundColor: colors.white,
     borderRadius: 10,
-    shadowColor:
-    Platform.OS == "ios" ? "#343a40" : colors.black,
-  shadowRadius: 2,
-  elevation: 5,
-  shadowOpacity: 0.4,
-  // inputMarginTop:-20,
-  shadowOffset: { width: -1, height: 3 },
+    shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+    shadowRadius: 2,
+    elevation: 5,
+    shadowOpacity: 0.4,
+    // inputMarginTop:-20,
+    shadowOffset: { width: -1, height: 3 },
   },
 });

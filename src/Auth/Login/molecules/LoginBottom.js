@@ -17,7 +17,7 @@ const LoginBottom = ({navigation,checkUser}) => {
   const [check, setCheck] = useState(false);
   return (
     <View style={{ alignItems: "center" }}>
-      <Spacer height={30} />
+      <Spacer height={20} />
 
       <View
         style={{
@@ -42,7 +42,7 @@ const LoginBottom = ({navigation,checkUser}) => {
           color={colors.placeholder}
         />
       </View>
-      <View style={{ height: "10%" }} />
+      <Spacer height={30} />
 
       <CustomButton
         width={"55%"}
@@ -70,35 +70,35 @@ const LoginBottom = ({navigation,checkUser}) => {
       <CustomText
         label="FORGOT PASSWORD"
         fontFamily="bold"
-        fontSize={13}
+        fontSize={11}
         color={colors.secondary}
       />
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
-          marginTop: verticalScale(4),
+          // marginTop: verticalScale(4),
         }}
       >
         <CustomText
           label="NOT REGISTERED? "
           fontFamily="bold"
-          fontSize={10}
+          fontSize={8}
           color={colors.darkGray}
         />
         <CustomText
         onPress={()=>navigation.navigate("signup")}
           label="CREATE AN ACCOUNT"
           fontFamily="bold"
-          fontSize={10}
+          fontSize={8}
           color={colors.primary}
         />
       </View>
       <CustomText
-        marginTop={verticalScale(10)}
+        marginTop={verticalScale(5)}
         label="©2023 COVERSHIFTZ, LLC"
         fontFamily="bold"
-        fontSize={15}
+        fontSize={10}
         color={colors.darkGray}
       />
     </View>

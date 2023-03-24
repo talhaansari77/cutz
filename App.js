@@ -1,7 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, LogBox } from "react-native";
-import RootNavigator from "./src/routes";
+import RootNavigator from "./src/routes/RootNavigator";
 import { useFonts } from "expo-font";
+import MyScrollView from "./test";
 
 LogBox.ignoreLogs(["VirtualizedLists", "Warning:..."]);
 LogBox.ignoreAllLogs();
@@ -24,6 +25,7 @@ export default function App() {
   if (!loaded) return <View />;
 
   return <RootNavigator />;
+  // return <MyScrollView/>
 }
 
 const styles = StyleSheet.create({
@@ -34,3 +36,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+

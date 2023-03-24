@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, Platform } from "react-native";
 import React from "react";
 import { PH20 } from "../../../utils/CommonStyles";
 import { icons } from "../../../../assets/icons";
@@ -15,7 +15,7 @@ const SignupHeader = ({ navigation,setCheckUser,checkUser }) => {
   ]
   return (
     <View>
-      <Spacer height={10} />
+      <Spacer height={Platform.OS==='ios' ?0:10} />
       <PH20>
         <TouchableOpacity
           activeOpacity={0.6}
@@ -24,10 +24,10 @@ const SignupHeader = ({ navigation,setCheckUser,checkUser }) => {
           <Image
             resizeMode="contain"
             source={icons.back}
-            style={{ width:scale(45), height: scale(45)}}
+            style={{ width:scale(40), height: scale(40)}}
           />
         </TouchableOpacity>
-        <Spacer height={20} />
+        <Spacer height={10} />
 
         <View
           style={{

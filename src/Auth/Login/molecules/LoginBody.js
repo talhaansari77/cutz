@@ -11,7 +11,7 @@ const LoginBody = ({ user, setCheckUser, checkUser }) => {
   const [showPassword, setShowPassword] = useState(true);
   const checkUserData = ["Client", "Volunteer"];
   return (
-    <View style={{ paddingHorizontal: 20 }}>
+    <View style={{marginTop:-25}}>
       <View
         style={{
           flexDirection: "row",
@@ -44,7 +44,7 @@ const LoginBody = ({ user, setCheckUser, checkUser }) => {
         width="90%"
         borderRadius={15}
       />
-      <Spacer height={25} />
+      <Spacer height={20} />
 
       <CustomTextInput
         placeholder="Password"

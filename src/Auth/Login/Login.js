@@ -7,6 +7,7 @@ import CustomTextInput from '../../components/CustomTextInput'
 import LoginBody from './molecules/LoginBody'
 import LoginBottom from './molecules/LoginBottom'
 import commonStyles from '../../utils/CommonStyles'
+import { verticalScale } from 'react-native-size-matters'
 
 
 const Login = ({navigation,route}) => {
@@ -15,17 +16,17 @@ const Login = ({navigation,route}) => {
     const user=route?.params?.checkUser
     console.log("user",user)
   return (
-    <SafeAreaView style={commonStyles.commonMain}>
-        <ScrollView>
-        <Spacer height={20}/>
-        <CustomLogo />
+    <SafeAreaView style={{...commonStyles.commonMain,paddingHorizontal:20}}>
+        {/* <ScrollView> */}
+        <Spacer height={50} />
+        <CustomLogo   />
         <LoginBody 
          setCheckUser={setCheckUser}
          checkUser={checkUser}
         user={user}/>
         <LoginBottom navigation={navigation}  checkUser={checkUser}/>
 
-        </ScrollView>
+        {/* </ScrollView> */}
    
 
     </SafeAreaView>
