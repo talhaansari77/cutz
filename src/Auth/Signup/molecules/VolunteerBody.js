@@ -7,25 +7,66 @@ import { colors } from "../../../utils/Colors";
 import { PH20 } from "../../../utils/CommonStyles";
 import { scale, verticalScale } from "react-native-size-matters";
 import { Spacer } from "../../../components/Spacer";
+import SignupBottom from "./SignupBottom";
+import { useSignup } from "../useSignup";
+import { VolunteerSignup } from "../../../services/LoginSignupApi";
+import { useVolunteerSignup } from "../useVolunteerSignup";
+import { useDispatch } from "react-redux";
 import { icons } from "../../../../assets/icons";
 
 const VolunteerBody = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [familySize, setFamilySize] = useState("");
+  const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(true);
   const [showPassword1, setShowPassword1] = useState(true);
-
+  const dispatch=useDispatch()
+  const [signupErrors, setSignupError] = useState({
+    firstError: "",
+    lastError: "",
+    emailError: "",
+    phoneError: "",
+    addressError: "",
+    sizeError: "",
+    passwordError: "",
+    confirmError: "",
+    employerError: "",
+    organizationError: "",
+  });
+  const [signupValue, setSignupValue] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    address: "",
+    familySize: "",
+    password: "",
+    confirmPassword: "",
+    employer: "",
+    organization: "",
+  });
   const SignupData = [
     {
       id: 1,
       placeholder: "E-mail",
 
-      //   value: signupValues.country,
+      value: signupValue.email,
       editable: false,
+      error: signupErrors.emailError,
+      onChangeText: (txt) => {
+        setSignupValue({ ...signupValue, email: txt });
+        setSignupError({ ...signupErrors, emailError: "" });
+      },
     },
     {
       id: 2,
       placeholder: "Phone Number",
+      error: signupErrors.phoneError,
+      value: signupValue.phoneNumber,
+      onChangeText: (txt) => {
+        setSignupValue({ ...signupValue, phoneNumber: txt });
+        setSignupError({ ...signupErrors, phoneError: "" });
+      },
 
       //   value: signupValues.country,
       editable: false,
@@ -33,6 +74,13 @@ const VolunteerBody = (props) => {
     {
       id: 3,
       placeholder: "Address",
+      value: signupValue.address,
+      error: signupErrors.addressError,
+
+      onChangeText: (txt) => {
+        setSignupValue({ ...signupValue, address: txt });
+        setSignupError({ ...signupErrors, addressError: "" });
+      },
 
       //   value: signupValues.country,
       editable: false,
@@ -40,6 +88,12 @@ const VolunteerBody = (props) => {
     {
       id: 4,
       placeholder: "Employer",
+      value: signupValue.employer,
+      error: signupErrors.employerError,
+      onChangeText: (txt) => {
+        setSignupValue({ ...signupValue, employer: txt });
+        setSignupError({ ...signupErrors, employerError: "" });
+      },
 
       //   value: signupValues.country,
       editable: false,
@@ -47,6 +101,12 @@ const VolunteerBody = (props) => {
     {
       id: 5,
       placeholder: "Organization",
+      value: signupValue.organization,
+      error: signupErrors.organizationError,
+      onChangeText: (txt) => {
+        setSignupValue({ ...signupValue, organization: txt });
+        setSignupError({ ...signupErrors, organizationError: "" });
+      },
 
       //   value: signupValues.country,
       editable: false,
@@ -54,6 +114,25 @@ const VolunteerBody = (props) => {
     {
       id: 7,
       placeholder: "Password",
+      error: signupErrors.passwordError,
+      secureTextEntry:showPassword,
+      rigthIcon:showPassword? icons.eyeSlash : icons.eye,
+
+      onRightPress:()=>{
+        setShowPassword(!showPassword)
+
+      },
+      // {() => {
+      //   if (item.placeholder === "Password")
+      //     setShowPassword(!showPassword);
+      //   else setShowPassword1(!showPassword1);
+      // }}
+
+      value: signupValue.password,
+      onChangeText: (txt) => {
+        setSignupValue({ ...signupValue, password: txt });
+        setSignupError({ ...signupErrors, passwordError: "" });
+      },
 
       //   value: signupValues.country,
       editable: false,
@@ -61,11 +140,59 @@ const VolunteerBody = (props) => {
     {
       id: 7,
       placeholder: "Confirm Password",
+      error: signupErrors.confirmError,
+      value: signupValue.confirmPassword,
+      rigthIcon:showPassword1? icons.eyeSlash : icons.eye,
+
+      secureTextEntry:showPassword1,
+      onRightPress:()=>{
+        setShowPassword1(!showPassword1)
+
+      },
+      onChangeText: (txt) => {
+        setSignupValue({ ...signupValue, confirmPassword: txt });
+        setSignupError({ ...signupErrors, confirmError: "" });
+      },
 
       //   value: signupValues.country,
       editable: false,
     },
   ];
+
+  const onSubmitSignup = async () => {
+    console.log("nkbk");
+    const ValidateResponse =useVolunteerSignup (
+      signupValue,
+      signupErrors,
+      setSignupError
+    );
+    if (ValidateResponse) {
+      const data = {
+        firstName: signupValue.firstName,
+        lastName: signupValue.lastName,
+        email: signupValue.email,
+        phoneNumber: signupValue.phoneNumber,
+        address: signupValue.address,
+        employer: signupValue.employer,
+        organization:signupValue.organization,
+        password: signupValue.password,
+        volunteerAttandance: "none",
+      };
+     await VolunteerSignup( 
+       data,
+      setLoading,
+      props.navigation,
+      props.checkUser,
+      dispatch);
+      // console.log("ResponseData",res?.data)
+    }
+
+    // navigation.navigate("MainStack", {
+    //   screen: "Welcome",
+    //   params: { userType: props.checkUser },
+    //   merge: true,
+    // });
+  };
   return (
     <>
       <View>
@@ -81,6 +208,12 @@ const VolunteerBody = (props) => {
             <CustomTextInput
               placeholder="First"
               paddingLeft={20}
+              value={signupValue.firstName}
+              error={signupErrors.firstError}
+              onChangeText={(txt) => {
+                setSignupValue({ ...signupValue, firstName: txt });
+                setSignupError({ ...signupErrors, firstError: "" });
+              }}
               alignSelf="center"
               width="45%"
               borderRadius={15}
@@ -90,47 +223,85 @@ const VolunteerBody = (props) => {
               placeholder="Last"
               paddingLeft={20}
               alignSelf="center"
+              value={signupValue.lastName}
+              error={signupErrors.lastError}
+              onChangeText={(txt) => {
+                setSignupValue({ ...signupValue, lastName: txt });
+                setSignupError({ ...signupErrors, lastError: "" });
+              }}
               width="45%"
               borderRadius={15}
             />
           </View>
 
-          {SignupData.map((item) => (
-            <>
-              <Spacer height={11} />
-              <CustomTextInput
-                placeholder={item.placeholder}
-                paddingLeft={20}
-                alignSelf="center"
-                width="100%"
-                // height={verticalScale(35)}
-                borderRadius={15}
-                iconWidth={scale(15)}
-                secureTextEntry={
-                  item.placeholder === "Password" ? showPassword : showPassword1
-                }
-                onRightPress={() => {
-                  if (item.placeholder === "Password")
-                    setShowPassword(!showPassword);
-                  else setShowPassword1(!showPassword1);
-                }}
-                iconHeight={verticalScale(15)}
-                rigthIcon={
-                  item.placeholder === "Password"
-                    ? showPassword
-                      ? icons.eyeSlash
-                      : icons.eye
-                    : item.placeholder === "Confirm Password"
-                    ? showPassword1
-                      ? icons.eyeSlash
-                      : icons.eye
-                    : ""
-                }
-              />
-            </>
-          ))}
+          {SignupData.map((item) => {
+            return item.id == 2 ? (
+              <>
+                <Spacer height={20} />
+
+                <PhoneInput
+                  initialValue={item.value}
+                  onChangeText={item.onChangeText}
+                  containerStyle={{
+                    backgroundColor: "#EBEBEB",
+                    borderWidth: -1,
+                    borderRadius: scale(15),
+                    width: "100%",
+                    shadowColor:
+                      Platform.OS == "ios" ? "#343a40" : colors.black,
+                    shadowRadius: 2,
+                    elevation: 5,
+                    shadowOpacity: 0.4,
+                    shadowOffset: { width: -1, height: 3 },
+                  }}
+                  textContainerStyle={{
+                    backgroundColor: "#EBEBEB",
+                    borderRadius: scale(15),
+                  }}
+                />
+
+                {signupErrors.phoneError && (
+                  <CustomText
+                    marginTop={5}
+                    fontSize={9}
+                    marginLeft={10}
+                    label={signupErrors.phoneError}
+                    color={colors.red}
+                  />
+                )}
+              </>
+            ) : (
+              <>
+                <Spacer height={20} />
+
+                <CustomTextInput
+                  placeholder={item.placeholder}
+                  paddingLeft={20}
+                  error={item.error}
+                  value={item.value}
+                  onChangeText={item.onChangeText}
+                  alignSelf="center"
+                  // width="100%"
+                  borderRadius={15}
+                  iconWidth={scale(15)}
+                  secureTextEntry={item.secureTextEntry}
+                  onRightPress={item.onRightPress}
+                  iconHeight={verticalScale(15)}
+                  rigthIcon={item.rigthIcon}
+                />
+              </>
+            );
+          })}
         </PH20>
       </View>
+
+      <SignupBottom
+        onSubmit={() => onSubmitSignup()}
+        loading={loading}
+        navigation={props.navigation}
+        checkUser={props.checkUser}
+      />
+
     </>
   );
 };

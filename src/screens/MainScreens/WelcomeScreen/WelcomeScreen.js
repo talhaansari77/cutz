@@ -6,6 +6,10 @@ import AppHeader from "../../../components/AppHeader";
 import EventDetail from "./Molecules/EventDetail";
 import TicketDetails from "./Molecules/TicketDetails";
 import { useIsFocused } from "@react-navigation/native";
+import Carousel from "react-native-reanimated-carousel";
+import { useSelector } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const WelcomeScreen = ({ navigation: { navigate }, route }) => {
   const [ticketVisible, setTicketVisible] = useState(false);

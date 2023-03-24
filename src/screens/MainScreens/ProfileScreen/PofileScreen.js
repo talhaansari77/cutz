@@ -10,9 +10,15 @@ import { Spacer } from "../../../components/Spacer";
 import { colors } from "../../../utils/Colors";
 import CustomText from "../../../components/CustomText";
 import { scale } from "react-native-size-matters";
+import { useSelector } from "react-redux";
+import authReducers from "../../../redux/reducers/authReducers";
 
 const ProfileScreen = ({ navigation ,route}) => {
   console.log("RoutesType",route?.params)
+
+  const currentUser=useSelector((state)=>state.authReducers.authState)
+  console.log("CurrentUser",currentUser)
+
 
   const profileData = [
     {

@@ -8,8 +8,12 @@ import PhoneInput from "react-native-phone-number-input";
 import { scale, verticalScale } from "react-native-size-matters";
 import { Platform } from "react-native";
 import CustomText from "../../../components/CustomText";
+import { useDispatch } from "react-redux";
 import { AntDesign } from "@expo/vector-icons";
 import CustomBottomSheet from "../../../components/CustomBottomSheet";
+import SignupBottom from "./SignupBottom";
+import { useSignup } from "../useSignup";
+import { ClientSignup } from "../../../services/LoginSignupApi";
 import { icons } from "../../../../assets/icons";
 
 const SignupBody = (props) => {
@@ -17,29 +21,100 @@ const SignupBody = (props) => {
   const [familySize, setFamilySize] = useState("");
   const [showPassword, setShowPassword] = useState(true);
   const [showPassword1, setShowPassword1] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const dispatch=useDispatch()
+  const [signupErrors, setSignupError] = useState({
+    firstError: "",
+    lastError: "",
+    emailError: "",
+    phoneError: "",
+    addressError: "",
+    sizeError: "",
+    passwordError: "",
+    confirmError: "",
+  });
+  const [signupValue, setSignupValue] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    address: "",
+    familySize: "",
+    password: "",
+    confirmPassword: "",
+  });
 
   const onSetValue = (item) => {
     console.log("Item", item);
 
-    setFamilySize(item);
+    item;
+    setSignupValue({ ...signupValue, familySize: item });
+    setSignupError({ ...signupErrors, sizeError: "" });
+
     setModalVisible(false);
+  };
+
+  const onSubmitSignup = async () => {
+    console.log("nkbk");
+    const ValidateResponse = useSignup(
+      signupValue,
+      signupErrors,
+      setSignupError
+    );
+    if (ValidateResponse) {
+      const data = {
+        firstName: signupValue.firstName,
+        lastName: signupValue.lastName,
+        email: signupValue.email,
+        phoneNumber: signupValue.phoneNumber,
+        address: signupValue.address,
+        familySize:  Number( signupValue.familySize),
+        password: signupValue.password,
+        clientAttandance: "none",
+      };
+     await ClientSignup(
+        data,
+        setLoading,
+        props.navigation,
+        props.checkUser,
+        dispatch,
+      );
+
+
+
+      // console.log("ResponseData", responData);
+    }
+
+    // navigation.navigate("MainStack", {
+    //   screen: "Welcome",
+    //   params: { userType: props.checkUser },
+    //   merge: true,
+    // });
   };
   return (
     <>
       <View>
-        <Spacer height={15} />
+        <Spacer height={20} />
         <PH20>
           <View
             style={{
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
+
+              height: verticalScale(100),
             }}
           >
             <CustomTextInput
               placeholder="First"
               paddingLeft={20}
+              value={signupValue.firstName}
+              error={signupErrors.firstError}
               alignSelf="center"
+              onChangeText={(txt) => {
+                setSignupValue({ ...signupValue, firstName: txt });
+                setSignupError({ ...signupErrors, firstError: "" });
+              }}
               width="45%"
               borderRadius={15}
             />
@@ -47,6 +122,12 @@ const SignupBody = (props) => {
             <CustomTextInput
               placeholder="Last"
               paddingLeft={20}
+              value={signupValue.lastName}
+              error={signupErrors.lastError}
+              onChangeText={(txt) => {
+                setSignupValue({ ...signupValue, lastName: txt });
+                setSignupError({ ...signupErrors, lastError: "" });
+              }}
               alignSelf="center"
               width="45%"
               borderRadius={15}
@@ -58,26 +139,71 @@ const SignupBody = (props) => {
             placeholder="Email"
             paddingLeft={20}
             alignSelf="center"
+            value={signupValue.email}
+            error={signupErrors.emailError}
+            onChangeText={(txt) => {
+              setSignupValue({ ...signupValue, email: txt });
+              setSignupError({ ...signupErrors, emailError: "" });
+            }}
             width="100%"
             borderRadius={15}
           />
           <Spacer height={20} />
-          <CustomTextInput
-            placeholder="Phone Number"
-            paddingLeft={20}
-            alignSelf="center"
-            width="100%"
-            borderRadius={15}
+          <PhoneInput
+            //   initialCountry="Uk"
+            //   defaultCode="+1"
+            initialValue={signupValue.phoneNumber}
+            onChangeText={(num) => {
+              setSignupValue({ ...signupValue, phoneNumber: num });
+              setSignupError({ ...signupErrors, phoneError: "" });
+
+              // if (num.charAt(0) == 0) {
+              // console.log("numValue", num);
+              // } else {
+              //   console.log("numValue", num);            }
+            }}
+            containerStyle={{
+              backgroundColor: "#EBEBEB",
+              borderWidth: -1,
+              borderRadius: scale(15),
+              width: "100%",
+              shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+              shadowRadius: 2,
+              elevation: 5,
+              shadowOpacity: 0.4,
+              shadowOffset: { width: -1, height: 3 },
+            }}
+            textContainerStyle={{
+              backgroundColor: "#EBEBEB",
+              borderRadius: scale(15),
+            }}
           />
+          {signupErrors.phoneError && (
+            <CustomText
+              marginTop={5}
+              fontSize={9}
+              marginLeft={10}
+              label={signupErrors.phoneError}
+              color={colors.red}
+            />
+          )}
+
           <Spacer height={20} />
           <CustomTextInput
             placeholder="Address"
             paddingLeft={20}
             alignSelf="center"
+            value={signupValue.address}
+            error={signupErrors.addressError}
+            onChangeText={(txt) => {
+              setSignupValue({ ...signupValue, address: txt });
+              setSignupError({ ...signupErrors, addressError: "" });
+            }}
             width="100%"
             borderRadius={15}
           />
-          <Spacer height={15} />
+
+          <Spacer height={20} />
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <CustomText
               label="Family Size :"
@@ -91,7 +217,7 @@ const SignupBody = (props) => {
               onPress={() => setModalVisible(true)}
               style={{
                 maxWidth: scale(80),
-                height: verticalScale(40),
+                height: verticalScale(42),
                 backgroundColor: "#EBEBEB",
                 borderRadius: scale(15),
                 paddingHorizontal: 10,
@@ -106,7 +232,7 @@ const SignupBody = (props) => {
               }}
             >
               <CustomText
-                label={familySize}
+                label={signupValue.familySize}
                 fontFamily="bold"
                 marginRight={15}
                 fontSize={20}
@@ -115,20 +241,35 @@ const SignupBody = (props) => {
               <AntDesign name="caretdown" size={24} color="#727171" />
             </TouchableOpacity>
           </View>
-          <Spacer height={15} />
+          {signupErrors.sizeError && (
+            <CustomText
+              marginTop={5}
+              fontSize={9}
+              marginLeft={10}
+              label={signupErrors.sizeError}
+              color={colors.red}
+            />
+          )}
+
+          <Spacer height={20} />
           <CustomTextInput
             placeholder="Password"
             paddingLeft={20}
             alignSelf="center"
             width="100%"
-            borderRadius={15}
-            iconWidth={scale(15)}
+            value={signupValue.password}
+            error={signupErrors.passwordError}
             secureTextEntry={showPassword}
             onRightPress={() => {
               setShowPassword(!showPassword);
             }}
             iconHeight={verticalScale(15)}
             rigthIcon={showPassword ? icons.eyeSlash : icons.eye}
+            onChangeText={(txt) => {
+              setSignupValue({ ...signupValue, password: txt });
+              setSignupError({ ...signupErrors, passwordError: "" });
+            }}
+            borderRadius={15}
           />
           <Spacer height={20} />
 
@@ -137,14 +278,20 @@ const SignupBody = (props) => {
             paddingLeft={20}
             alignSelf="center"
             width="100%"
-            borderRadius={15}
-            iconWidth={scale(15)}
+            value={signupValue.confirmPassword}
+            error={signupErrors.confirmError}
             secureTextEntry={showPassword1}
             onRightPress={() => {
               setShowPassword1(!showPassword1);
             }}
             iconHeight={verticalScale(15)}
-            rigthIcon={showPassword1 ? icons.eyeSlash : icons.eye}
+            rigthIcon={showPassword1? icons.eyeSlash : icons.eye}
+            
+            onChangeText={(txt) => {
+              setSignupValue({ ...signupValue, confirmPassword: txt });
+              setSignupError({ ...signupErrors, confirmError: "" });
+            }}
+            borderRadius={15}
           />
         </PH20>
       </View>
@@ -175,6 +322,12 @@ const SignupBody = (props) => {
         onSetValue={onSetValue}
         setValue={setFamilySize}
         onCloseModal={() => setModalVisible(false)}
+      />
+      <SignupBottom
+        onSubmit={() => onSubmitSignup()}
+        loading={loading}
+        navigation={props.navigation}
+        checkUser={props.checkUser}
       />
     </>
   );

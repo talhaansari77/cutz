@@ -23,8 +23,8 @@ const Login = ({navigation,route}) => {
         <LoginBody 
          setCheckUser={setCheckUser}
          checkUser={checkUser}
+         navigation={navigation}
         user={user}/>
-        <LoginBottom navigation={navigation}  checkUser={checkUser}/>
 
         {/* </ScrollView> */}
    

@@ -2,8 +2,8 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, LogBox } from "react-native";
 import RootNavigator from "./src/routes/RootNavigator";
 import { useFonts } from "expo-font";
-import MyScrollView from "./test";
-
+import { Provider } from "react-redux";
+import { store } from "./src/redux/store";
 LogBox.ignoreLogs(["VirtualizedLists", "Warning:..."]);
 LogBox.ignoreAllLogs();
 
@@ -16,16 +16,17 @@ export default function App() {
     mediumItalic: require("./assets/fonts/Poppins-MediumItalic.ttf"),
     semiBoldItalic: require("./assets/fonts/Poppins-SemiBoldItalic.ttf"),
 
-
-
     semiBold: require("./assets/fonts/Poppins-SemiBold.ttf"),
     Righteous: require("./assets/fonts/Righteous-Regular.ttf"),
   });
 
   if (!loaded) return <View />;
 
-  return <RootNavigator />;
-  // return <MyScrollView/>
+  return (
+    <Provider store={store}>
+      <RootNavigator />
+    </Provider>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -36,5 +37,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-

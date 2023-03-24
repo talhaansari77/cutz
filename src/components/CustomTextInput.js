@@ -33,16 +33,21 @@ const CustomTextInput = ({
   ...props
 }) => {
   return (
-    <TouchableOpacity
+    <View style={{
+      width: props.width || "100%",
+      height:error? verticalScale(45):null
+
+
+    }}>
+        <TouchableOpacity
       onPress={props.onPress}
       disabled={!props.onPress}
       style={[
         {
-          width: props.width || "100%",
           alignSelf: props.alignSelf,
           height: props.height || verticalScale(42),
-          flexDirection:"row",
-          alignItems:"center",
+          flexDirection: "row",
+          alignItems: "center",
           borderRadius: props.borderRadius || moderateScale(10),
           // padding: scale(10),
           marginTop: props.marginTop || verticalScale(0),
@@ -93,7 +98,7 @@ const CustomTextInput = ({
             style={{
               width: iconWidth || scale(20),
               height: iconHeight || verticalScale(20),
-              // marginLeft: verticalScale(20),
+              marginRight: verticalScale(10),
             }}
           >
             <Image
@@ -106,6 +111,12 @@ const CustomTextInput = ({
           <></>
         )}
     </TouchableOpacity>
+
+    {error &&  <CustomText marginTop={5}   fontSize={9} marginLeft={10} label={error} color={colors.red} />}
+
+
+    </View>
+  
   );
 };
 export default CustomTextInput;

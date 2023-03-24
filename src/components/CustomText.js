@@ -31,7 +31,6 @@ function CustomText(props) {
             marginHorizontal:props.marginHorizontal,
             fontStyle: props.fontStyle,
             fontFamily: props.fontFamily || "regular",
-            ellipsizeMode: props.ellipsizeMode,
             marginVertical: verticalScale(props.marginVertical || 0),
             textAlign: props.textAlign,
             lineHeight:props.lineHeight,
@@ -40,6 +39,7 @@ function CustomText(props) {
           },
           props.textStyle,
         ]}
+        ellipsizeMode={props.ellipsizeMode}
         numberOfLines={props.numberOfLines}
         textDecorationStyle={props.textDecorationStyle}
             
