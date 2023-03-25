@@ -2,18 +2,13 @@ import { StatusBar, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import AuthStack from "./AuthStack/AuthStack";
-import MainStack from "./MainStack";
-import MakeReservation from "../screens/MainScreens/MakeReservation/MakeReservation";
-import PersonalScreen from "../screens/MainScreens/PersonalScreen/PersonalScreen";
-import EditProfile from "../screens/MainScreens/EditProfile/EditProfile";
-import ManageNotification from "../screens/MainScreens/ManageNotification/ManageNotification";
+import AuthStack from "../AuthStack/AuthStack";
+import MainStack from "../MainStack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { GetClientEvent, GetVolunteerEvent } from "../services/EventClientsApi";
+import { GetClientEvent,GetVolunteerEvent } from "../../services/EventClientsApi";
+import { LoginActions } from "../../redux/actions";
 import { useDispatch } from "react-redux";
-import { LoginActions } from "../redux/actions";
 import { useSelector } from "react-redux";
-import authReducers from "../redux/reducers/authReducers";
 
 const RootNavigator = () => {
   const dispatch = useDispatch();

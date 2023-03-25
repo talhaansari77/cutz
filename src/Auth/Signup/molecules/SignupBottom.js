@@ -40,7 +40,7 @@ const SignupBottom = (props) => {
         <CustomText
           label="ALREADY A MEMBER?"
           fontFamily="bold"
-          fontSize={10}
+          fontSize={8}
           color={colors.darkGray}
         />
         <CustomText
@@ -50,11 +50,11 @@ const SignupBottom = (props) => {
           label="LOG IN"
           fontFamily="bold"
           marginLeft={4}
-          fontSize={10}
+          fontSize={8}
           color={colors.primary}
         />
       </View>
-      <Spacer height={10} />
+      <Spacer height={2} />
       <CustomLogo logo width={70} height={70} />
     </View>
   );

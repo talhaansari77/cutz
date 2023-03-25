@@ -5,8 +5,10 @@ import { scale } from "react-native-size-matters";
 import SepratorLine from "./SepratorLine";
 import { colors } from "../utils/Colors";
 import { Platform } from "react-native";
+import { Spacer } from "./Spacer";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-const AppHeader = () => {
+const AppHeader = ({ ticket, backButton, onPressTicket, onPressBack }) => {
   return (
     <>
       <View
@@ -22,11 +24,51 @@ const AppHeader = () => {
           resizeMode={"contain"}
           style={{ height: 60, width: 100 }}
         />
-        <Image
-          source={icons.bell}
-          resizeMode={"contain"}
-          style={{ height: 40, width: 40 }}
-        />
+
+        <View style={{ flexDirection: "row" }}>
+          {ticket ? (
+            <>
+              <TouchableOpacity onPress={onPressTicket}>
+                <Image
+                  source={icons.ticket2}
+                  resizeMode={"contain"}
+                  style={{
+                    height: 40,
+                    width: 40,
+                  }}
+                />
+              </TouchableOpacity>
+              <Spacer width={10} />
+            </>
+          ) : (
+            <></>
+          )}
+          {backButton ? (
+            <>
+              <TouchableOpacity onPress={onPressBack}>
+                <Image
+                  source={icons.back}
+                  resizeMode={"contain"}
+                  style={{
+                    height: 40,
+                    width: 40,
+                  }}
+                />
+              </TouchableOpacity>
+              <Spacer width={10} />
+            </>
+          ) : (
+            <></>
+          )}
+          <Image
+            source={icons.bell}
+            resizeMode={"contain"}
+            style={{
+              height: 40,
+              width: 40,
+            }}
+          />
+        </View>
       </View>
 
       <SepratorLine

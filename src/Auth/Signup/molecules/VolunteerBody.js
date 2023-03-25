@@ -196,7 +196,7 @@ const VolunteerBody = (props) => {
   return (
     <>
       <View>
-        <Spacer height={20} />
+        <Spacer height={10} />
         <PH20>
           <View
             style={{

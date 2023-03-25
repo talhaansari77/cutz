@@ -1,6 +1,7 @@
 export const colors = {
   primary: "#F07E2B",
   darkOrange: "#E25F00",
+  lightOrange: "#FDB25BE5",
   secondary:"#0B0889",
   drakBlue:"#2D2C6D",
   blue1:"#6D62B4",

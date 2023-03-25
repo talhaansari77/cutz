@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, Platform } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  Image,
+  Platform,
+} from "react-native";
 import React, { useState } from "react";
 import AppHeader from "../../../components/AppHeader";
 import commonStyles, { PH20 } from "../../../utils/CommonStyles";
@@ -13,7 +20,7 @@ import { scale } from "react-native-size-matters";
 const SearchScreen = () => {
   return (
     <SafeAreaView style={commonStyles.commonMain}>
-              <Spacer height={Platform.OS=="ios"?0: 30} />
+      <Spacer height={Platform.OS == "ios" ? 0 : 30} />
 
       <AppHeader />
       <PH20>
