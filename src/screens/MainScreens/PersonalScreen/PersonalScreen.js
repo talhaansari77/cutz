@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, Platform, ScrollView, TouchableOpacity } from "react-native";
-import React from "react";
+import React,{useEffect,useState} from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import commonStyles, { PH20 } from "../../../utils/CommonStyles";
 import { icons } from "../../../../assets/icons";
@@ -11,8 +11,19 @@ import NameContainer from "./NameContainer";
 import DetailContainer from "./DetailContainer";
 
 const PersonalScreen = ({navigation, route}) => {
+  const [authUser, setAuthUser] = useState(null)
 
-  console.log("RoutesType",route?.params?.type?.params?.userType)
+  // console.log("RoutesType",route?.params?.type?.params?.userType)
+
+  console.log("RoutesType",authUser)
+
+
+  useEffect(() => {
+
+    setAuthUser(route?.params?.AuthUser)
+ 
+  }, [route?.params])
+  
   return (
     <SafeAreaView style={commonStyles.commonMain}>
       <ScrollView>
@@ -54,23 +65,39 @@ const PersonalScreen = ({navigation, route}) => {
       />
       <Spacer height={1} />
 
+
       <NameContainer name={"FULL NAME"} />
-      <DetailContainer name={"First Name & Last Name"} />
+      <DetailContainer name={authUser?.firstName +" "+authUser?.lastName} />
       <NameContainer name={"YOUR INFO"} />
-      <DetailContainer name={"(000) 000-0000"} />
-      <DetailContainer name={"email@gmail.com"} />
+      <DetailContainer name={authUser?.phoneNumber} />
+      <DetailContainer name={authUser?.email} />
       <NameContainer name={"ADDRESS"} />
       <DetailContainer
-        name={"26255 Schoolcraft St Redford Charter Twp, MI 48239"}
+        name={authUser?.address}
       />
-      <NameContainer name={"Affiliation"} />
+      {
+        authUser?.currentUser === "Client"?(
+          <>
+          <NameContainer name={"FAMILY SIZE"} />
+          <DetailContainer name={authUser?.familySize} />
+        </>
+
+        ):(
+          <>
+             <NameContainer name={"Affiliation"} />
+      <DetailContainer name={authUser?.employer} />
+          </>
+        )
+
+      }
+      {/* <NameContainer name={"Affiliation"} />
       <DetailContainer name={"Employer (if any)"} />
-      {route?.params?.type?.params?.userType === "Client" && (
+      {authUser?.currentUser === "Client" && (
         <>
           <NameContainer name={"FAMILY SIZE"} />
           <DetailContainer name={"# of mouths"} />
         </>
-      )}
+      )} */}
       {/* if  account type volunteer */}
       {/* <NameContainer name={"FAMILY SIZE"} />
         <DetailContainer name={"# of mouths"}/> */}

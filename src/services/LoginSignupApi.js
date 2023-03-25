@@ -2,7 +2,7 @@ import axios from "axios";
 import Toast from "react-native-root-toast";
 import { client } from "./client";
 import { URLS } from "./Urls";
-import { LoginActions} from "../redux/actions";
+import { LoginActions } from "../redux/actions";
 import { GetClientEvent, GetVolunteerEvent } from "./EventClientsApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import Toast from "react-native-root-toast";
@@ -28,11 +28,13 @@ export const ClientSignup = async (
   try {
     await axios
       .request(options)
-      .then(function (response) {
+      .then(async function (response) {
         console.log("userCreated", response.data?.token);
         if (response) {
           setLoading(false);
           Toast.show("Account is created successfully");
+          const res = await GetVolunteerEvent(response.data.token);
+          const data = res?.data;
           data["token"] = response.data?.token;
           data["currentUser"] = checkUser;
           dispatch(LoginActions(data));
@@ -43,7 +45,6 @@ export const ClientSignup = async (
               merge: true,
             });
           }, 1000);
-
           console.log("AccountCreates");
           //   return res
         } else {
@@ -82,11 +83,13 @@ export const VolunteerSignup = async (
   try {
     await axios
       .request(options)
-      .then(function (response) {
+      .then(async function (response) {
         console.log("userCreated", response.data);
         if (response) {
           setLoading(false);
           Toast.show("Account is created successfully");
+          const res = await GetVolunteerEvent(response.data.token);
+          const data = res?.data;
           data["token"] = response.data?.token;
           data["currentUser"] = checkUser;
           dispatch(LoginActions(data));
@@ -141,7 +144,7 @@ export const ClientLogin = async (
           const res = await GetClientEvent(response.data.token);
           const data = res?.data;
           //  console.log("ResData",res?.data)
-        
+
           if (remember) {
             const CurrentAuth = {
               token: response.data?.token,
@@ -213,7 +216,7 @@ export const VolunteerLogin = async (
           const res = await GetVolunteerEvent(response.data.token);
           const data = res?.data;
           //  console.log("ResData",res?.data)
-        
+
           if (remember) {
             const CurrentAuth = {
               token: response.data?.token,
@@ -254,7 +257,7 @@ export const VolunteerLogin = async (
         setLoading(false);
         Toast.show("email or password is incorrect");
 
-        // console.log("SignError=>", error);
+        console.log("SignError=>", error);
       });
   } catch (error) {
     return error;

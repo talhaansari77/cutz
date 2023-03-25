@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CustomInputs from "./CustomInputs";
 import CustomBottomSheet from "../../../../components/CustomBottomSheet";
 import PhoneInput from "react-native-phone-number-input";
@@ -10,10 +10,79 @@ import { AntDesign } from "@expo/vector-icons";
 import { Spacer } from "../../../../components/Spacer";
 import { scale, verticalScale } from "react-native-size-matters";
 import CustomButton from "../../../../components/CustomButton";
-
-const ClientEditProfile = () => {
+import { useSignup } from "../../../../Auth/Signup/useSignup";
+import { DeleteClientEvent, UpdateClientEvent } from "../../../../services/EventClientsApi";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import Toast from "react-native-root-toast";
+const ClientEditProfile = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [familySize, setFamilySize] = useState("");
+  const  dispatch=useDispatch()
+
+  const AuthUser = useSelector((state) => state.authReducers.authState);
+
+  useEffect(() => {
+    setFamilySize(AuthUser?.familySize);
+  }, []);
+
+  const [signupErrors, setSignupError] = useState({
+    firstError: "",
+    lastError: "",
+    emailError: "",
+    phoneError: "",
+    addressError: "",
+    sizeError: "",
+    passwordError: "",
+    confirmError: "",
+  });
+  const [signupValue, setSignupValue] = useState({
+    firstName: AuthUser?.firstName,
+    lastName: AuthUser?.lastName,
+    email: AuthUser?.email,
+    phoneNumber: AuthUser?.phoneNumber,
+    address: AuthUser?.address,
+    familySize: AuthUser?.familySize,
+    password: AuthUser?.password,
+    confirmPassword: AuthUser?.confirmPassword,
+  });
+  const onSubmitUpdate = async () => {
+    console.log("nkbk");
+    const ValidateResponse = useSignup(
+      signupValue,
+      signupErrors,
+      setSignupError
+    );
+    if (ValidateResponse) {
+      const data = {
+        firstName: signupValue.firstName,
+        lastName: signupValue.lastName,
+        email: signupValue.email,
+        phoneNumber: signupValue.phoneNumber,
+        address: signupValue.address,
+        familySize: Number(signupValue.familySize),
+        password: signupValue.password,
+        confirmPassword: signupValue.confirmPassword,
+      };
+      await UpdateClientEvent(AuthUser?.token, data, AuthUser, dispatch);
+
+      // console.log("ResponseData", responData);
+    }
+
+    // navigation.navigate("MainStack", {
+    //   screen: "Welcome",
+    //   params: { userType: props.checkUser },
+    //   merge: true,
+    // });
+  };
+
+  const onSubmitDelete = async () => {
+    const res = await DeleteClientEvent(AuthUser?.token);
+    if (res?.data) {
+      Toast.show("Account deleted successfully");
+      navigation.navigate("AuthStack",{screen:"signup"});
+    }
+  };
 
   const onSetValue = (item) => {
     console.log("Item", item);
@@ -23,7 +92,7 @@ const ClientEditProfile = () => {
   };
   return (
     <>
-    <Spacer height={20}/>
+      <Spacer height={20} />
       <View
         style={{
           flexDirection: "row",
@@ -35,6 +104,12 @@ const ClientEditProfile = () => {
           placeholder="First"
           paddingLeft={20}
           alignSelf="center"
+          value={signupValue.firstName}
+          error={signupErrors.firstError}
+          onChangeText={(txt) => {
+            setSignupValue({ ...signupValue, firstName: txt });
+            setSignupError({ ...signupErrors, firstError: "" });
+          }}
           width="45%"
         />
 
@@ -42,27 +117,35 @@ const ClientEditProfile = () => {
           placeholder="Last"
           paddingLeft={20}
           alignSelf="center"
+          value={signupValue.lastName}
+          error={signupErrors.lastError}
+          onChangeText={(txt) => {
+            setSignupValue({ ...signupValue, lastName: txt });
+            setSignupError({ ...signupErrors, lastError: "" });
+          }}
           width="45%"
         />
       </View>
       <Spacer height={30} />
-
       <CustomInputs
         placeholder="Email"
         paddingLeft={20}
         alignSelf="center"
         width="100%"
+        value={signupValue.email}
+        error={signupErrors.emailError}
+        onChangeText={(txt) => {
+          setSignupValue({ ...signupValue, email: txt });
+          setSignupError({ ...signupErrors, emailError: "" });
+        }}
       />
       <Spacer height={30} />
       <PhoneInput
-        //   initialCountry="Uk"
-        //   defaultCode="+1"
-        //   initialValue={state.contact}
+        defaultCode="US"
+        value={signupValue.phoneNumber}
         onChangeText={(num) => {
-          // if (num.charAt(0) == 0) {
-          //   console.log("numValue", num);
-          // } else {
-          //   console.log("numValue", num);            }
+          setSignupValue({ ...signupValue, phoneNumber: num });
+          setSignupError({ ...signupErrors, phoneError: "" });
         }}
         containerStyle={{
           borderBottomWidth: 1.5,
@@ -76,12 +159,27 @@ const ClientEditProfile = () => {
           borderBottomColor: colors.secondary,
         }}
       />
+      {signupErrors.phoneError && (
+        <CustomText
+          marginTop={5}
+          fontSize={9}
+          marginLeft={10}
+          label={signupErrors.phoneError}
+          color={colors.red}
+        />
+      )}
       <Spacer height={30} />
       <CustomInputs
         placeholder="Address"
         paddingLeft={20}
         alignSelf="center"
         width="100%"
+        value={signupValue.address}
+        error={signupErrors.addressError}
+        onChangeText={(txt) => {
+          setSignupValue({ ...signupValue, address: txt });
+          setSignupError({ ...signupErrors, addressError: "" });
+        }}
       />
       <Spacer height={30} />
       <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -120,20 +218,40 @@ const ClientEditProfile = () => {
           <AntDesign name="caretdown" size={24} color="#727171" />
         </TouchableOpacity>
       </View>
+      {signupErrors.sizeError && (
+        <CustomText
+          marginTop={5}
+          fontSize={9}
+          marginLeft={10}
+          label={signupErrors.sizeError}
+          color={colors.red}
+        />
+      )}
       <Spacer height={30} />
       <CustomInputs
         placeholder="Password"
         paddingLeft={20}
         alignSelf="center"
         width="100%"
+        value={signupValue.password}
+        error={signupErrors.passwordError}
+        onChangeText={(txt) => {
+          setSignupValue({ ...signupValue, password: txt });
+          setSignupError({ ...signupErrors, passwordError: "" });
+        }}
       />
       <Spacer height={30} />
-
       <CustomInputs
         placeholder="Confirm Password"
         paddingLeft={20}
         alignSelf="center"
         width="100%"
+        value={signupValue.confirmPassword}
+        error={signupErrors.confirmError}
+        onChangeText={(txt) => {
+          setSignupValue({ ...signupValue, confirmPassword: txt });
+          setSignupError({ ...signupErrors, confirmError: "" });
+        }}
       />
       <Spacer height={50} />
 
@@ -142,12 +260,13 @@ const ClientEditProfile = () => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          paddingHorizontal:5
+          paddingHorizontal: 5,
         }}
       >
         <CustomButton
           title="Update"
           fontFamily={"bold"}
+          onPress={onSubmitUpdate}
           borderRadius={15}
           width={"42%"}
           btnStyle={{
@@ -155,15 +274,14 @@ const ClientEditProfile = () => {
             shadowRadius: 2,
             elevation: 5,
             shadowOpacity: 0.4,
-            // inputMarginTop:-20,
             shadowOffset: { width: -1, height: 3 },
           }}
           backgroundColor={colors.secondary}
         />
         <CustomButton
           title="Delete"
+          onPress={onSubmitDelete}
           fontFamily={"bold"}
-
           borderRadius={15}
           width={"42%"}
           btnStyle={{
@@ -171,7 +289,6 @@ const ClientEditProfile = () => {
             shadowRadius: 2,
             elevation: 5,
             shadowOpacity: 0.4,
-            // inputMarginTop:-20,
             shadowOffset: { width: -1, height: 3 },
           }}
           backgroundColor={colors.primary}

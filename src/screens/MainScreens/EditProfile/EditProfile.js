@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
-import React from "react";
+import React,{useEffect,useState} from "react";
 import commonStyles, { PH20 } from "../../../utils/CommonStyles";
 import { Spacer } from "../../../components/Spacer";
 import ProfilePhoto from "../../../components/ProfilePhoto";
@@ -11,7 +11,20 @@ import { Avatar } from "react-native-elements";
 import { images } from "../../../../assets/images";
 import { icons } from "../../../../assets/icons";
 
-const EditProfile = ({ route }) => {
+const EditProfile = ({ route,navigation }) => {
+
+  const [authUser, setAuthUser] = useState(null)
+
+  // console.log("RoutesType",route?.params?.type?.params?.userType)
+
+  console.log("RoutesType",authUser)
+
+
+  useEffect(() => {
+
+    setAuthUser(route?.params?.AuthUser)
+ 
+  }, [route?.params])
   return (
     <View style={commonStyles.commonMain}>
       <ScrollView>
@@ -52,10 +65,10 @@ const EditProfile = ({ route }) => {
             alignSelf="center"
           /> */}
 
-          {route?.params?.type?.params?.userType === "Client" ? (
-            <ClientEditProfile />
+          {authUser?.currentUser === "Client" ? (
+            <ClientEditProfile   navigation={navigation}/>
           ) : (
-            <VolunteerEditProfile />
+            <VolunteerEditProfile  navigation={navigation}/>
           )}
         </PH20>
       </ScrollView>

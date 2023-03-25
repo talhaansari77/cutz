@@ -70,6 +70,7 @@ const SignupBody = (props) => {
         address: signupValue.address,
         familySize:  Number( signupValue.familySize),
         password: signupValue.password,
+        confirmPassword:signupValue.confirmPassword,
         clientAttandance: "none",
       };
      await ClientSignup(

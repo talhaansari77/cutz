@@ -16,8 +16,8 @@ import authReducers from "../../../redux/reducers/authReducers";
 const ProfileScreen = ({ navigation ,route}) => {
   console.log("RoutesType",route?.params)
 
-  const currentUser=useSelector((state)=>state.authReducers.authState)
-  console.log("CurrentUser",currentUser)
+  const AuthUser=useSelector((state)=>state.authReducers.authState)
+  console.log("dfkvkdndkbvk",AuthUser)
 
 
   const profileData = [
@@ -25,13 +25,13 @@ const ProfileScreen = ({ navigation ,route}) => {
       id: 1,
       name: "Personal",
       img: icons.person,
-      onPress: () => navigation.navigate("PersonalScreen"),
+      onPress: () => navigation.navigate("PersonalScreen",{AuthUser:AuthUser}),
     },
     {
       id: 2,
       name: "Edit Profile",
       img: icons.editProfile,
-      onPress: () => navigation.navigate("EditProfile"),
+      onPress: () => navigation.navigate("EditProfile",{AuthUser:AuthUser}),
     },
     {
       id: 3,
@@ -50,7 +50,7 @@ const ProfileScreen = ({ navigation ,route}) => {
   return (
     <SafeAreaView style={commonStyles.commonMain}>
       <PH20>
-        <ProfileHeader />
+        <ProfileHeader AuthUser={AuthUser} />
       </PH20>
 
       <SepratorLine />

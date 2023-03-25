@@ -8,7 +8,8 @@ import SepratorLine from "../../../../components/SepratorLine";
 import { images } from "../../../../../assets/images";
 import { icons } from "../../../../../assets/icons";
 import { Avatar } from "react-native-elements";
-const ProfileHeader = () => {
+const ProfileHeader = ({AuthUser}) => {
+  console.log("CurrentAuth",AuthUser?.firstName)
   return (
     <>
       <View
@@ -48,7 +49,7 @@ const ProfileHeader = () => {
         {/* <ProfilePhoto addPhoto/> */}
         <View style={{ marginLeft: scale(15) }}>
           <CustomText
-            label="Username"
+            label={AuthUser.firstName +" "+AuthUser.lastName}
             fontFamily="bold"
             fontSize={18}
             color={colors.txtGray}

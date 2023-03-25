@@ -39,7 +39,6 @@ const VolunteerBody = (props) => {
     email: "",
     phoneNumber: "",
     address: "",
-    familySize: "",
     password: "",
     confirmPassword: "",
     employer: "",
@@ -176,6 +175,7 @@ const VolunteerBody = (props) => {
         employer: signupValue.employer,
         organization:signupValue.organization,
         password: signupValue.password,
+        confirmPassword:signupValue.confirmPassword,
         volunteerAttandance: "none",
       };
      await VolunteerSignup( 

@@ -24,8 +24,6 @@ const MainStack = ({ route }) => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        // tabBarColor: ({focused, size, color}) => {},
-        // tabBarStyle:()=>{innerHeight:1000},
         tabBarStyle: {
           height: verticalScale(Platform.OS == "ios" ? 55 : 50),
           paddingTop: Platform.OS == "ios" ? 10 : 0,
