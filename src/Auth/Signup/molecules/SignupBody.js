@@ -95,7 +95,7 @@ const SignupBody = (props) => {
   return (
     <>
       <View>
-        <Spacer height={20} />
+        {/* <Spacer height={20} /> */}
         <PH20>
           <View
             style={{
@@ -103,7 +103,8 @@ const SignupBody = (props) => {
               alignItems: "center",
               justifyContent: "space-between",
 
-              height: verticalScale(100),
+              // height: verticalScale(100),
+              paddingVertical:verticalScale(20)
             }}
           >
             <CustomTextInput
@@ -134,7 +135,7 @@ const SignupBody = (props) => {
               borderRadius={15}
             />
           </View>
-          <Spacer height={20} />
+          {/* <Spacer height={20} /> */}
 
           <CustomTextInput
             placeholder="Email"
@@ -150,44 +151,19 @@ const SignupBody = (props) => {
             borderRadius={15}
           />
           <Spacer height={20} />
-          <PhoneInput
-            //   initialCountry="Uk"
-            //   defaultCode="+1"
-            initialValue={signupValue.phoneNumber}
-            onChangeText={(num) => {
-              setSignupValue({ ...signupValue, phoneNumber: num });
+          <CustomTextInput
+            placeholder="Phone Number"
+            paddingLeft={20}
+            alignSelf="center"
+            value={signupValue.phoneNumber}
+            error={signupErrors.phoneNumber}
+            onChangeText={(txt) => {
+              setSignupValue({ ...signupValue, phoneNumber: txt });
               setSignupError({ ...signupErrors, phoneError: "" });
-
-              // if (num.charAt(0) == 0) {
-              // console.log("numValue", num);
-              // } else {
-              //   console.log("numValue", num);            }
             }}
-            containerStyle={{
-              backgroundColor: "#EBEBEB",
-              borderWidth: -1,
-              borderRadius: scale(15),
-              width: "100%",
-              shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
-              shadowRadius: 2,
-              elevation: 5,
-              shadowOpacity: 0.4,
-              shadowOffset: { width: -1, height: 3 },
-            }}
-            textContainerStyle={{
-              backgroundColor: "#EBEBEB",
-              borderRadius: scale(15),
-            }}
+            width="100%"
+            borderRadius={15}
           />
-          {signupErrors.phoneError && (
-            <CustomText
-              marginTop={5}
-              fontSize={9}
-              marginLeft={10}
-              label={signupErrors.phoneError}
-              color={colors.red}
-            />
-          )}
 
           <Spacer height={20} />
           <CustomTextInput
@@ -204,7 +180,7 @@ const SignupBody = (props) => {
             borderRadius={15}
           />
 
-          <Spacer height={20} />
+          <Spacer height={15} />
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <CustomText
               label="Family Size :"
@@ -252,7 +228,7 @@ const SignupBody = (props) => {
             />
           )}
 
-          <Spacer height={20} />
+          <Spacer height={15} />
           <CustomTextInput
             placeholder="Password"
             paddingLeft={20}

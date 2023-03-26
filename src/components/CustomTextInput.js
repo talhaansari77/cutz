@@ -33,38 +33,37 @@ const CustomTextInput = ({
   ...props
 }) => {
   return (
-    <View style={{
-      width: props.width || "100%",
-      height:error? verticalScale(45):null
-
-
-    }}>
-        <TouchableOpacity
-      onPress={props.onPress}
-      disabled={!props.onPress}
-      style={[
-        {
-          alignSelf: props.alignSelf,
-          height: props.height || verticalScale(42),
-          flexDirection: "row",
-          alignItems: "center",
-          borderRadius: props.borderRadius || moderateScale(10),
-          // padding: scale(10),
-          marginTop: props.marginTop || verticalScale(0),
-          borderColor: props.borderColor,
-          paddingLeft: props.paddingLeft,
-          backgroundColor: "#EBEBEB",
-          shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
-          shadowRadius: 2,
-          elevation: 5,
-          shadowOpacity: 0.4,
-          // inputMarginTop:-20,
-          shadowOffset: { width: -1, height: 3 },
-        },
-        props.inputStyle,
-      ]}
+    <View
+      style={{
+        width: props.width || "100%",
+        height: error ? verticalScale(45) : null,
+      }}
     >
- 
+      <TouchableOpacity
+        onPress={props.onPress}
+        disabled={!props.onPress}
+        style={[
+          {
+            alignSelf: props.alignSelf,
+            height: props.height || verticalScale(42),
+            flexDirection: "row",
+            alignItems: "center",
+            borderRadius: props.borderRadius || moderateScale(10),
+            // padding: scale(10),
+            marginTop: props.marginTop || verticalScale(0),
+            borderColor: props.borderColor,
+            paddingLeft: props.paddingLeft,
+            backgroundColor: "#EBEBEB",
+            shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+            shadowRadius: 2,
+            elevation: 5,
+            shadowOpacity: 0.4,
+            // inputMarginTop:-20,
+            shadowOffset: { width: -1, height: 3 },
+          },
+          props.inputStyle,
+        ]}
+      >
         <TextInput
           onPressIn={props.onInputPress}
           editable={props.editable}
@@ -82,7 +81,6 @@ const CustomTextInput = ({
           ]}
           onChangeText={props.onChangeText}
           value={props.value}
-          
           numberOfLines={props.numberOfLines}
           keyboardType={props.keyboardType}
           // autoCapitalize="none"
@@ -110,13 +108,18 @@ const CustomTextInput = ({
         ) : (
           <></>
         )}
-    </TouchableOpacity>
+      </TouchableOpacity>
 
-    {error &&  <CustomText marginTop={5}   fontSize={9} marginLeft={10} label={error} color={colors.red} />}
-
-
+      {error && (
+        <CustomText
+          marginTop={5}
+          fontSize={9}
+          marginLeft={10}
+          label={error}
+          color={colors.red}
+        />
+      )}
     </View>
-  
   );
 };
 export default CustomTextInput;

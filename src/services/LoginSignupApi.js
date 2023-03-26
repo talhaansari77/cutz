@@ -33,7 +33,7 @@ export const ClientSignup = async (
         if (response) {
           setLoading(false);
           Toast.show("Account is created successfully");
-          const res = await GetVolunteerEvent(response.data.token);
+          const res = await GetClientEvent(response.data.token);
           const data = res?.data;
           data["token"] = response.data?.token;
           data["currentUser"] = checkUser;

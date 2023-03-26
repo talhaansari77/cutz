@@ -10,7 +10,7 @@ const Signup = ({ navigation }) => {
   const [checkUser, setCheckUser] = useState("Client");
   return (
     <SafeAreaView style={commonStyles.commonMain}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <SignupHeader
           setCheckUser={setCheckUser}
           checkUser={checkUser}

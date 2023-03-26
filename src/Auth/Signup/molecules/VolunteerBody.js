@@ -17,10 +17,10 @@ import { icons } from "../../../../assets/icons";
 const VolunteerBody = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [familySize, setFamilySize] = useState("");
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
   const [showPassword1, setShowPassword1] = useState(true);
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const [signupErrors, setSignupError] = useState({
     firstError: "",
     lastError: "",
@@ -114,12 +114,11 @@ const VolunteerBody = (props) => {
       id: 7,
       placeholder: "Password",
       error: signupErrors.passwordError,
-      secureTextEntry:showPassword,
-      rigthIcon:showPassword? icons.eyeSlash : icons.eye,
+      secureTextEntry: showPassword,
+      rigthIcon: showPassword ? icons.eyeSlash : icons.eye,
 
-      onRightPress:()=>{
-        setShowPassword(!showPassword)
-
+      onRightPress: () => {
+        setShowPassword(!showPassword);
       },
       // {() => {
       //   if (item.placeholder === "Password")
@@ -141,12 +140,11 @@ const VolunteerBody = (props) => {
       placeholder: "Confirm Password",
       error: signupErrors.confirmError,
       value: signupValue.confirmPassword,
-      rigthIcon:showPassword1? icons.eyeSlash : icons.eye,
+      rigthIcon: showPassword1 ? icons.eyeSlash : icons.eye,
 
-      secureTextEntry:showPassword1,
-      onRightPress:()=>{
-        setShowPassword1(!showPassword1)
-
+      secureTextEntry: showPassword1,
+      onRightPress: () => {
+        setShowPassword1(!showPassword1);
       },
       onChangeText: (txt) => {
         setSignupValue({ ...signupValue, confirmPassword: txt });
@@ -160,7 +158,7 @@ const VolunteerBody = (props) => {
 
   const onSubmitSignup = async () => {
     console.log("nkbk");
-    const ValidateResponse =useVolunteerSignup (
+    const ValidateResponse = useVolunteerSignup(
       signupValue,
       signupErrors,
       setSignupError
@@ -173,17 +171,18 @@ const VolunteerBody = (props) => {
         phoneNumber: signupValue.phoneNumber,
         address: signupValue.address,
         employer: signupValue.employer,
-        organization:signupValue.organization,
+        organization: signupValue.organization,
         password: signupValue.password,
-        confirmPassword:signupValue.confirmPassword,
+        confirmPassword: signupValue.confirmPassword,
         volunteerAttandance: "none",
       };
-     await VolunteerSignup( 
-       data,
-      setLoading,
-      props.navigation,
-      props.checkUser,
-      dispatch);
+      await VolunteerSignup(
+        data,
+        setLoading,
+        props.navigation,
+        props.checkUser,
+        dispatch
+      );
       // console.log("ResponseData",res?.data)
     }
 
@@ -234,64 +233,27 @@ const VolunteerBody = (props) => {
             />
           </View>
 
-          {SignupData.map((item) => {
-            return item.id == 2 ? (
-              <>
-                <Spacer height={20} />
-
-                <PhoneInput
-                  initialValue={item.value}
-                  onChangeText={item.onChangeText}
-                  containerStyle={{
-                    backgroundColor: "#EBEBEB",
-                    borderWidth: -1,
-                    borderRadius: scale(15),
-                    width: "100%",
-                    shadowColor:
-                      Platform.OS == "ios" ? "#343a40" : colors.black,
-                    shadowRadius: 2,
-                    elevation: 5,
-                    shadowOpacity: 0.4,
-                    shadowOffset: { width: -1, height: 3 },
-                  }}
-                  textContainerStyle={{
-                    backgroundColor: "#EBEBEB",
-                    borderRadius: scale(15),
-                  }}
-                />
-
-                {signupErrors.phoneError && (
-                  <CustomText
-                    marginTop={5}
-                    fontSize={9}
-                    marginLeft={10}
-                    label={signupErrors.phoneError}
-                    color={colors.red}
-                  />
-                )}
-              </>
-            ) : (
-              <>
-                <Spacer height={20} />
-
-                <CustomTextInput
-                  placeholder={item.placeholder}
-                  paddingLeft={20}
-                  error={item.error}
-                  value={item.value}
-                  onChangeText={item.onChangeText}
-                  alignSelf="center"
-                  // width="100%"
-                  borderRadius={15}
-                  iconWidth={scale(15)}
-                  secureTextEntry={item.secureTextEntry}
-                  onRightPress={item.onRightPress}
-                  iconHeight={verticalScale(15)}
-                  rigthIcon={item.rigthIcon}
-                />
-              </>
-            );
-          })}
+          {SignupData.map((item) => (
+            <>
+              <Spacer height={10} />
+              <CustomTextInput
+                placeholder={item.placeholder}
+                paddingLeft={20}
+                error={item.error}
+                value={item.value}
+                onChangeText={item.onChangeText}
+                alignSelf="center"
+                // width="100%"
+                borderRadius={15}
+                iconWidth={scale(15)}
+                secureTextEntry={item.secureTextEntry}
+                onRightPress={item.onRightPress}
+                iconHeight={verticalScale(15)}
+                rigthIcon={item.rigthIcon}
+                keyboardType={item.id===2?'numeric':''}
+              />
+            </>
+          ))}
         </PH20>
       </View>
 
@@ -301,7 +263,6 @@ const VolunteerBody = (props) => {
         navigation={props.navigation}
         checkUser={props.checkUser}
       />
-
     </>
   );
 };

@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
     width: 23,
     height: 23,
     borderWidth: 1,
+    backgroundColor:colors.white,
     borderColor: colors.secondary,
     borderRadius: 5,
     shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
