@@ -33,7 +33,7 @@ const CustomDropDown = ({ dropData,modalVisible,setModalVisible }) => {
         shadowOpacity: 0.5,
         // inputMarginTop:-20,
         shadowOffset: { width: 1, height: 3 },
-        top: verticalScale(100),
+        top: verticalScale(110),
         left: "30%",
       }}
     >

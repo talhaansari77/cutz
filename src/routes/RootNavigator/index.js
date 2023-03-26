@@ -20,11 +20,13 @@ const RootNavigator = () => {
     (async function () {
       let user = await AsyncStorage?.getItem("CurrentAuth");
       let AsyncData = JSON.parse?.(user);
+      console.log("AsycDataa",AsyncData.token)
       if (AsyncData?.token) {
         setAuthData(AsyncData);
         if(AsyncData?.checkUser=="Client"){
           const res = await GetClientEvent(AsyncData?.token);
           const data = res?.data;
+          console.log("DataIS",data)
           data["token"] = AsyncData?.token;
           data["rememberMe"] = AsyncData?.rememberMe;
           data["currentUser"] = AsyncData?.checkUser;
@@ -35,6 +37,8 @@ const RootNavigator = () => {
         else{
           const res = await GetVolunteerEvent(AsyncData?.token);
           const data = res?.data;
+          console.log("DataIS",data)
+
           data["token"] = AsyncData?.token;
           data["rememberMe"] = AsyncData?.rememberMe;
           data["currentUser"] = AsyncData?.currentUser;
@@ -54,14 +58,14 @@ const RootNavigator = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {/* {AuthData?.rememberMe ? (
           <> */}
-                      <Stack.Screen name="AuthStack" component={AuthStack} />
+            <Stack.Screen name="AuthStack" component={AuthStack} />
 
             <Stack.Screen name="MainStack" component={MainStack} />
           {/* </>
         ) : (
-          <>
-            <Stack.Screen name="AuthStack" component={AuthStack} />
-          </>
+          <> */}
+            {/* <Stack.Screen name="AuthStack" component={AuthStack} /> */}
+          {/* </>
         )} */}
         {/* <Stack.Screen name="Reservation" component={MakeReservation} /> */}
       </Stack.Navigator>

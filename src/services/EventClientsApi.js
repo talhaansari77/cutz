@@ -12,6 +12,7 @@ export const GetClientEvent = async (token) => {
     });
   } catch (error) {}
 };
+
 export const GetVolunteerEvent = async (token) => {
   console.log("ClietnToken", token);
   try {
@@ -19,6 +20,16 @@ export const GetVolunteerEvent = async (token) => {
       headers: {
         Authorization: "Bearer " + token,
       },
+    });
+  } catch (error) {}
+};
+export const GetEvent = async () => {
+  try {
+    return await axios.get(`${URLS.BASE_URL}${URLS.GET_EVENTS}`,{
+       headers: {
+        Accept: "application/json"
+      },
+
     });
   } catch (error) {}
 };

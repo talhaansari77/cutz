@@ -33,7 +33,7 @@ export const ClientSignup = async (
         if (response) {
           setLoading(false);
           Toast.show("Account is created successfully");
-          const res = await GetVolunteerEvent(response.data.token);
+          const res = await GetClientEvent(response.data.token);
           const data = res?.data;
           data["token"] = response.data?.token;
           data["currentUser"] = checkUser;
@@ -117,7 +117,6 @@ export const VolunteerSignup = async (
     return error;
   }
 };
-
 export const ClientLogin = async (
   data,
   setLoading,
@@ -144,7 +143,6 @@ export const ClientLogin = async (
           const res = await GetClientEvent(response.data.token);
           const data = res?.data;
           //  console.log("ResData",res?.data)
-
           if (remember) {
             const CurrentAuth = {
               token: response.data?.token,
@@ -152,7 +150,6 @@ export const ClientLogin = async (
               currentUser: checkUser,
             };
             console.log("RememberAuth", CurrentAuth);
-
             await AsyncStorage.setItem(
               "CurrentAuth",
               JSON.stringify(CurrentAuth)

@@ -6,7 +6,7 @@ import {
   Image,
   Platform,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import AppHeader from "../../../components/AppHeader";
 import commonStyles, { PH20 } from "../../../utils/CommonStyles";
 import SearchHeader from "./molecules/SearchHeader";
@@ -16,8 +16,17 @@ import CustomText from "../../../components/CustomText";
 import { colors } from "../../../utils/Colors";
 import { icons } from "../../../../assets/icons";
 import { scale } from "react-native-size-matters";
+import { GetEvent } from "../../../services/EventClientsApi";
 
 const SearchScreen = () => {
+
+  useEffect(async () => {
+
+   const resp= await GetEvent()
+   console.log("EventData",resp?.data)
+  
+  }, [])
+  
   return (
     <SafeAreaView style={commonStyles.commonMain}>
       <Spacer height={Platform.OS == "ios" ? 0 : 30} />

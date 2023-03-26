@@ -6,6 +6,8 @@ export const URLS={
     VOLUNTEER_LOGIN:"api/v1/volunteer/login",
     VOLUNTEER_SIGNUP:"api/v1/volunteer/signup",
     GET_VOLUNTEER:'api/v1/volunteer',
+    GET_EVENTS:'api/v1/event',
+
 
 
 
