@@ -63,8 +63,7 @@ const VolunteerBody = (props) => {
       error: signupErrors.phoneError,
       value: signupValue.phoneNumber,
       onChangeText: (txt) => {
-        setSignupValue({ ...signupValue, phoneNumber: txt });
-        setSignupError({ ...signupErrors, phoneError: "" });
+        formatePhone(txt)
       },
 
       //   value: signupValues.country,
@@ -191,6 +190,22 @@ const VolunteerBody = (props) => {
     //   params: { userType: props.checkUser },
     //   merge: true,
     // });
+  };
+  const formatePhone = (phoneNumberString) => {
+    let newText = "";
+    let cleaned = ("", phoneNumberString).replace(/\D/g, "");
+    for (var i = 0; i < cleaned.length; i++) {
+      if (i == 0) {
+        newText = "(";
+      } else if (i == 3) {
+        newText = newText + ") ";
+      } else if (i == 6) {
+        newText = newText + "-";
+      }
+      newText = newText + cleaned[i];
+    }
+    setSignupValue({ ...signupValue, phoneNumber: newText });
+    setSignupError({ ...signupErrors, phoneError: "" });
   };
   return (
     <>

@@ -12,9 +12,10 @@ import CustomText from "../../../../components/CustomText";
 import { colors } from "../../../../utils/Colors";
 import Carousel from "react-native-reanimated-carousel";
 import { PH20 } from "../../../../utils/CommonStyles";
-import { verticalScale,scale } from "react-native-size-matters";
+import { verticalScale, scale } from "react-native-size-matters";
 import CustomButton from "../../../../components/CustomButton";
 import MyCarousel from "../../../../../MyCarousel";
+import EventTimingCarousel from "../../../../../EventTimingCarousel";
 
 const { height, width } = Dimensions.get("window");
 // data being used
@@ -364,6 +365,7 @@ const EventDetail = ({ handleBookingPress, userType }) => {
         // fontSize={18}
         fontFamily={"semiBold"}
       />
+      <Spacer height={4}/>
     </TouchableOpacity>
   );
   return (
@@ -406,7 +408,6 @@ const EventDetail = ({ handleBookingPress, userType }) => {
         defaultIndex={companyData.length > 1 && 1}
         autoFillData={false}
         // height={40}
-        
         vertical="true"
         mode="parallax"
         modeConfig={{
@@ -452,36 +453,8 @@ const EventDetail = ({ handleBookingPress, userType }) => {
       </View>
       <Spacer height={10} />
 
-<MyCarousel data={eventData}/>
-      {/* <Carousel
-        // width={Dimensions.get("window").width * 0.85}
-        height={eventData.length == 1 ? 40 : eventData.length == 2 ? 80 : 140}
-        enabled={eventData.length === 1 ? false : true}
-        mode="parallax"
-        // loop={eventData.length > 2 ? true : false}
-        vertical={true}
-        onSnapToItem={(index) => {
-          setEventType(eventData[index].title);
-          setEventIndex(index);
-        }}
-        // pagingEnabled
-        // snapEnabled
-        style={{}}
-        modeConfig={{
-        //   parallaxScrollingScale: 0.9,
-        //   parallaxScrollingOffset: 90,
-        //   parallaxAdjacentItemScale:0.5
-        }}
-        scrollAnimationDuration={1}
-        
-        data={eventData}
-        renderItem={({ item }) => (
-          <EventListItem
-            label={item.title}
-            color={eventIndex === item.index ? colors.blue1 : colors.black}
-          />
-        )}
-      /> */}
+      <MyCarousel data={eventData} />
+
       <Spacer height={20} />
       <PH20>
         <ScrollView
@@ -520,36 +493,7 @@ const EventDetail = ({ handleBookingPress, userType }) => {
       <Spacer height={20} />
       <View style={{}}>
         {userType === "Client" ? (
-          <Carousel
-            // width={Dimensions.get("window").width * 0.85}
-            height={
-              eventData.length == 1 ? 40 : eventData.length == 2 ? 70 : 135
-            }
-            enabled={eventData.length === 1 ? false : true}
-            mode="parallax"
-            loop={eventData.length > 2 ? true : false}
-            vertical={true}
-            onSnapToItem={(index) => {
-              // setEventType(eventData[index].title);
-              setTimingIndex(index);
-            }}
-            // style={{backgroundColor:"red"}}
-            modeConfig={{
-              parallaxScrollingScale: 0.9,
-              parallaxScrollingOffset: 100,
-            }}
-            scrollAnimationDuration={1}
-            data={eventTimingList}
-            renderItem={({ item: { label }, index }) => (
-              <EventTimingListItem
-                label={label}
-                color={timingIndex === index ? colors.secondary : colors.blue1}
-                // color={eventIndex===item.index?colors.blue1:colors.black}
-                // color={color}
-                fontSize={20}
-              />
-            )}
-          />
+          <EventTimingCarousel data={eventTimingList} />
         ) : (
           eventTimingListVolunteer.map(({ label }, index) => (
             <EventTimingListItemVolunteer
@@ -560,7 +504,7 @@ const EventDetail = ({ handleBookingPress, userType }) => {
           ))
         )}
       </View>
-      {/* <Spacer height={20} /> */}
+      <Spacer height={20} />
       <View style={{ alignItems: "center" }}>
         <CustomButton
           title={
@@ -582,11 +526,44 @@ const EventDetail = ({ handleBookingPress, userType }) => {
           onPress={handleBookingPress}
         />
       </View>
-      <Spacer height={30} />
+      <Spacer height={10} />
     </ScrollView>
   );
 };
 
 export default EventDetail;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.white,
+  },
+  shadowDivider: {
+    width: "100%",
+    height: 2,
+    backgroundColor: colors.white,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+
+    elevation: 9,
+  },
+  orgListItem: {
+    alignItems: "center",
+  },
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+
+    elevation: 9,
+  },
+});
