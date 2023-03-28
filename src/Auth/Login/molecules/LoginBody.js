@@ -47,7 +47,7 @@ const LoginBody = ({ user, setCheckUser, checkUser, navigation }) => {
   };
   return (
     <>
-      <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
+      <View style={{ paddingHorizontal: 10, alignItems: "center",marginTop:-25 }}>
         <View
           style={{
             flexDirection: "row",

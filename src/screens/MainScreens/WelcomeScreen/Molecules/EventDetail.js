@@ -14,6 +14,7 @@ import Carousel from "react-native-reanimated-carousel";
 import { PH20 } from "../../../../utils/CommonStyles";
 import { verticalScale,scale } from "react-native-size-matters";
 import CustomButton from "../../../../components/CustomButton";
+import MyCarousel from "../../../../../MyCarousel";
 
 const { height, width } = Dimensions.get("window");
 // data being used
@@ -26,17 +27,15 @@ const companyData = [
   { index: 5, title: "SONY" },
   { index: 6, title: "HUAWEI" },
 ];
-
 const eventData = [
-  { index: 0, title: "FOOD DISTRIBUTION" },
-  { index: 1, title: "HOMELESS SHELTER" },
-  { index: 2, title: "FUNDRAISING EVENTS" },
-  { index: 3, title: "CHARITY" },
-  { index: 4, title: "SOUP KITCHEN" },
-  { index: 5, title: "CLOTHES DONATE" },
-  { index: 6, title: "FUNDRAISING EVENTS" },
+  { id: 0, title: "FOOD DISTRIBUTION" },
+  { id: 1, title: "HOMELESS SHELTER" },
+  { id: 2, title: "FUNDRAISING EVENTS" },
+  { id: 3, title: "CHARITY" },
+  { id: 4, title: "SOUP KITCHEN" },
+  { id: 5, title: "CLOTHES DONATE" },
+  { id: 6, title: "FUNDRAISING EVENTS" },
 ];
-
 const eventTypeList = [
   {
     label: "HOMELESS SHELTER",
@@ -57,7 +56,6 @@ const eventTypeList = [
     dividerBottom: false,
   },
 ];
-
 const eventTimingListVolunteer = [
   {
     label: "Prep Event:  11AM - 3PM",
@@ -451,7 +449,8 @@ const EventDetail = ({ handleBookingPress, userType }) => {
       </View>
       <Spacer height={10} />
 
-      <Carousel
+<MyCarousel data={eventData}/>
+      {/* <Carousel
         // width={Dimensions.get("window").width * 0.85}
         height={eventData.length == 1 ? 40 : eventData.length == 2 ? 80 : 140}
         enabled={eventData.length === 1 ? false : true}
@@ -479,7 +478,7 @@ const EventDetail = ({ handleBookingPress, userType }) => {
             color={eventIndex === item.index ? colors.blue1 : colors.black}
           />
         )}
-      />
+      /> */}
       <Spacer height={20} />
       <PH20>
         <ScrollView

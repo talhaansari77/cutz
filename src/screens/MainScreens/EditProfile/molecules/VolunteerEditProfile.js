@@ -231,6 +231,7 @@ const VolunteerEditProfile = (props) => {
         organization: editValue.organization,
         password: editValue.password,
         confirmPassword: editValue.confirmPassword,
+        profilePicture:props.imageUri
       };
       console.log("ChengeData", data);
       await UpdateVolunteerEvent(AuthUser?.token, data, AuthUser, dispatch);

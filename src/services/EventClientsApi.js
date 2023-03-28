@@ -30,7 +30,7 @@ export const GetEvent = async () => {
         Accept: "application/json"
       },
 
-    });
+    });z
   } catch (error) {}
 };
 
