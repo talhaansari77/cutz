@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   shadow: {
-    shadowColor: "#000",
+    shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
     shadowOffset: {
       width: 0,
       height: 5,

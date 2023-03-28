@@ -4,8 +4,8 @@ import {
   TouchableOpacity,
   View,
   Platform,
-  SafeAreaView,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState } from "react";
 import CustomText from "../../../components/CustomText";
 import { Spacer } from "../../../components/Spacer";
@@ -24,13 +24,13 @@ import AppHeader from "../../../components/AppHeader";
 import TicketDetails from "../WelcomeScreen/Molecules/TicketDetails";
 import { useIsFocused } from "@react-navigation/native";
 import TicketCheckInAndOutVol from "./Molecules/TicketCheckInAndOutVol";
+import TicketCarousel from "./Molecules/TicketCarousel";
 
 const ReceiptScreen = ({ navigation: { navigate }, route }) => {
   // console.log("RoutesType", route?.params);
   const isFocused = useIsFocused();
 
   const [check, setCheck] = useState(false);
-
   const [state, setState] = useState({
     checkIn: false,
     checkOut: false,
@@ -138,12 +138,15 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
     <SafeAreaView style={styles.container}>
       {!state.ticketDetail ? (
         <>
+          {/* <Spacer height={notch?30:10} /> */}
+
           <AppHeader ticket onPressTicket={handleTicketPress} />
-          <TicketDetails
+          {/* <TicketDetails
             navigate={navigate}
             cardBtnText={"Proceed"}
             handleProceedPress={handleProceedPress}
-          />
+          /> */}
+          <TicketCarousel/>
         </>
       ) : route?.params?.userType === "Client" ? (
         <>

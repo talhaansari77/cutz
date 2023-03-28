@@ -22,7 +22,7 @@ const SignupBody = (props) => {
   const [showPassword, setShowPassword] = useState(true);
   const [showPassword1, setShowPassword1] = useState(true);
   const [loading, setLoading] = useState(false);
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const [signupErrors, setSignupError] = useState({
     firstError: "",
     lastError: "",
@@ -68,20 +68,18 @@ const SignupBody = (props) => {
         email: signupValue.email,
         phoneNumber: signupValue.phoneNumber,
         address: signupValue.address,
-        familySize:  Number( signupValue.familySize),
+        familySize: Number(signupValue.familySize),
         password: signupValue.password,
-        confirmPassword:signupValue.confirmPassword,
+        confirmPassword: signupValue.confirmPassword,
         clientAttandance: "none",
       };
-     await ClientSignup(
+      await ClientSignup(
         data,
         setLoading,
         props.navigation,
         props.checkUser,
-        dispatch,
+        dispatch
       );
-
-
 
       // console.log("ResponseData", responData);
     }
@@ -92,6 +90,24 @@ const SignupBody = (props) => {
     //   merge: true,
     // });
   };
+
+  const formatePhone = (phoneNumberString) => {
+    let newText = "";
+    let cleaned = ("", phoneNumberString).replace(/\D/g, "");
+    for (var i = 0; i < cleaned.length; i++) {
+      if (i == 0) {
+        newText = "(";
+      } else if (i == 3) {
+        newText = newText + ") ";
+      } else if (i == 6) {
+        newText = newText + "-";
+      }
+      newText = newText + cleaned[i];
+    }
+    setSignupValue({ ...signupValue, phoneNumber: newText });
+    setSignupError({ ...signupErrors, phoneError: "" });
+  };
+
   return (
     <>
       <View>
@@ -104,7 +120,7 @@ const SignupBody = (props) => {
               justifyContent: "space-between",
 
               // height: verticalScale(100),
-              paddingVertical:verticalScale(20)
+              paddingVertical: verticalScale(20),
             }}
           >
             <CustomTextInput
@@ -158,8 +174,7 @@ const SignupBody = (props) => {
             value={signupValue.phoneNumber}
             error={signupErrors.phoneNumber}
             onChangeText={(txt) => {
-              setSignupValue({ ...signupValue, phoneNumber: txt });
-              setSignupError({ ...signupErrors, phoneError: "" });
+              formatePhone(txt);
             }}
             width="100%"
             borderRadius={15}
@@ -262,8 +277,7 @@ const SignupBody = (props) => {
               setShowPassword1(!showPassword1);
             }}
             iconHeight={verticalScale(15)}
-            rigthIcon={showPassword1? icons.eyeSlash : icons.eye}
-            
+            rigthIcon={showPassword1 ? icons.eyeSlash : icons.eye}
             onChangeText={(txt) => {
               setSignupValue({ ...signupValue, confirmPassword: txt });
               setSignupError({ ...signupErrors, confirmError: "" });

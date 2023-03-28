@@ -5,7 +5,10 @@ import { createStackNavigator } from "@react-navigation/stack";
 import AuthStack from "../AuthStack/AuthStack";
 import MainStack from "../MainStack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { GetClientEvent,GetVolunteerEvent } from "../../services/EventClientsApi";
+import {
+  GetClientEvent,
+  GetVolunteerEvent,
+} from "../../services/EventClientsApi";
 import { LoginActions } from "../../redux/actions";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -23,7 +26,7 @@ const RootNavigator = () => {
       console.log("AsycDataa",AsyncData.token)
       if (AsyncData?.token) {
         setAuthData(AsyncData);
-        if(AsyncData?.checkUser=="Client"){
+        if (AsyncData?.checkUser == "Client") {
           const res = await GetClientEvent(AsyncData?.token);
           const data = res?.data;
           console.log("DataIS",data)
@@ -32,9 +35,7 @@ const RootNavigator = () => {
           data["currentUser"] = AsyncData?.checkUser;
 
           dispatch(LoginActions(data));
-
-        }
-        else{
+        } else {
           const res = await GetVolunteerEvent(AsyncData?.token);
           const data = res?.data;
           console.log("DataIS",data)
@@ -42,12 +43,10 @@ const RootNavigator = () => {
           data["token"] = AsyncData?.token;
           data["rememberMe"] = AsyncData?.rememberMe;
           data["currentUser"] = AsyncData?.currentUser;
-          console.log("currentUserAsyncData",data)
+          console.log("currentUserAsyncData", data);
 
           dispatch(LoginActions(data));
-
         }
-     
       }
     })();
   }, []);
