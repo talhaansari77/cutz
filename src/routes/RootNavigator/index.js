@@ -53,7 +53,7 @@ const RootNavigator = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {/* {AuthData?.rememberMe ? (
           <> */}
-        {/* <Stack.Screen name="AuthStack" component={AuthStack} /> */}
+        <Stack.Screen name="AuthStack" component={AuthStack} />
 
         <Stack.Screen name="MainStack" component={MainStack} />
         {/* </>

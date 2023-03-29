@@ -16,7 +16,7 @@ const Loader = ({ loading, file }) => {
     >
       
       <LottieView
-        style={{ height: 150 }}
+        style={{ height: 100 }}
         source={file}
         autoPlay
         speed={1.5}

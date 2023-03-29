@@ -31,14 +31,14 @@ import CustomButton from "../../../../components/CustomButton";
 const TicketDetails = ({
   userType,
   handleConfirmPress,
+  handleCancelPress,
   handleProceedPress,
   navigate,
   cardBtnText,
+  ticketData
 }) => {
   const [check, setCheck] = useState(false);
-const handleCancel=()=>{
-    navigate("Welcome")
-}
+
 
   const InfoText = () => (
     <View style={{ alignSelf: "center", alignItems: "center" }}>
@@ -120,7 +120,7 @@ const handleCancel=()=>{
             }}
           >
             <CustomText
-              label={"EHH"}
+              label={ticketData.organization}
               fontFamily={"semiBold"}
               color={colors.white}
               fontSize={14}
@@ -197,7 +197,7 @@ const handleCancel=()=>{
             <Spacer width={15} />
             <View>
               <CustomText
-                label={"FOOD DISTRIBUTION "}
+                label={ticketData.eventType}
                 fontFamily={"bold"}
                 color={colors.secondary}
                 fontSize={18}
@@ -233,11 +233,7 @@ const handleCancel=()=>{
             }}
             width={"37%"}
             borderRadius={15}
-            onPress={() => {
-              cardBtnText === "Confirm"
-                ? handleConfirmPress()
-                : handleProceedPress();
-            }}
+            onPress={handleConfirmPress}
           />
           <Spacer width={20} />
           <CustomButton
@@ -255,7 +251,7 @@ const handleCancel=()=>{
             backgroundColor={colors.gray2}
             color={colors.secondary}
             borderRadius={15}
-            onPress={handleCancel}
+            onPress={handleCancelPress}
           />
         </View>
       </>

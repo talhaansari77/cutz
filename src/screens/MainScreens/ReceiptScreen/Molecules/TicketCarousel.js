@@ -18,127 +18,125 @@ const data = [
   //   { id: 5, text: "Item 5" },
 ];
 const { height, width } = Dimensions.get("window");
-const TicketCarousel = () => {
+const TicketCarousel = ({handleCancelPress,handleProceedPress,tickets}) => {
   const [activeSlide, setActiveSlide] = useState(0);
 
-  const renderItem = ({ item, index }) => <Card />;
-
-  const Card = () => (
-    <View style={styles.cardStyle}>
+  const renderItem = ({ item, index }) => <View style={styles.cardStyle}>
+  <Image
+    source={images.cardHeader}
+    containerStyle={{ width: "100%", height: 40 }}
+    resizeMode={"stretch"}
+  />
+  <Spacer height={10} />
+  <View
+    style={{
+      paddingHorizontal: scale(50),
+      paddingVertical: verticalScale(5),
+      backgroundColor: colors.darkOrange,
+      alignSelf: "center",
+      borderRadius: 5,
+    }}
+  >
+    <CustomText
+      label={item.organization}
+      fontFamily={"semiBold"}
+      color={colors.white}
+      fontSize={14}
+    />
+  </View>
+  <Spacer height={20} />
+  <View>
+    <View style={{ flexDirection: "row" }}>
+      <Spacer width={15} />
       <Image
-        source={images.cardHeader}
-        containerStyle={{ width: "100%", height: 40 }}
-        resizeMode={"stretch"}
+        source={icons.calender}
+        resizeMode={"contain"}
+        containerStyle={{ height: scale(30), width: scale(30) }}
       />
-      <Spacer height={10} />
-      <View
-        style={{
-          paddingHorizontal: scale(50),
-          paddingVertical: verticalScale(5),
-          backgroundColor: colors.darkOrange,
-          alignSelf: "center",
-          borderRadius: 5,
-        }}
-      >
+      <Spacer width={10} />
+      <View>
         <CustomText
-          label={"EHH"}
+          label={item.day+", "+item.monthYear+item.date}
           fontFamily={"semiBold"}
-          color={colors.white}
+          color={colors.secondary}
           fontSize={14}
         />
-      </View>
-      <Spacer height={20} />
-      <View>
-        <View style={{ flexDirection: "row" }}>
-          <Spacer width={15} />
-          <Image
-            source={icons.calender}
-            resizeMode={"contain"}
-            containerStyle={{ height: scale(30), width: scale(30) }}
-          />
-          <Spacer width={10} />
-          <View>
-            <CustomText
-              label={"Friday, January 20"}
-              fontFamily={"semiBold"}
-              color={colors.secondary}
-              fontSize={14}
-            />
-            <CustomText
-              label={"1:00 PM"}
-              fontFamily={"semiBold"}
-              color={colors.perFectDark}
-              fontSize={11}
-            />
-          </View>
-        </View>
-        <Spacer height={25} />
-        <View style={{ flexDirection: "row" }}>
-          <Spacer width={10} />
-          <Image
-            source={icons.marker}
-            resizeMode={"contain"}
-            containerStyle={{ height: scale(30), width: scale(30) }}
-          />
-          <Spacer width={15} />
-          <View>
-            <CustomText
-              label={"THURSTON HIGH SCHOOL"}
-              fontFamily={"semiBold"}
-              color={colors.secondary}
-              fontSize={14}
-            />
-            <CustomText
-              label={"26255 Schoolcraft St "}
-              fontFamily={"semiBold"}
-              color={colors.perFectDark}
-              fontSize={11}
-            />
-            <CustomText
-              label={"Redford Charter Twp, MI 48239"}
-              fontFamily={"semiBold"}
-              color={colors.perFectDark}
-              fontSize={11}
-            />
-          </View>
-        </View>
-      </View>
-      <Spacer height={15} />
-
-      <View style={{ flexDirection: "row" }}>
-        <Spacer width={10} />
-        <Image
-          source={icons.ticket1}
-          resizeMode={"contain"}
-          style={{
-            tintColor: colors.secondary,
-          }}
-          containerStyle={{ height: scale(30), width: scale(30) }}
+        <CustomText
+          label={item.eventStartTime}
+          fontFamily={"semiBold"}
+          color={colors.perFectDark}
+          fontSize={11}
         />
-        <Spacer width={15} />
-        <View>
-          <CustomText
-            label={"FOOD DISTRIBUTION "}
-            fontFamily={"bold"}
-            color={colors.secondary}
-            fontSize={18}
-          />
-        </View>
       </View>
-
-      <Image
-        source={images.cardBottom}
-        containerStyle={{
-          width: "100%",
-          height: 40,
-          position: "absolute",
-          bottom: 0,
-        }}
-        resizeMode={"stretch"}
-      />
-      <Spacer height={40} />
     </View>
-  );
+    <Spacer height={25} />
+    <View style={{ flexDirection: "row" }}>
+      <Spacer width={10} />
+      <Image
+        source={icons.marker}
+        resizeMode={"contain"}
+        containerStyle={{ height: scale(30), width: scale(30) }}
+      />
+      <Spacer width={15} />
+      <View>
+        <CustomText
+          label={item.place}
+          fontFamily={"semiBold"}
+          color={colors.secondary}
+          fontSize={14}
+        />
+        <CustomText
+          label={item.house}
+          fontFamily={"semiBold"}
+          color={colors.perFectDark}
+          fontSize={11}
+        />
+        <CustomText
+          label={item.zip}
+          fontFamily={"semiBold"}
+          color={colors.perFectDark}
+          fontSize={11}
+        />
+      </View>
+    </View>
+  </View>
+  <Spacer height={15} />
+
+  <View style={{ flexDirection: "row" }}>
+    <Spacer width={10} />
+    <Image
+      source={icons.ticket1}
+      resizeMode={"contain"}
+      style={{
+        tintColor: colors.secondary,
+      }}
+      containerStyle={{ height: scale(30), width: scale(30) }}
+    />
+    <Spacer width={15} />
+    <View>
+      <CustomText
+        label={item.eventType}
+        fontFamily={"bold"}
+        color={colors.secondary}
+        fontSize={18}
+      />
+    </View>
+  </View>
+
+  <Image
+    source={images.cardBottom}
+    containerStyle={{
+      width: "100%",
+      height: 40,
+      position: "absolute",
+      bottom: 0,
+    }}
+    resizeMode={"stretch"}
+  />
+  <Spacer height={40} />
+</View>;
+
+  
 
   const InfoText = () => (
     <View style={{ alignSelf: "center", alignItems: "center" }}>
@@ -174,7 +172,7 @@ const TicketCarousel = () => {
       <InfoText />
       <Spacer height={20} />
       <Carousel
-        data={data}
+        data={tickets}
         renderItem={renderItem}
         // sliderHeight={300}
         // itemHeight={60}
@@ -187,7 +185,7 @@ const TicketCarousel = () => {
       <View style={{ alignItems: "center" }}>
         <Spacer height={10} />
         <Pagination
-          dotsLength={data.length}
+          dotsLength={tickets.length}
           activeDotIndex={activeSlide}
           containerStyle={styles.pagination}
           dotStyle={styles.dot}
@@ -211,7 +209,7 @@ const TicketCarousel = () => {
           }}
           width={"37%"}
           borderRadius={15}
-          onPress={() => {}}
+          onPress={() => {handleProceedPress(tickets[activeSlide])}}
         />
         <Spacer width={20} />
         <CustomButton
@@ -229,7 +227,7 @@ const TicketCarousel = () => {
           backgroundColor={colors.gray2}
           color={colors.secondary}
           borderRadius={15}
-          // onPress={handleCancel}
+          onPress={handleCancelPress}
         />
       </View>
     </View>
