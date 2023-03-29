@@ -117,7 +117,6 @@ export const VolunteerSignup = async (
     return error;
   }
 };
-
 export const ClientLogin = async (
   data,
   setLoading,
@@ -144,7 +143,6 @@ export const ClientLogin = async (
           const res = await GetClientEvent(response.data.token);
           const data = res?.data;
           //  console.log("ResData",res?.data)
-
           if (remember) {
             const CurrentAuth = {
               token: response.data?.token,
@@ -152,7 +150,6 @@ export const ClientLogin = async (
               currentUser: checkUser,
             };
             console.log("RememberAuth", CurrentAuth);
-
             await AsyncStorage.setItem(
               "CurrentAuth",
               JSON.stringify(CurrentAuth)

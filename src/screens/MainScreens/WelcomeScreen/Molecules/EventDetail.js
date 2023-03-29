@@ -30,7 +30,6 @@ const companyData = [
   { index: 5, title: "SONY" },
   { index: 6, title: "HUAWEI" },
 ];
-
 const eventData = [
   { id: 0, title: "FOOD DISTRIBUTION" },
   { id: 1, title: "HOMELESS SHELTER" },
@@ -40,7 +39,6 @@ const eventData = [
   { id: 5, title: "CLOTHES DONATE" },
   { id: 6, title: "FUNDRAISING EVENTS" },
 ];
-
 const eventTypeList = [
   {
     label: "HOMELESS SHELTER",
@@ -61,7 +59,6 @@ const eventTypeList = [
     dividerBottom: false,
   },
 ];
-
 const eventTimingListVolunteer = [
   {
     label: "Prep Event:  11AM - 3PM",

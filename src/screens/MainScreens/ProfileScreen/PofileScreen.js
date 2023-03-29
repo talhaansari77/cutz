@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React,{useEffect} from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import commonStyles, { PH20 } from "../../../utils/CommonStyles";
 import ProfileHeader from "./molecules/ProfileHeader";
@@ -17,7 +17,14 @@ const ProfileScreen = ({ navigation ,route}) => {
   console.log("RoutesType",route?.params)
 
   const AuthUser=useSelector((state)=>state.authReducers.authState)
-  console.log("dfkvkdndkbvk",AuthUser)
+
+
+  useEffect(() => {
+    console.log("dfkvkdndkbvk",AuthUser)
+
+ 
+  }, [useSelector])
+  
 
 
   const profileData = [

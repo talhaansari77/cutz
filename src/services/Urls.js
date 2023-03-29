@@ -9,6 +9,7 @@ export const URLS={
     GET_EVENTS:'api/v1/event',
     EVENTS_RESERVATION_CLIENT:'api/v1/eventreservationclient',
     EVENTS_RESERVATION_VOLUNTEER:'api/v1/eventreservationvolunteer',
+    GOOGL_MAP_API:"AIzaSyCpr_ajK9YsgNa184_UyE0e3BXmiPPXFZ8"
 
 
 

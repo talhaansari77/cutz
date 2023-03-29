@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, TouchableOpacity, Alert,Image } from "react-native";
 import React,{useEffect,useState} from "react";
 import commonStyles, { PH20 } from "../../../utils/CommonStyles";
 import { Spacer } from "../../../components/Spacer";
@@ -10,21 +10,46 @@ import { scale } from "react-native-size-matters";
 import { Avatar } from "react-native-elements";
 import { images } from "../../../../assets/images";
 import { icons } from "../../../../assets/icons";
+import * as ImagePicker from "expo-image-picker";
+
 
 const EditProfile = ({ route,navigation }) => {
 
   const [authUser, setAuthUser] = useState(null)
+  const [imageUri, setImageUri] = useState("")
+  const [image, setImage] = useState("")
 
   // console.log("RoutesType",route?.params?.type?.params?.userType)
 
-  console.log("RoutesType",authUser)
 
 
   useEffect(() => {
+    // setImage(route?.params?.AuthUser?.profilePicture)
 
     setAuthUser(route?.params?.AuthUser)
  
   }, [route?.params])
+console.log("ImageUrl",image)
+  const onClickImage = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        base64: true,
+
+      });
+      if (result) {
+        // setImageUri(result?.assets);
+        setImage(result.uri)
+        console.log("ResulteImage",result)
+       
+      } else {
+        setImageUri("");
+      }
+    } catch (error) {
+      console.log("Error reading an image", error);
+    }
+  };
   return (
     <View style={commonStyles.commonMain}>
       <ScrollView>
@@ -36,26 +61,53 @@ const EditProfile = ({ route,navigation }) => {
               width: 85,
               borderRadius: 50,
               alignSelf: "center",
-              zIndex: 100,
+              // zIndex: 100,
             }}
           >
-            <Avatar
+            {image?(
+              <Image source={image}
+              resizeMode="contain"
+              style={{
+                height: 85,
+                width: 85,
+                borderRadius: 50,
+
+              }}
+              />
+
+            ):(
+              <>
+                 <Avatar
               source={images.userAvatar}
               rounded
               size={85}
               containerStyle={{}}
             />
-            <Avatar
-              source={icons.cameraPlus}
-              rounded
-              size={40}
-              containerStyle={{
-                alignSelf: "center",
-                position: "absolute",
-                bottom: -5,
-                right: -5,
-              }}
-            />
+          
+              <TouchableOpacity 
+              activeOpacity={0.6}
+              onPress={onClickImage}
+              >
+              <Avatar
+                source={icons.cameraPlus}
+                rounded
+                size={40}
+                containerStyle={{
+                  alignSelf: "center",
+                  position: "absolute",
+                  bottom: -5,
+                  right: -5,
+                }}
+              />
+  
+              </TouchableOpacity>
+            
+          
+              </>
+
+            )}
+         
+          
           </View>
 
           {/* <ProfilePhoto
@@ -66,9 +118,16 @@ const EditProfile = ({ route,navigation }) => {
           /> */}
 
           {authUser?.currentUser === "Client" ? (
-            <ClientEditProfile   navigation={navigation}/>
+            <ClientEditProfile  
+            imageUri={imageUri}
+            setImageUri={setImageUri}
+             navigation={navigation}/>
           ) : (
-            <VolunteerEditProfile  navigation={navigation}/>
+            <VolunteerEditProfile 
+             navigation={navigation}
+             imageUri={imageUri}
+             setImageUri={setImageUri}
+             />
           )}
         </PH20>
       </ScrollView>
