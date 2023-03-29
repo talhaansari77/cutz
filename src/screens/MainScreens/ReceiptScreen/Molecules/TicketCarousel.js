@@ -18,125 +18,131 @@ const data = [
   //   { id: 5, text: "Item 5" },
 ];
 const { height, width } = Dimensions.get("window");
-const TicketCarousel = ({handleCancelPress,handleProceedPress,tickets}) => {
+const TicketCarousel = ({
+  handleCancelPress,
+  handleProceedPress,
+  tickets,
+  state,
+  setState,
+}) => {
   const [activeSlide, setActiveSlide] = useState(0);
 
-  const renderItem = ({ item, index }) => <View style={styles.cardStyle}>
-  <Image
-    source={images.cardHeader}
-    containerStyle={{ width: "100%", height: 40 }}
-    resizeMode={"stretch"}
-  />
-  <Spacer height={10} />
-  <View
-    style={{
-      paddingHorizontal: scale(50),
-      paddingVertical: verticalScale(5),
-      backgroundColor: colors.darkOrange,
-      alignSelf: "center",
-      borderRadius: 5,
-    }}
-  >
-    <CustomText
-      label={item.organization}
-      fontFamily={"semiBold"}
-      color={colors.white}
-      fontSize={14}
-    />
-  </View>
-  <Spacer height={20} />
-  <View>
-    <View style={{ flexDirection: "row" }}>
-      <Spacer width={15} />
+  const renderItem = ({ item, index }) => (
+    <View style={styles.cardStyle}>
       <Image
-        source={icons.calender}
-        resizeMode={"contain"}
-        containerStyle={{ height: scale(30), width: scale(30) }}
+        source={images.cardHeader}
+        containerStyle={{ width: "100%", height: 40 }}
+        resizeMode={"stretch"}
       />
-      <Spacer width={10} />
-      <View>
+      <Spacer height={10} />
+      <View
+        style={{
+          paddingHorizontal: scale(50),
+          paddingVertical: verticalScale(5),
+          backgroundColor: colors.darkOrange,
+          alignSelf: "center",
+          borderRadius: 5,
+        }}
+      >
         <CustomText
-          label={item.day+", "+item.monthYear+item.date}
+          label={item.organization}
           fontFamily={"semiBold"}
-          color={colors.secondary}
+          color={colors.white}
           fontSize={14}
         />
-        <CustomText
-          label={item.eventStartTime}
-          fontFamily={"semiBold"}
-          color={colors.perFectDark}
-          fontSize={11}
-        />
       </View>
-    </View>
-    <Spacer height={25} />
-    <View style={{ flexDirection: "row" }}>
-      <Spacer width={10} />
-      <Image
-        source={icons.marker}
-        resizeMode={"contain"}
-        containerStyle={{ height: scale(30), width: scale(30) }}
-      />
-      <Spacer width={15} />
+      <Spacer height={20} />
       <View>
-        <CustomText
-          label={item.place}
-          fontFamily={"semiBold"}
-          color={colors.secondary}
-          fontSize={14}
-        />
-        <CustomText
-          label={item.house}
-          fontFamily={"semiBold"}
-          color={colors.perFectDark}
-          fontSize={11}
-        />
-        <CustomText
-          label={item.zip}
-          fontFamily={"semiBold"}
-          color={colors.perFectDark}
-          fontSize={11}
-        />
+        <View style={{ flexDirection: "row" }}>
+          <Spacer width={15} />
+          <Image
+            source={icons.calender}
+            resizeMode={"contain"}
+            containerStyle={{ height: scale(30), width: scale(30) }}
+          />
+          <Spacer width={10} />
+          <View>
+            <CustomText
+              label={item.day + ", " + item.monthYear + item.date}
+              fontFamily={"semiBold"}
+              color={colors.secondary}
+              fontSize={14}
+            />
+            <CustomText
+              label={item.eventStartTime}
+              fontFamily={"semiBold"}
+              color={colors.perFectDark}
+              fontSize={11}
+            />
+          </View>
+        </View>
+        <Spacer height={25} />
+        <View style={{ flexDirection: "row" }}>
+          <Spacer width={10} />
+          <Image
+            source={icons.marker}
+            resizeMode={"contain"}
+            containerStyle={{ height: scale(30), width: scale(30) }}
+          />
+          <Spacer width={15} />
+          <View>
+            <CustomText
+              label={item.place}
+              fontFamily={"semiBold"}
+              color={colors.secondary}
+              fontSize={14}
+            />
+            <CustomText
+              label={item.house}
+              fontFamily={"semiBold"}
+              color={colors.perFectDark}
+              fontSize={11}
+            />
+            <CustomText
+              label={item.zip}
+              fontFamily={"semiBold"}
+              color={colors.perFectDark}
+              fontSize={11}
+            />
+          </View>
+        </View>
       </View>
-    </View>
-  </View>
-  <Spacer height={15} />
+      <Spacer height={15} />
 
-  <View style={{ flexDirection: "row" }}>
-    <Spacer width={10} />
-    <Image
-      source={icons.ticket1}
-      resizeMode={"contain"}
-      style={{
-        tintColor: colors.secondary,
-      }}
-      containerStyle={{ height: scale(30), width: scale(30) }}
-    />
-    <Spacer width={15} />
-    <View>
-      <CustomText
-        label={item.eventType}
-        fontFamily={"bold"}
-        color={colors.secondary}
-        fontSize={18}
+      <View style={{ flexDirection: "row" }}>
+        <Spacer width={10} />
+        <Image
+          source={icons.ticket1}
+          resizeMode={"contain"}
+          style={{
+            tintColor: colors.secondary,
+          }}
+          containerStyle={{ height: scale(30), width: scale(30) }}
+        />
+        <Spacer width={15} />
+        <View>
+          <CustomText
+            label={item.eventType}
+            fontFamily={"bold"}
+            color={colors.secondary}
+            fontSize={18}
+          />
+        </View>
+      </View>
+
+      <Image
+        source={images.cardBottom}
+        containerStyle={{
+          width: "100%",
+          height: 40,
+          position: "absolute",
+          bottom: 0,
+        }}
+        resizeMode={"stretch"}
       />
+      <Spacer height={40} />
     </View>
-  </View>
-
-  <Image
-    source={images.cardBottom}
-    containerStyle={{
-      width: "100%",
-      height: 40,
-      position: "absolute",
-      bottom: 0,
-    }}
-    resizeMode={"stretch"}
-  />
-  <Spacer height={40} />
-</View>;
-
-  
+  );
 
   const InfoText = () => (
     <View style={{ alignSelf: "center", alignItems: "center" }}>
@@ -180,7 +186,10 @@ const TicketCarousel = ({handleCancelPress,handleProceedPress,tickets}) => {
         itemWidth={400}
         layout="default"
         inactiveSlideScale={0.8} // set inactive slide scale to make items smaller
-        onSnapToItem={(index) => setActiveSlide(index)} // update the active slide index
+        onSnapToItem={(index) => {
+          setActiveSlide(index);
+          setState({ ...state, currentTicket: tickets[index] });
+        }} // update the active slide index
       />
       <View style={{ alignItems: "center" }}>
         <Spacer height={10} />
@@ -209,7 +218,9 @@ const TicketCarousel = ({handleCancelPress,handleProceedPress,tickets}) => {
           }}
           width={"37%"}
           borderRadius={15}
-          onPress={() => {handleProceedPress(tickets[activeSlide])}}
+          onPress={() => {
+            handleProceedPress(tickets[activeSlide]);
+          }}
         />
         <Spacer width={20} />
         <CustomButton

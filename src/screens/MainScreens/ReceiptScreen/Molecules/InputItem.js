@@ -2,12 +2,14 @@ import React from "react";
 import { TextInput } from "react-native";
 import { colors } from "../../../../utils/Colors";
 
-const InputItem = ({value,spacer}) => {
+const InputItem = ({value,spacer,onChange}) => {
   return (
     <TextInput
-      placeholder={value}
+      placeholder={'0'}
+      value={value}
       placeholderTextColor={colors.perFectDark}
       maxLength={1}
+      onChangeText={onChange}
       style={{
         fontSize: 40,
         fontFamily: "bold",

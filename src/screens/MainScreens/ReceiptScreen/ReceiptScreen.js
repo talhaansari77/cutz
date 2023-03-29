@@ -31,6 +31,7 @@ import {
   getReservationVolunteer,
 } from "../../../services/Reservation";
 import { getEvents } from "../../../services/Events";
+import { getEventGroup } from "../../../services/EventGroup";
 
 const ReceiptScreen = ({ navigation: { navigate }, route }) => {
   // console.log("RoutesType", route?.params);
@@ -46,8 +47,14 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
     events: [],
     reservations: [],
     tickets: [],
+    currentTicket: {},
+    ticketData: {},
+    pin1:"",
+    pin2:"",
+    pin3:"",
+    pin4:"",
   });
-  
+
   // const { ticketDetail } = route.params;
 
   // let data= r.data;
@@ -87,7 +94,7 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
           setState({ ...state, reservations: data });
         });
       }
-      
+
     state.events.map((e) => {
       state.reservations.map((r) => {
         if (e._id === r.eventID) {
@@ -95,19 +102,22 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
         }
       });
     });
-    console.log('myTickets')
-    console.log(state.tickets.length)
+    console.log("myTickets");
+    console.log(state.tickets.length);
     // setState({ ...state, tickets: myTickets });
   }, [isFocused]);
 
   const handleProceedPress = (ticket) => {
     navigate("Event", {
       userType: route?.params?.userType,
-      location:ticket.location
+      location: ticket.location,
     });
   };
   const handleTicketPress = () => {
-    setState({ ...state, ticketDetail: true });
+    // setState({ ...state, ticketDetail: true });
+    getEventGroup("64220f310bb5bf7676e2aafe").then((r) => {
+      setState({ ...state, ticketData: r.data, ticketDetail: true });
+    });
   };
   const handleCancelPress = () => {
     navigate("Welcome");
@@ -131,13 +141,21 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
           /> */}
           <TicketCarousel
             tickets={state.tickets}
+            state={state}
+            setState={setState}
             handleCancelPress={handleCancelPress}
             handleProceedPress={handleProceedPress}
           />
         </>
-      ) : route?.params?.userType === "Client" ? (
+      ) : AuthUser.clientStatus ? (
         <>
-          <AppHeader backButton />
+          <AppHeader
+            backButton
+            onPressBack={() => {
+              setState({ ...state, ticketDetail: false });
+            }}
+          />
+          {/* <Text>{AuthUser._id}</Text> */}
           <TicketCheckInAndOut state={state} setState={setState} />
         </>
       ) : (

@@ -18,10 +18,11 @@ import { verticalScale } from "react-native-size-matters";
 import InputItem from "./InputItem";
 import { Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import moment from "moment";
 
 const TicketCheckInAndOut = ({ setState, state }) => {
   const navigation = useNavigation();
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const modelClose = () => {
     setVisible(false);
   };
@@ -70,10 +71,33 @@ const TicketCheckInAndOut = ({ setState, state }) => {
             />
             <Spacer height={20} />
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <InputItem value={"3"} />
-              <InputItem value={"2"} spacer />
-              <InputItem value={"4"} spacer />
-              <InputItem value={"5"} spacer />
+              <InputItem
+                value={state.pin1}
+                onChange={(v) => {
+                  setState({ ...state, pin1: v });
+                }}
+              />
+              <InputItem
+                value={state.pin2}
+                spacer
+                onChange={(v) => {
+                  setState({ ...state, pin2: v });
+                }}
+              />
+              <InputItem
+                value={state.pin3}
+                spacer
+                onChange={(v) => {
+                  setState({ ...state, pin3: v });
+                }}
+              />
+              <InputItem
+                value={state.pin4}
+                spacer
+                onChange={(v) => {
+                  setState({ ...state, pin4: v });
+                }}
+              />
             </View>
           </View>
           <Spacer height={20} />
@@ -93,10 +117,21 @@ const TicketCheckInAndOut = ({ setState, state }) => {
           }}
           borderRadius={15}
           onPress={() => {
-            state.checkIn
-              ? setState({ ...state, checkOut: true, greet: true })
-              : setState({ ...state, checkIn: true });
+            // state.checkIn
+            // ? setState({ ...state, checkOut: true, greet: true })
+            // : setState({ ...state, checkIn: true });
+            let eventCode = state.pin1 + state.pin2 + state.pin3 + state.pin4;
+            console.log(eventCode,state?.currentTicket?.eventCode);
+            if(!state.checkIn){
 
+              if(eventCode===state?.currentTicket?.eventCode){
+                setState({ ...state, checkIn: true })
+              }
+            }else{
+              if(eventCode===state?.currentTicket?.eventCode){
+                setState({ ...state, checkOut: true, greet: true })
+              }
+            }
             modelClose();
           }}
         />
@@ -142,7 +177,8 @@ const TicketCheckInAndOut = ({ setState, state }) => {
             width={"50%"}
             borderRadius={10}
             onPress={() => {
-              setState({
+              console.log('first')
+              setState({...state,
                 checkIn: false,
                 checkOut: false,
                 greet: false,
@@ -194,13 +230,27 @@ const TicketCheckInAndOut = ({ setState, state }) => {
             <View style={{ alignItems: "center" }}>
               <CustomButton title={"Get In Line!"} width={"95%"} height={40} />
               <Spacer height={10} />
-              <CustomText
-                label={"EVENT ID: 0001"}
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <CustomText
+                  label={"EVENT ID: "}
+                  color={colors.white}
+                  fontFamily={"bold"}
+                  fontSize={15}
+                />
+                <CustomText
+                  label={state.currentTicket._id}
+                  color={colors.white}
+                  fontFamily={"bold"}
+                  fontSize={12}
+                />
+              </View>
+              <Spacer height={5} />
+              {/* <CustomText
+                label={moment().format(state?.currentTicket?.eventStartTime)}
                 color={colors.white}
                 fontFamily={"bold"}
-                fontSize={15}
-              />
-              <Spacer height={5} />
+                fontSize={23}
+              /> */}
               <CustomText
                 label={"2/12/23 @ 2PM"}
                 color={colors.white}
@@ -224,14 +274,14 @@ const TicketCheckInAndOut = ({ setState, state }) => {
                   />
                 </View>
                 <CustomText
-                  label={"C"}
+                  label={state?.ticketData?.groupLetter.toUpperCase()}
                   color={colors.white}
                   fontFamily={"Righteous"}
                   fontSize={120}
                 />
               </View>
               <CustomText
-                label={"7 People"}
+                label={state.ticketData.groupCapacity + " People"}
                 color={colors.white}
                 fontFamily={"bold"}
                 fontSize={27}
