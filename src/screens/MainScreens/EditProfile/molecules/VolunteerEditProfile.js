@@ -12,11 +12,14 @@ import { useSelector } from "react-redux";
 import { useVolunteerSignup } from "../../../../Auth/Signup/useVolunteerSignup";
 import { useDispatch } from "react-redux";
 import CustomText from "../../../../components/CustomText";
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+
 import {
   DeleteVolunteerEvent,
   UpdateVolunteerEvent,
 } from "../../../../services/EventClientsApi";
 import Toast from "react-native-root-toast";
+import { URLS } from "../../../../services/Urls";
 const VolunteerEditProfile = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [familySize, setFamilySize] = useState("");
@@ -298,6 +301,19 @@ const VolunteerEditProfile = (props) => {
             )}
           </View>
         </View>
+        <GooglePlacesAutocomplete
+      placeholder='Please search'
+      debounce={400}
+      styles={{backgroundColor:"red",borderRa:10,borderBottomWidth:1,fontSize:15}}
+      onPress={(data, details = null) => {
+        // 'details' is provided when fetchDetails = true
+        console.log("dataDeailSI",data, details);
+      }}
+      query={{
+        key: URLS.GOOGL_MAP_API,
+        language: 'en',
+      }}
+    />
         {SignupData.map((item) => {
           return item.id == 2 ? (
             <>
@@ -359,6 +375,8 @@ const VolunteerEditProfile = (props) => {
         })}
       </View>
       <Spacer height={30} />
+     
+
       <View
         style={{
           flexDirection: "row",

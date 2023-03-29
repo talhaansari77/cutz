@@ -24,7 +24,7 @@ const EditProfile = ({ route,navigation }) => {
 
 
   useEffect(() => {
-    setImage(route?.params?.AuthUser?.profilePicture)
+    // setImage(route?.params?.AuthUser?.profilePicture)
 
     setAuthUser(route?.params?.AuthUser)
  
@@ -65,7 +65,7 @@ console.log("ImageUrl",image)
             }}
           >
             {image?(
-              <Image source={{image}}
+              <Image source={image}
               resizeMode="contain"
               style={{
                 height: 85,

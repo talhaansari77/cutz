@@ -27,6 +27,8 @@ const SearchScreen = ({ navigation }) => {
   const [orgData, setOrgData] = useState("");
   const [eventData, setEventData] = useState("");
   const [organizationName, setOrganizationName] = useState([]);
+  const [search, setSearch] = useState("");
+  const [searchError, setSearchError] = useState(false);
 
   useEffect(async () => {
     getEvents();
@@ -39,7 +41,6 @@ const SearchScreen = ({ navigation }) => {
     const eventType = [];
     const resp = await GetEvent();
     //  console.log("EventData", resp?.data)
-
     resp?.data.forEach((item) => {
       orgName.push({
         name: item.organization,
@@ -63,9 +64,16 @@ const SearchScreen = ({ navigation }) => {
       const filterEvents = resp?.data?.filter((item) => {
         return item?.eventType == eventData;
       });
+
       if (filterEvents.length != 0) {
         console.log("EventsFilter", filterEvents);
-        navigation.navigate("Welcome", { data: filterEvents });
+
+        setTimeout(() => {
+          navigation.navigate("Welcome", { data: filterEvents });
+        }, 1000);
+        setSearchError(false);
+      } else {
+        setSearchError(true);
       }
     } else if (orgData) {
       const filterOrg = resp?.data?.filter((item) => {
@@ -74,7 +82,41 @@ const SearchScreen = ({ navigation }) => {
       if (filterOrg.length != 0) {
         console.log("filterOrg", filterOrg);
 
-        navigation.navigate("Welcome", { data: filterOrg });
+        setTimeout(() => {
+          navigation.navigate("Welcome", { data: filterOrg });
+        }, 1000);
+
+        setSearchError(false);
+      } else {
+        setSearchError(true);
+      }
+    }
+  };
+  const onSearchText = (txt) => {
+    setSearchError(false);
+
+    setSearch(txt);
+  };
+  const onPressSearch = async () => {
+    if (search.length == 0) {
+      return;
+    } else {
+      const resp = await GetEvent();
+      const filterSearch = resp?.data.filter((item) => {
+        return `${item?.house} ${item?.place}  ${item?.zip}`
+          .toLowerCase()
+          .trim()
+          .includes(search.toLowerCase().trim());
+      });
+      if (filterSearch.length != 0) {
+        // console.log("filterSearchYahai", filterSearch);
+
+        setTimeout(() => {
+          navigation.navigate("Welcome", { data: filterSearch });
+        }, 1000);
+        setSearchError(false);
+      } else {
+        setSearchError(true);
       }
     }
   };
@@ -92,7 +134,11 @@ const SearchScreen = ({ navigation }) => {
         />
         <Spacer height={20} />
 
-        <SearchBody />
+        <SearchBody
+          onChangeText={onSearchText}
+          search={search}
+          onRightPress={onPressSearch}
+        />
         <View style={{ paddingTop: "50%" }}>
           <View style={styles.circle}>
             <Image
@@ -110,7 +156,11 @@ const SearchScreen = ({ navigation }) => {
               fontSize={14}
               // marginRight={20}
               textAlign="center"
-              label="Search Events"
+              label={
+                searchError
+                  ? "Hmmm,  we’re not getting any results Our bad - try another search "
+                  : "Search Events"
+              }
             />
           </View>
         </View>

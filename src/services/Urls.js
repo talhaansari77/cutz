@@ -7,7 +7,7 @@ export const URLS={
     VOLUNTEER_SIGNUP:"api/v1/volunteer/signup",
     GET_VOLUNTEER:'api/v1/volunteer',
     GET_EVENTS:'api/v1/event',
-
+    GOOGL_MAP_API:"AIzaSyCpr_ajK9YsgNa184_UyE0e3BXmiPPXFZ8"
 
 
 
