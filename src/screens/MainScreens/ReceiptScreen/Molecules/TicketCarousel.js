@@ -9,6 +9,7 @@ import CustomButton from "../../../../components/CustomButton";
 import CustomText from "../../../../components/CustomText";
 import { Spacer } from "../../../../components/Spacer";
 import { colors } from "../../../../utils/Colors";
+import moment from 'moment';
 
 const data = [
   { id: 1, text: "Item 1" },
@@ -17,6 +18,22 @@ const data = [
   //   { id: 4, text: "Item 4" },
   //   { id: 5, text: "Item 5" },
 ];
+
+export const fomateDateToMMDDYYYY = (date) => {
+  return moment(date).format('MM-DD-YYYY');
+}
+export const fomateTime = (date )=> {
+  return moment(date.toLocaleTimeString(), 'HH:mm:ss A').format('hh:mm');
+}
+export const fomateAMPM = (date) => {
+  return moment(date.toLocaleTimeString(), 'HH:mm:ss A').format('A');
+}
+export const fomateTimeAMPM = (date) => {
+  return moment(date.toLocaleTimeString(), 'HH:mm:ss A').format('hh:mm A');
+}
+export const fomateAMAPMTo24Hour = (date ) => {
+  return moment(date, 'HH:mm A').format('HH:mm:ss');
+}
 const { height, width } = Dimensions.get("window");
 const TicketCarousel = ({
   handleCancelPress,
@@ -63,13 +80,13 @@ const TicketCarousel = ({
           <Spacer width={10} />
           <View>
             <CustomText
-              label={item.day + ", " + item.monthYear + item.date}
+              label={item.day + ", " + item.monthYear.split(' ')[0] +" " + item.date}
               fontFamily={"semiBold"}
               color={colors.secondary}
               fontSize={14}
             />
             <CustomText
-              label={item.eventStartTime}
+              label={fomateTime(item.eventStartTime)}
               fontFamily={"semiBold"}
               color={colors.perFectDark}
               fontSize={11}

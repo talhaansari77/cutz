@@ -462,9 +462,9 @@ const EventDetail = ({ handleBookingPress, userType,state,setState }) => {
           showsHorizontalScrollIndicator={false}
           // style={{ flexDirection: "row", justifyContent: "space-between" }}
         >
-          {eventDateList.map(({ date, day, MMYY }, index) => (
+          {state.events.map(({ date, day, monthYear }, index) => (
             <>
-              <EventDateItem date={date} day={day} MMYY={MMYY} indexx={index} />
+              <EventDateItem date={date} day={day} MMYY={monthYear} indexx={index} />
               <Spacer width={20} />
             </>
           ))}
@@ -474,16 +474,16 @@ const EventDetail = ({ handleBookingPress, userType,state,setState }) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         nestedScrollEnabled={true}
-        style={{ height: height / 3 }}
+        style={{ height: height / 4.4 }}
       >
         <PH20>
-          {addressData.map(({ place, house, zip, index }) => (
+          {state.events.map(({ place, house, zip}, index ) => (
             <AddressContainer
               place={place}
               house={house}
               zip={zip}
               backgroundColor={
-                eventIndex === index ?"#EDB879" : "#F7DFC3"
+                eventIndex === index ? colors.Brown3 : colors.Brown4
               }
             />
           ))}
