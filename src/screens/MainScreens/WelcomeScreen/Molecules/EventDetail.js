@@ -340,7 +340,7 @@ const EventDetail = ({ handleBookingPress, userType,state,setState }) => {
         borderColor: colors.secondary,
         paddingHorizontal: scale(18),
         paddingVertical: verticalScale(6),
-        marginVertical:10,
+        marginVertical:verticalScale(10),
         ...styles.shadow,
       }}
       onPress={() => setDateIndex(indexx)}
@@ -468,14 +468,13 @@ const EventDetail = ({ handleBookingPress, userType,state,setState }) => {
               <Spacer width={20} />
             </>
           ))}
-          <Spacer height={10}/>
         </ScrollView>
       </PH20>
       <Spacer height={20} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         nestedScrollEnabled={true}
-        style={{ height: height / 4.4 }}
+        style={{ height: height / 3 }}
       >
         <PH20>
           {addressData.map(({ place, house, zip, index }) => (
@@ -484,7 +483,7 @@ const EventDetail = ({ handleBookingPress, userType,state,setState }) => {
               house={house}
               zip={zip}
               backgroundColor={
-                eventIndex === index ? colors.Brown3 : colors.Brown4
+                eventIndex === index ?"#EDB879" : "#F7DFC3"
               }
             />
           ))}

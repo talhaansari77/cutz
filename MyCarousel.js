@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Platform } from "react-native";
-import { verticalScale } from "react-native-size-matters";
+import { scale, verticalScale } from "react-native-size-matters";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { colors } from "./src/utils/Colors";
 
@@ -23,7 +23,10 @@ const MyCarousel = ({ data }) => {
         <Text
           style={[
             styles.itemText,
-            { color: isFocused ? colors.blue1 : colors.black },
+            { color: isFocused ? colors.blue1 : colors.black,
+              fontSize:isFocused? scale(24):scale(20),
+
+            },
           ]}
         >
           {item.title}
@@ -61,7 +64,7 @@ const styles = StyleSheet.create({
   },
   item: {
     // width:"90%",
-    backgroundColor: colors.Brown3,
+    backgroundColor: "#F8E1C8",
     borderRadius: 5,
     height: 40,
     width: "90%",
@@ -76,10 +79,11 @@ const styles = StyleSheet.create({
     // backgroundColor: colors.Brown1,
     // paddingHorizontal: verticalScale(70),
     // paddingVertical:10,
-    fontSize: 26,
     fontFamily: "bold",
   },
   focusedItem: {
+    backgroundColor: "#F8E1C8",
+
     shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
     shadowRadius: 2,
     elevation: 5,
