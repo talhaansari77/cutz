@@ -474,7 +474,7 @@ const EventDetail = ({ handleBookingPress, userType,state,setState }) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         nestedScrollEnabled={true}
-        style={{ height: height / 4.4 }}
+        style={{ height: height / 3 }}
       >
         <PH20>
           {state.events.map(({ place, house, zip}, index ) => (
@@ -483,7 +483,7 @@ const EventDetail = ({ handleBookingPress, userType,state,setState }) => {
               house={house}
               zip={zip}
               backgroundColor={
-                eventIndex === index ? colors.Brown3 : colors.Brown4
+                eventIndex === index ? "#EDB879" : "#F7DFC3"
               }
             />
           ))}

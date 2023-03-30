@@ -245,8 +245,7 @@ const VolunteerEditProfile = (props) => {
       setEditError
     );
     if (ValidateResponse) {
-      // const forBase64 = await FileSystem.readAsStringAsync(props.imageUri, { encoding: 'base64' });
-
+    
       const data = {
         firstName: editValue.firstName,
         lastName: editValue.lastName,

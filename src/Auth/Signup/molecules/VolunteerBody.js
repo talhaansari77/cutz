@@ -20,7 +20,7 @@ const VolunteerBody = (props) => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
   const [showPassword1, setShowPassword1] = useState(true);
-  const [phoneRaw, setPhoneRaw] = useState("")
+  const [phoneRaw, setPhoneRaw] = useState("");
   const dispatch = useDispatch();
   const [signupErrors, setSignupError] = useState({
     firstError: "",
@@ -63,16 +63,14 @@ const VolunteerBody = (props) => {
       placeholder: "Phone Number",
       error: signupErrors.phoneError,
       value: signupValue.phoneNumber,
-      keyboardType:"number-pad",
-
-      
+      keyboardType: "number-pad",
 
       onChangeText: (txt) => {
-        formatePhone(txt)
+        formatePhone(txt);
       },
-      onChangeFormattedText:(txt)=>{
+      onChangeFormattedText: (txt) => {
         setSignupError({ ...signupErrors, phoneError: "" });
-        setPhoneRaw(txt)
+        setPhoneRaw(txt);
       },
 
       //   value: signupValues.country,
@@ -191,7 +189,6 @@ const VolunteerBody = (props) => {
         props.navigation,
         props.checkUser,
         dispatch
-        
       );
       // console.log("ResponseData",res?.data)
     }
@@ -221,7 +218,7 @@ const VolunteerBody = (props) => {
   return (
     <>
       <View>
-        <Spacer height={10} />
+        <Spacer height={20} />
         <PH20>
           <View
             style={{
@@ -258,6 +255,7 @@ const VolunteerBody = (props) => {
               borderRadius={15}
             />
           </View>
+          <Spacer height={10} />
 
           {SignupData.map((item) => (
             <>
@@ -279,6 +277,7 @@ const VolunteerBody = (props) => {
                 rigthIcon={item.rigthIcon}
                 // keyboardType={item.id===2?'numeric':''}
               />
+              <Spacer height={10} />
             </>
           ))}
         </PH20>

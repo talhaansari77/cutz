@@ -24,7 +24,7 @@ const MyCarousel = ({ data }) => {
           style={[
             styles.itemText,
             { color: isFocused ? colors.blue1 : colors.black,
-              fontSize:isFocused? scale(24):scale(20),
+              fontSize:verticalScale(23),
 
             },
           ]}

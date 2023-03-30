@@ -16,6 +16,7 @@ import {
   postEventReservationClient,
   postEventReservationVolunteer,
 } from "../../../services/Reservation";
+import moment from "moment";
 
 const WelcomeScreen = ({ navigation: { navigate }, route }) => {
   const AuthUser = useSelector((state) => state.authReducers.authState);
@@ -41,7 +42,7 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
       checkOut: "",
     };
     // clientStatus
-    console.log(AuthUser);
+    // console.log(AuthUser);
     if (AuthUser._id)
       if (AuthUser.clientStatus) {
         postEventReservationClient(data, AuthUser.token).then((r) => {
@@ -81,7 +82,7 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
         index: index,
         title: o.organization,
       }));
-      console.log(eventTypes);
+      // console.log(eventTypes);
       setState({
         ...state,
         events: data,
@@ -96,6 +97,13 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
     setTicketVisible(false);
   }, [isFocused]);
 
+  useEffect(() => {
+    // 2023-03-12T20:30:11.000Z
+
+    console.log("dataTimeData",moment("2023-03-12T20:30:11.000Z",).utc().format('dddd MMM YYYY'));
+    //  console.log("TimeFormatData",timeData)
+  
+  }, [isFocused])
   return (
     <>
       <SafeAreaView style={styles.container}>
