@@ -120,10 +120,33 @@ const TicketCheckInAndOutVol = ({ state, setState }) => {
               <Spacer height={20} />
 
               <View style={{ flexDirection: "row" }}>
-                <InputItem value={"3"} />
-                <InputItem value={"2"} spacer />
-                <InputItem value={"4"} spacer />
-                <InputItem value={"5"} spacer />
+                <InputItem
+                  value={state.pin1}
+                  onChange={(v) => {
+                    setState({ ...state, pin1: v });
+                  }}
+                />
+                <InputItem
+                  value={state.pin2}
+                  onChange={(v) => {
+                    setState({ ...state, pin2: v });
+                  }}
+                  spacer
+                />
+                <InputItem
+                  value={state.pin3}
+                  onChange={(v) => {
+                    setState({ ...state, pin3: v });
+                  }}
+                  spacer
+                />
+                <InputItem
+                  value={state.pin4}
+                  onChange={(v) => {
+                    setState({ ...state, pin4: v });
+                  }}
+                  spacer
+                />
               </View>
             </View>
             <Spacer height={10} />
@@ -143,18 +166,39 @@ const TicketCheckInAndOutVol = ({ state, setState }) => {
                 borderRadius={15}
                 backgroundColor={colors.btnDark}
                 onPress={() => {
-                  if (state.checkIn) {
-                    setState({ ...state, checkOut: true, greet: true });
+                  // if (state.checkIn) {
+                  //   setState({ ...state, checkOut: true, greet: true });
+                  // } else {
+                  //   setState({ ...state, checkIn: true, greet: true });
+                  //   setTimeout(() => {
+                  //     setState({
+                  //       ...state,
+                  //       greet: false,
+                  //       checkIn: true,
+                  //     });
+                  //   }, 3000);
+                  // }
+
+                  let eventCode =
+                    state.pin1 + state.pin2 + state.pin3 + state.pin4;
+                  console.log(eventCode, state?.currentTicket?.eventCode);
+                  if (!state.checkIn) {
+                    if (eventCode === state?.currentTicket?.eventCode) {
+                      setState({ ...state, checkIn: true , greet: true });
+                      setTimeout(() => {
+                            setState({
+                              ...state,
+                              greet: false,
+                              checkIn: true,
+                            });
+                          }, 3000);
+                    }
                   } else {
-                    setState({ ...state, checkIn: true, greet: true });
-                    setTimeout(() => {
-                      setState({
-                        ...state,
-                        greet: false,
-                        checkIn: true,
-                      });
-                    }, 3000);
+                    if (eventCode === state?.currentTicket?.eventCode) {
+                      setState({ ...state, checkOut: true, greet: true });
+                    }
                   }
+                  modelClose();
                 }}
               />
               <Spacer height={10} />

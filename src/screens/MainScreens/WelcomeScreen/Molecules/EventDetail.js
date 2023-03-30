@@ -18,6 +18,7 @@ import MyCarousel from "../../../../../MyCarousel";
 import EventTimingCarousel from "../../../../../EventTimingCarousel";
 import Loader from "../../../../utils/Loader";
 import loaderAnimation from "../../../../../assets/Loaders";
+import moment from 'moment'
 
 const { height, width } = Dimensions.get("window");
 // data being used
@@ -493,11 +494,11 @@ const EventDetail = ({ handleBookingPress, userType,state,setState }) => {
       <Spacer height={20} />
       <View style={{}}>
         {userType === "Client" ? (
-          <EventTimingCarousel data={eventTimingList} />
+          <EventTimingCarousel data={state.events} />
         ) : (
-          eventTimingListVolunteer.map(({ label }, index) => (
+          state.events.map(({ eventStartTime }, index) => (
             <EventTimingListItemVolunteer
-              label={label}
+              label={moment(eventStartTime).utc().format('hh:mm A')}
               indexx={index}
               key={index}
             />

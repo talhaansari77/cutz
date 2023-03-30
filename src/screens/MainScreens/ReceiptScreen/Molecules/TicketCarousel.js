@@ -19,21 +19,9 @@ const data = [
   //   { id: 5, text: "Item 5" },
 ];
 
-export const fomateDateToMMDDYYYY = (date) => {
-  return moment(date).format('MM-DD-YYYY');
-}
-export const fomateTime = (date )=> {
-  return moment(date.toLocaleTimeString(), 'HH:mm:ss A').format('hh:mm');
-}
-export const fomateAMPM = (date) => {
-  return moment(date.toLocaleTimeString(), 'HH:mm:ss A').format('A');
-}
-export const fomateTimeAMPM = (date) => {
-  return moment(date.toLocaleTimeString(), 'HH:mm:ss A').format('hh:mm A');
-}
-export const fomateAMAPMTo24Hour = (date ) => {
-  return moment(date, 'HH:mm A').format('HH:mm:ss');
-}
+// console.log("dataTimeData",moment("2023-03-12T20:30:11.000Z",).utc().format('dddd MMM YYYY'));
+// console.log("dataTimeData",moment("2023-03-12T20:30:11.000Z",).utc().format('DD MMM YYYY'));
+
 const { height, width } = Dimensions.get("window");
 const TicketCarousel = ({
   handleCancelPress,
@@ -86,7 +74,7 @@ const TicketCarousel = ({
               fontSize={14}
             />
             <CustomText
-              label={fomateTime(item.eventStartTime)}
+              label={moment(item.eventStartTime).utc().format('hh:mm A')}
               fontFamily={"semiBold"}
               color={colors.perFectDark}
               fontSize={11}

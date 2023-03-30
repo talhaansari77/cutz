@@ -26,12 +26,13 @@ function CustomButton({
   btnStyle,
   marginHorizontal,
   borderTopLeftRadius,
-  borderTopRightRadius
+  borderTopRightRadius,
+  activeOpacity
 }) {
   return (
     <TouchableOpacity
       disabled={loading}
-      activeOpacity={0.6}
+      activeOpacity={activeOpacity||0.6}
       style={[
         {
           backgroundColor: backgroundColor || colors.primary,

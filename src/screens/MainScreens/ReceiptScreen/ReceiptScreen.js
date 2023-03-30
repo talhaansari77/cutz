@@ -32,6 +32,8 @@ import {
 } from "../../../services/Reservation";
 import { getEvents } from "../../../services/Events";
 import { getEventGroup } from "../../../services/EventGroup";
+import Loader from "../../../utils/Loader";
+import loaderAnimation from "../../../../assets/Loaders";
 
 
 
@@ -42,6 +44,7 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
 
   const [check, setCheck] = useState(false);
   const [state, setState] = useState({
+    loading: false,
     checkIn: false,
     checkOut: false,
     greet: false,
@@ -56,21 +59,15 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
     pin3:"",
     pin4:"",
   });
-
-  // const { ticketDetail } = route.params;
-
-  // let data= r.data;
-  // let myTickets=data.filter((t)=>r.clientID===AuthUser._id)
-  // useEffect(() => {
-  //   getEvents().then((r) => {
-  //     let data = r.data;
-  //     setState({
-  //       ...state,
-  //       events: data,
-  //     });
-  //   });
-  // }, [isFocused]);
+  const loaderOn = () => {
+    setState({ ...state, loading: true });
+  };
+  const loaderOff = () => {
+    setState({ ...state, loading: false });
+  };
+  
   useEffect(() => {
+    loaderOn()
     var data = [];
     // setState({ ...state, tickets: [] });
     getEvents().then((r) => {
@@ -104,8 +101,9 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
         }
       });
     });
-    console.log("myTickets");
-    console.log(state.tickets.length);
+    loaderOff()
+    // console.log("myTickets");
+    // console.log(state.tickets.length);
     // setState({ ...state, tickets: myTickets });
   }, [isFocused]);
   
@@ -175,6 +173,8 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
           )}
         </>
       )}
+      <Loader file={loaderAnimation} loading={state.loading} />
+
     </SafeAreaView>
   );
 };

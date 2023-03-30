@@ -4,7 +4,7 @@ import { Divider } from "react-native-elements";
 import { verticalScale } from "react-native-size-matters";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { colors } from "./src/utils/Colors";
-
+import moment from 'moment'
 // const data = [
 //   { id: 1, text: "Item 1" },
 //   { id: 2, text: "Item 2" },
@@ -14,9 +14,9 @@ import { colors } from "./src/utils/Colors";
 // ];
 
 const EventTimingCarousel = ({ data }) => {
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [activeSlide, setActiveSlide] = useState(3);
 
-  const renderItem = ({ item, index }) => {
+  const renderItem = ({ item:{eventStartTime}, index }) => {
     const isFocused = index === activeSlide;
 
     return (
@@ -27,7 +27,7 @@ const EventTimingCarousel = ({ data }) => {
             { color: isFocused ? colors.secondary : colors.blue1 },
           ]}
         >
-          {item.label}
+          {moment(eventStartTime).utc().format('hh:mm A')+ " Available"}
         </Text>
       </View>
     );

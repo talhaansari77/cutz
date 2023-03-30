@@ -13,7 +13,7 @@ import { colors } from "./src/utils/Colors";
 // ];
 
 const MyCarousel = ({ data }) => {
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [activeSlide, setActiveSlide] = useState(3);
 
   const renderItem = ({ item, index }) => {
     const isFocused = index === activeSlide;
@@ -24,7 +24,7 @@ const MyCarousel = ({ data }) => {
           style={[
             styles.itemText,
             { color: isFocused ? colors.blue1 : colors.black,
-              fontSize:isFocused? scale(24):scale(20),
+              fontSize:scale(20),
 
             },
           ]}

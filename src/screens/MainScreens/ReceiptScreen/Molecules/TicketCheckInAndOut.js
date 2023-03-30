@@ -121,18 +121,20 @@ const TicketCheckInAndOut = ({ setState, state }) => {
             // ? setState({ ...state, checkOut: true, greet: true })
             // : setState({ ...state, checkIn: true });
             let eventCode = state.pin1 + state.pin2 + state.pin3 + state.pin4;
-            console.log(eventCode,state?.currentTicket?.eventCode);
-            if(!state.checkIn){
-
-              if(eventCode===state?.currentTicket?.eventCode){
-                setState({ ...state, checkIn: true })
+            console.log(eventCode, state?.currentTicket?.eventCode);
+            if (!state.checkIn) {
+              if (eventCode === state?.currentTicket?.eventCode) {
+                setState({ ...state, checkIn: true });
               }
-            }else{
-              if(eventCode===state?.currentTicket?.eventCode){
-                setState({ ...state, checkOut: true, greet: true })
+            } else {
+              if (eventCode === state?.currentTicket?.eventCode) {
+                setState({ ...state, checkOut: true, greet: true });
               }
             }
-            modelClose();
+            // modelClose();
+            // setTimeout(() => {
+            //   setState({ ...state, pin1: "", pin2: "", pin3: "", pin4: "" })
+            // }, 1000);
           }}
         />
       </View>
@@ -177,11 +179,13 @@ const TicketCheckInAndOut = ({ setState, state }) => {
             width={"50%"}
             borderRadius={10}
             onPress={() => {
-              console.log('first')
-              setState({...state,
+              console.log("first");
+              setState({
+                ...state,
                 checkIn: false,
                 checkOut: false,
                 greet: false,
+                ticketDetail: false
               });
               navigation.navigate("Welcome");
             }}
@@ -228,7 +232,12 @@ const TicketCheckInAndOut = ({ setState, state }) => {
           <View style={styles.card}>
             <View style={styles.whiteCircle} />
             <View style={{ alignItems: "center" }}>
-              <CustomButton title={"Get In Line!"} width={"95%"} height={40} />
+              <CustomButton
+                title={"Get In Line!"}
+                width={"95%"}
+                height={40}
+                activeOpacity={1}
+              />
               <Spacer height={10} />
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <CustomText
@@ -252,7 +261,14 @@ const TicketCheckInAndOut = ({ setState, state }) => {
                 fontSize={23}
               /> */}
               <CustomText
-                label={"2/12/23 @ 2PM"}
+                label={
+                  moment("2023-03-12T20:30:11.000Z").utc().format("DD/MM/YY") +
+                  " @ " +
+                  moment(state?.currentTicket?.eventStartTime)
+                    .utc()
+                    .format("hh:mm A")
+                }
+                // label={"2/12/23 @ 2PM"}
                 color={colors.white}
                 fontFamily={"bold"}
                 fontSize={23}
