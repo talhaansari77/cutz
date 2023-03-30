@@ -33,6 +33,8 @@ import {
 import { getEvents } from "../../../services/Events";
 import { getEventGroup } from "../../../services/EventGroup";
 
+
+
 const ReceiptScreen = ({ navigation: { navigate }, route }) => {
   // console.log("RoutesType", route?.params);
   const AuthUser = useSelector((state) => state.authReducers.authState);
@@ -106,6 +108,7 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
     console.log(state.tickets.length);
     // setState({ ...state, tickets: myTickets });
   }, [isFocused]);
+  
 
   const handleProceedPress = (ticket) => {
     navigate("Event", {
