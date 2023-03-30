@@ -11,19 +11,24 @@ import { Spacer } from "../../../../components/Spacer";
 import { scale, verticalScale } from "react-native-size-matters";
 import CustomButton from "../../../../components/CustomButton";
 import { useSignup } from "../../../../Auth/Signup/useSignup";
-import { DeleteClientEvent, UpdateClientEvent } from "../../../../services/EventClientsApi";
+import {
+  DeleteClientEvent,
+  UpdateClientEvent,
+} from "../../../../services/EventClientsApi";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import Toast from "react-native-root-toast";
-const ClientEditProfile = ({navigation}) => {
+const ClientEditProfile = ({ navigation, setLoading }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [familySize, setFamilySize] = useState("");
-  const  dispatch=useDispatch()
+  const dispatch = useDispatch();
+  const [phoneRaw, setPhoneRaw] = useState("");
 
   const AuthUser = useSelector((state) => state.authReducers.authState);
 
   useEffect(() => {
     setFamilySize(AuthUser?.familySize);
+
   }, []);
 
   const [signupErrors, setSignupError] = useState({
@@ -51,7 +56,8 @@ const ClientEditProfile = ({navigation}) => {
     const ValidateResponse = useSignup(
       signupValue,
       signupErrors,
-      setSignupError
+      setSignupError,
+      phoneRaw
     );
     if (ValidateResponse) {
       const data = {
@@ -64,7 +70,13 @@ const ClientEditProfile = ({navigation}) => {
         password: signupValue.password,
         confirmPassword: signupValue.confirmPassword,
       };
-      await UpdateClientEvent(AuthUser?.token, data, AuthUser, dispatch);
+      await UpdateClientEvent(
+        AuthUser?.token,
+        data,
+        AuthUser,
+        dispatch,
+        setLoading
+      );
 
       // console.log("ResponseData", responData);
     }
@@ -80,7 +92,7 @@ const ClientEditProfile = ({navigation}) => {
     const res = await DeleteClientEvent(AuthUser?.token);
     if (res?.data) {
       Toast.show("Account deleted successfully");
-      navigation.navigate("AuthStack",{screen:"signup"});
+      navigation.navigate("AuthStack", { screen: "signup" });
     }
   };
 
@@ -89,6 +101,22 @@ const ClientEditProfile = ({navigation}) => {
 
     setFamilySize(item);
     setModalVisible(false);
+  };
+  const formatePhone = (phoneNumberString) => {
+    let newText = "";
+    let cleaned = ("", phoneNumberString).replace(/\D/g, "");
+    for (var i = 0; i < cleaned.length; i++) {
+      if (i == 0) {
+        newText = "(";
+      } else if (i == 3) {
+        newText = newText + ") ";
+      } else if (i == 6) {
+        newText = newText + "-";
+      }
+      newText = newText + cleaned[i];
+    }
+    setSignupValue({ ...signupValue, phoneNumber: newText });
+    setSignupError({ ...signupErrors, phoneError: "" });
   };
   return (
     <>
@@ -140,34 +168,19 @@ const ClientEditProfile = ({navigation}) => {
         }}
       />
       <Spacer height={30} />
-      <PhoneInput
-        defaultCode="US"
+      <CustomInputs
+        placeholder="Phone Number"
+        paddingLeft={20}
+        alignSelf="center"
+        width="100%"
+        keyboardType={"number-pad"}
         value={signupValue.phoneNumber}
-        onChangeText={(num) => {
-          setSignupValue({ ...signupValue, phoneNumber: num });
-          setSignupError({ ...signupErrors, phoneError: "" });
-        }}
-        containerStyle={{
-          borderBottomWidth: 1.5,
-          borderBottomColor: colors.black,
-          width: "100%",
-        }}
-        textContainerStyle={{
-          backgroundColor: "transparent",
-
-          borderBottomWidth: 0.1,
-          borderBottomColor: colors.secondary,
+        error={signupErrors.phoneError}
+        onChangeText={(txt) => {
+          formatePhone(txt);
         }}
       />
-      {signupErrors.phoneError && (
-        <CustomText
-          marginTop={5}
-          fontSize={9}
-          marginLeft={10}
-          label={signupErrors.phoneError}
-          color={colors.red}
-        />
-      )}
+
       <Spacer height={30} />
       <CustomInputs
         placeholder="Address"

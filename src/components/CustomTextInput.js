@@ -36,7 +36,7 @@ const CustomTextInput = ({
     <View
       style={{
         width: props.width || "100%",
-        height: error ? verticalScale(45) : null,
+        height: error ? verticalScale(50) : null,
       }}
     >
       <TouchableOpacity

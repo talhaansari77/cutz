@@ -25,23 +25,29 @@ export const GetVolunteerEvent = async (token) => {
 };
 export const GetEvent = async () => {
   try {
-    return await axios.get(`${URLS.BASE_URL}${URLS.GET_EVENTS}`,{
-       headers: {
-        Accept: "application/json"
+    return await axios.get(`${URLS.BASE_URL}${URLS.GET_EVENTS}`, {
+      headers: {
+        Accept: "application/json",
       },
-
-    });z
+    });
+    z;
   } catch (error) {}
 };
 
-export const UpdateVolunteerEvent = async (token, data, AuthUser, dispatch) => {
+export const UpdateVolunteerEvent = async (
+  token,
+  data,
+  AuthUser,
+  dispatch,
+  setLoading
+) => {
   const options = {
     method: "PATCH",
     url: `${URLS.BASE_URL}${URLS.GET_VOLUNTEER}`,
     headers: { Authorization: "Bearer " + token },
     data: data,
   };
-  // setLoading(true);
+  setLoading(true);
 
   try {
     await axios
@@ -54,20 +60,23 @@ export const UpdateVolunteerEvent = async (token, data, AuthUser, dispatch) => {
           const data = res?.data;
           data["token"] = token;
           data["currentUser"] = AuthUser.checkUser;
+          setLoading(false);
+
           Toast.show("Profile is updated");
-          console.log("UpdatedData",JSON.stringify(data,null,2))
+          console.log("UpdatedData", JSON.stringify(data, null, 2));
 
           dispatch(LoginActions(data));
           //   return res
         } else {
           Toast.show("something wrong");
+          setLoading(false);
 
           console.log("AccountExist");
         }
       })
       .catch((error) => {
         setLoading(false);
-        Toast.show("Account is already exist");
+        // Toast.show("Account is already exist");
       });
 
     return res;
@@ -86,15 +95,21 @@ export const DeleteVolunteerEvent = async (token) => {
   } catch (error) {}
 };
 
-export const UpdateClientEvent = async (token, data, AuthUser, dispatch) => {
-  console.log("TokenData",token)
+export const UpdateClientEvent = async (
+  token,
+  data,
+  AuthUser,
+  dispatch,
+  setLoading
+) => {
+  console.log("TokenData", token);
   const options = {
     method: "PATCH",
     url: `${URLS.BASE_URL}${URLS.GET_CLIENT}`,
     headers: { Authorization: "Bearer " + token },
     data: data,
   };
-  // setLoading(true);
+  setLoading(true);
 
   try {
     await axios
@@ -102,17 +117,20 @@ export const UpdateClientEvent = async (token, data, AuthUser, dispatch) => {
       .then(async function (response) {
         // console.log("userCreated", response?.message);
         if (response) {
-          // setLoading(false);
           const res = await GetClientEvent(token);
           const data = res?.data;
           data["token"] = token;
           data["currentUser"] = AuthUser.checkUser;
           Toast.show("Profile is updated");
-          console.log("UpdatedData",JSON.stringify(data,null,2))
+          console.log("UpdatedData", JSON.stringify(data, null, 2));
+          setLoading(false);
 
           dispatch(LoginActions(data));
           //   return res
         } else {
+          setLoading(false);
+
+
           Toast.show("something wrong");
 
           console.log("AccountExist");
@@ -120,7 +138,7 @@ export const UpdateClientEvent = async (token, data, AuthUser, dispatch) => {
       })
       .catch((error) => {
         setLoading(false);
-        Toast.show("Account is already exist");
+        // Toast.show("Account is already exist");
       });
 
     return res;
@@ -138,5 +156,3 @@ export const DeleteClientEvent = async (token) => {
     });
   } catch (error) {}
 };
-
-

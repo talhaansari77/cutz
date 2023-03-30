@@ -172,7 +172,7 @@ const SignupBody = (props) => {
             paddingLeft={20}
             alignSelf="center"
             value={signupValue.phoneNumber}
-            error={signupErrors.phoneNumber}
+            error={signupErrors.phoneError}
             onChangeText={(txt) => {
               formatePhone(txt);
             }}

@@ -20,6 +20,7 @@ const VolunteerBody = (props) => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
   const [showPassword1, setShowPassword1] = useState(true);
+  const [phoneRaw, setPhoneRaw] = useState("")
   const dispatch = useDispatch();
   const [signupErrors, setSignupError] = useState({
     firstError: "",
@@ -64,6 +65,10 @@ const VolunteerBody = (props) => {
       value: signupValue.phoneNumber,
       onChangeText: (txt) => {
         formatePhone(txt)
+      },
+      onChangeFormattedText:(txt)=>{
+        setSignupError({ ...signupErrors, phoneError: "" });
+        setPhoneRaw(txt)
       },
 
       //   value: signupValues.country,
@@ -160,7 +165,8 @@ const VolunteerBody = (props) => {
     const ValidateResponse = useVolunteerSignup(
       signupValue,
       signupErrors,
-      setSignupError
+      setSignupError,
+      phoneRaw
     );
     if (ValidateResponse) {
       const data = {
@@ -181,6 +187,7 @@ const VolunteerBody = (props) => {
         props.navigation,
         props.checkUser,
         dispatch
+        
       );
       // console.log("ResponseData",res?.data)
     }

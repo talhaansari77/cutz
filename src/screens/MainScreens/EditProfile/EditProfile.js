@@ -11,6 +11,8 @@ import { Avatar } from "react-native-elements";
 import { images } from "../../../../assets/images";
 import { icons } from "../../../../assets/icons";
 import * as ImagePicker from "expo-image-picker";
+import Loader from "../../../utils/Loader";
+
 
 
 const EditProfile = ({ route,navigation }) => {
@@ -18,8 +20,10 @@ const EditProfile = ({ route,navigation }) => {
   const [authUser, setAuthUser] = useState(null)
   const [imageUri, setImageUri] = useState("")
   const [image, setImage] = useState("")
+  const [loading, setLoading] = useState(false)
 
   // console.log("RoutesType",route?.params?.type?.params?.userType)
+  console.log("ImageAssets",imageUri)
 
 
 
@@ -35,13 +39,14 @@ console.log("ImageUrl",image)
       const result = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
         aspect: [4, 3],
-        base64: true,
+        includeBase64: true
+        // base64: true,
 
       });
       if (result) {
-        // setImageUri(result?.assets);
+        setImageUri(result?.uri);
         setImage(result.uri)
-        console.log("ResulteImage",result)
+        // console.log("ResulteImageData",result.type)
        
       } else {
         setImageUri("");
@@ -65,7 +70,8 @@ console.log("ImageUrl",image)
             }}
           >
             {image?(
-              <Image source={image}
+              <>
+              <Image source={{uri:image}}
               resizeMode="contain"
               style={{
                 height: 85,
@@ -74,6 +80,26 @@ console.log("ImageUrl",image)
 
               }}
               />
+
+              <TouchableOpacity 
+              activeOpacity={0.6}
+              onPress={onClickImage}
+              >
+              <Avatar
+                source={icons.cameraPlus}
+                rounded
+                size={40}
+                containerStyle={{
+                  alignSelf: "center",
+                  position: "absolute",
+                  bottom: -5,
+                  right: -5,
+                }}
+              />
+  
+              </TouchableOpacity>
+              </>
+
 
             ):(
               <>
@@ -119,18 +145,21 @@ console.log("ImageUrl",image)
 
           {authUser?.currentUser === "Client" ? (
             <ClientEditProfile  
+            setLoading={setLoading}
             imageUri={imageUri}
             setImageUri={setImageUri}
              navigation={navigation}/>
           ) : (
             <VolunteerEditProfile 
              navigation={navigation}
+             setLoading={setLoading}
              imageUri={imageUri}
              setImageUri={setImageUri}
              />
           )}
         </PH20>
       </ScrollView>
+      <Loader loading={loading}/>
     </View>
   );
 };

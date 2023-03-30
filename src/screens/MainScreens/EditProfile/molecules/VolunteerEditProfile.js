@@ -12,7 +12,8 @@ import { useSelector } from "react-redux";
 import { useVolunteerSignup } from "../../../../Auth/Signup/useVolunteerSignup";
 import { useDispatch } from "react-redux";
 import CustomText from "../../../../components/CustomText";
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import * as FileSystem from "expo-file-system";
 
 import {
   DeleteVolunteerEvent,
@@ -28,6 +29,8 @@ const VolunteerEditProfile = (props) => {
   const [showPassword1, setShowPassword1] = useState(true);
   const AuthUser = useSelector((state) => state.authReducers.authState);
   console.log("CurrentUserData", AuthUser?.firstName);
+  const [phoneRaw, setPhoneRaw] = useState("");
+
   const [editErrors, setEditError] = useState({
     firstError: "",
     lastError: "",
@@ -122,9 +125,10 @@ const VolunteerEditProfile = (props) => {
       placeholder: "Phone Number",
       error: editErrors.phoneError,
       value: editValue.phoneNumber,
+      keyboardType:"number-pad",
+
       onChangeText: (txt) => {
-        setEditValue({ ...editValue, phoneNumber: txt });
-        setEditError({ ...editErrors, phoneError: "" });
+        formatePhone(txt);
       },
 
       //   value: signupValues.country,
@@ -216,6 +220,23 @@ const VolunteerEditProfile = (props) => {
     },
   ];
 
+  const formatePhone = (phoneNumberString) => {
+    let newText = "";
+    let cleaned = ("", phoneNumberString).replace(/\D/g, "");
+    for (var i = 0; i < cleaned.length; i++) {
+      if (i == 0) {
+        newText = "(";
+      } else if (i == 3) {
+        newText = newText + ") ";
+      } else if (i == 6) {
+        newText = newText + "-";
+      }
+      newText = newText + cleaned[i];
+    }
+    setEditValue({ ...editValue, phoneNumber: newText });
+    setEditError({ ...editErrors, phoneError: "" });
+  };
+
   const onSubmitSignup = async () => {
     console.log("nkbk");
     const ValidateResponse = useVolunteerSignup(
@@ -224,6 +245,8 @@ const VolunteerEditProfile = (props) => {
       setEditError
     );
     if (ValidateResponse) {
+      // const forBase64 = await FileSystem.readAsStringAsync(props.imageUri, { encoding: 'base64' });
+
       const data = {
         firstName: editValue.firstName,
         lastName: editValue.lastName,
@@ -234,10 +257,16 @@ const VolunteerEditProfile = (props) => {
         organization: editValue.organization,
         password: editValue.password,
         confirmPassword: editValue.confirmPassword,
-        profilePicture:props.imageUri
+        profilePicture: "",
       };
       console.log("ChengeData", data);
-      await UpdateVolunteerEvent(AuthUser?.token, data, AuthUser, dispatch);
+      await UpdateVolunteerEvent(
+        AuthUser?.token,
+        data,
+        AuthUser,
+        dispatch,
+        props.setLoading
+      );
     }
   };
 
@@ -245,7 +274,7 @@ const VolunteerEditProfile = (props) => {
     const res = await DeleteVolunteerEvent(AuthUser?.token);
     if (res?.data) {
       Toast.show("Account deleted successfully");
-      props?.navigation.navigate("AuthStack",{screen:"signup"});
+      props?.navigation.navigate("AuthStack", { screen: "signup" });
     }
   };
   return (
@@ -301,52 +330,26 @@ const VolunteerEditProfile = (props) => {
             )}
           </View>
         </View>
-        <GooglePlacesAutocomplete
-      placeholder='Please search'
-      debounce={400}
-      styles={{backgroundColor:"red",borderRa:10,borderBottomWidth:1,fontSize:15}}
-      onPress={(data, details = null) => {
-        // 'details' is provided when fetchDetails = true
-        console.log("dataDeailSI",data, details);
-      }}
-      query={{
-        key: URLS.GOOGL_MAP_API,
-        language: 'en',
-      }}
-    />
+        {/* <GooglePlacesAutocomplete
+          placeholder="Please search"
+          debounce={400}
+          styles={{
+            backgroundColor: "red",
+            borderRa: 10,
+            borderBottomWidth: 1,
+            fontSize: 15,
+          }}
+          onPress={(data, details = null) => {
+            // 'details' is provided when fetchDetails = true
+            console.log("dataDeailSI", data, details);
+          }}
+          query={{
+            key: URLS.GOOGL_MAP_API,
+            language: "en",
+          }}
+        /> */}
         {SignupData.map((item) => {
-          return item.id == 2 ? (
-            <>
-              <Spacer height={30} />
-              <PhoneInput
-                value={AuthUser?.phoneNumber}
-                defaultCode="US"
-                onChangeText={item.onChangeText}
-                //   initialCountry="Uk"
-                //   defaultCode="+1"
-                //   initialValue={state.contact}
-                containerStyle={{
-                  borderBottomWidth: 1,
-                  borderBottomColor: colors.black,
-                  width: "100%",
-                }}
-                textContainerStyle={{
-                  backgroundColor: "transparent",
-
-                  // borderBottomWidth: 0.1,
-                  borderBottomColor: colors.secondary,
-                }}
-              />
-              {editErrors.phoneError && (
-                <CustomText
-                  marginTop={5}
-                  fontSize={9}
-                  label={editErrors.phoneError}
-                  color={colors.red}
-                />
-              )}
-            </>
-          ) : (
+          return (
             <>
               <Spacer height={30} />
               <CustomInputs
@@ -354,6 +357,7 @@ const VolunteerEditProfile = (props) => {
                 paddingLeft={20}
                 error={item.error}
                 value={item.value}
+                keyboardType={item.keyboardType}
                 onChangeText={item.onChangeText}
                 alignSelf="center"
                 width="100%"
@@ -375,7 +379,6 @@ const VolunteerEditProfile = (props) => {
         })}
       </View>
       <Spacer height={30} />
-     
 
       <View
         style={{

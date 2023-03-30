@@ -39,6 +39,10 @@ export const useSignup = (signupValue, signupErrors, setSignupError ) => {
 
     return;
   }
+  if (signupValue.phoneNumber.length < 10) {
+    setSignupError({ ...signupErrors, phoneError: "Phone number should be minimum 10 digits" });
+    return;
+  }
   if (!signupValue.address) {
     setSignupError({ ...signupErrors, addressError: "address is required" });
 

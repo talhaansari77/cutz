@@ -55,16 +55,18 @@ const RootNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {AuthData?.rememberMe ? (
+        {/* {AuthData?.rememberMe ? (
           <>
 
             <Stack.Screen name="MainStack" component={MainStack} />
           </>
         ) : (
-          <>
+          <> */}
             <Stack.Screen name="AuthStack" component={AuthStack} />
-          </>
-        )}
+            <Stack.Screen name="MainStack" component={MainStack} />
+
+          {/* </>
+        )} */}
         {/* <Stack.Screen name="Reservation" component={MakeReservation} /> */}
       </Stack.Navigator>
     </NavigationContainer>

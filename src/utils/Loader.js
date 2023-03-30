@@ -1,5 +1,7 @@
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import LottieView from "lottie-react-native";
+import { colors } from '../utils/Colors';
+
 
 const Loader = ({ loading, file }) => {
   return loading ? (
@@ -14,13 +16,9 @@ const Loader = ({ loading, file }) => {
         width: "100%",
       }}
     >
+      <ActivityIndicator size={"large"} color={colors.primary}/>
       
-      <LottieView
-        style={{ height: 150 }}
-        source={file}
-        autoPlay
-        speed={1.5}
-      />
+   
     </View>
   ) : (
     <></>
