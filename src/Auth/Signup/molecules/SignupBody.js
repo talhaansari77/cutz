@@ -171,6 +171,8 @@ const SignupBody = (props) => {
             placeholder="Phone Number"
             paddingLeft={20}
             alignSelf="center"
+            keyboardType="number-pad"
+
             value={signupValue.phoneNumber}
             error={signupErrors.phoneError}
             onChangeText={(txt) => {

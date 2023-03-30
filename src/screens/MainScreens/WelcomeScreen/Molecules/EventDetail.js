@@ -16,6 +16,8 @@ import { verticalScale, scale } from "react-native-size-matters";
 import CustomButton from "../../../../components/CustomButton";
 import MyCarousel from "../../../../../MyCarousel";
 import EventTimingCarousel from "../../../../../EventTimingCarousel";
+import Loader from "../../../../utils/Loader";
+import loaderAnimation from "../../../../../assets/Loaders";
 
 const { height, width } = Dimensions.get("window");
 // data being used
@@ -167,7 +169,7 @@ const eventDateList = [
   },
 ];
 
-const EventDetail = ({ handleBookingPress, userType }) => {
+const EventDetail = ({ handleBookingPress, userType,state,setState }) => {
   const [index, setIndex] = useState(0);
   const [dateIndex, setDateIndex] = useState(0);
   const [companyIndex, setCompanyIndex] = useState(0);
@@ -399,20 +401,20 @@ const EventDetail = ({ handleBookingPress, userType }) => {
       <Carousel
         width={174}
         height={
-          companyData.length === 1 ? 35 : companyData.length === 2 ? 70 : 105
+          state.companyData.length === 1 ? 35 : state.companyData.length === 2 ? 70 : 105
         }
-        enabled={companyData.length === 1 ? false : true}
-        defaultIndex={companyData.length > 1 && 1}
+        enabled={state.companyData.length === 1 ? false : true}
+        defaultIndex={state.companyData.length > 1 && 1}
         autoFillData={false}
         // height={40}
         vertical="true"
         mode="parallax"
         modeConfig={{
-          parallaxScrollingOffset: companyData.length < 3 ? 35 : 70,
+          parallaxScrollingOffset: state.companyData.length < 3 ? 35 : 70,
           parallaxScrollingScale: 1,
           // parallaxAdjacentItemScale: 0.82,
         }}
-        loop={companyData.length === 1 ? false : true}
+        loop={state.companyData.length === 1 ? false : true}
         // loop={true}
         style={{
           // width: 174,
@@ -422,12 +424,12 @@ const EventDetail = ({ handleBookingPress, userType }) => {
           // height: 200,
         }}
         scrollAnimationDuration={1}
-        data={companyData}
+        data={state.companyData}
         onSnapToItem={(index) => {
           setCompany(
-            companyData[index < companyData.length - 1 ? index + 1 : 0].title
+            state.companyData[index < state.companyData.length - 1 ? index + 1 : 0].title
           );
-          setCompanyIndex(index < companyData.length - 1 ? index + 1 : 0);
+          setCompanyIndex(index < state.companyData.length - 1 ? index + 1 : 0);
         }}
         renderItem={({ item }) => (
           <OrgListItem
@@ -450,7 +452,7 @@ const EventDetail = ({ handleBookingPress, userType }) => {
       </View>
       <Spacer height={10} />
 
-      <MyCarousel data={eventData} />
+      <MyCarousel data={state.eventTypes} />
 
       <Spacer height={20} />
       <PH20>
@@ -520,7 +522,7 @@ const EventDetail = ({ handleBookingPress, userType }) => {
             shadowOffset: { width: -1, height: 3 },
           }}
           borderRadius={15}
-          onPress={handleBookingPress}
+          onPress={()=>{handleBookingPress(companyIndex)}}
         />
       </View>
       <Spacer height={10} />

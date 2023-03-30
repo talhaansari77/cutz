@@ -12,6 +12,7 @@ import { images } from "../../../../assets/images";
 import { icons } from "../../../../assets/icons";
 import * as ImagePicker from "expo-image-picker";
 import Loader from "../../../utils/Loader";
+import loaderAnimation from "../../../../assets/Loaders/index"
 
 
 
@@ -157,9 +158,13 @@ console.log("ImageUrl",image)
              setImageUri={setImageUri}
              />
           )}
+          <Spacer height={30}/>
         </PH20>
+        
       </ScrollView>
-      <Loader loading={loading}/>
+      {/* <Loader loading={loading}/> */}
+      <Loader file={loaderAnimation} loading={loading} />
+
     </View>
   );
 };

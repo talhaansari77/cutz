@@ -1,14 +1,14 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { colors } from "../../../utils/Colors";
-import MapView from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import { icons } from "../../../../assets/icons";
 import { Spacer } from "../../../components/Spacer";
 import { scale } from "react-native-size-matters";
 import { Image } from "react-native-elements";
 import CustomText from "../../../components/CustomText";
 
-const EventLocations = ({ navigation,route }) => {
+const EventLocations = ({ navigation, route }) => {
   const Header = () => (
     <View
       style={{
@@ -21,7 +21,9 @@ const EventLocations = ({ navigation,route }) => {
     >
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("Receipt")}}>
+          navigation.navigate("Receipt");
+        }}
+      >
         <Image
           source={icons.back}
           resizeMode={"contain"}
@@ -32,21 +34,23 @@ const EventLocations = ({ navigation,route }) => {
         />
       </TouchableOpacity>
       <View style={{ flexDirection: "row" }}>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("Receipt",{ticketDetail:true,userType:route?.params?.userType});
-        }}
-      >
-
-        <Image
-          source={icons.ticket2}
-          resizeMode={"contain"}
-          containerStyle={{
-            height: 40,
-            width: 40,
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Receipt", {
+              ticketDetail: true,
+              userType: route?.params?.userType,
+            });
           }}
-        />
-      </TouchableOpacity>
+        >
+          <Image
+            source={icons.ticket2}
+            resizeMode={"contain"}
+            containerStyle={{
+              height: 40,
+              width: 40,
+            }}
+          />
+        </TouchableOpacity>
         <Spacer width={10} />
         <Image
           source={icons.bell}
@@ -59,21 +63,37 @@ const EventLocations = ({ navigation,route }) => {
       </View>
     </View>
   );
-  
+
   return (
     <View style={styles.container}>
       <Spacer height={40} />
       <Header />
       <View style={styles.shadowDivider} />
       <MapView
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
+        region={
+          route?.params?.location || {
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }
+        }
         style={styles.map}
-      />
+      >
+        
+        <Marker
+      key={'index'}
+      coordinate={route?.params?.location || {
+        latitude: 37.78825,
+        longitude: -122.4324,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      }}
+      title={'marker.title'}
+      description={'marker.description'}
+    />
+       
+      </MapView>
       {/* <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
       <CustomText
         label={"This Text Will Replace Map"}

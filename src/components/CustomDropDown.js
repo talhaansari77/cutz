@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Modal,
   Dimensions,
   TouchableOpacity,
 } from "react-native";
@@ -14,6 +13,7 @@ import { colors } from "../utils/Colors";
 import CustomText from "./CustomText";
 import SepratorLine from "./SepratorLine";
 const height = Dimensions.get("screen").height;
+import Modal from "react-native-modal"
 
 const CustomDropDown = ({ dropData, modalVisible, setModalVisible,setEventData,leftModal,modalWidth }) => {
   const [selectItem, setSelectItem] = useState(-1);
@@ -22,30 +22,32 @@ const CustomDropDown = ({ dropData, modalVisible, setModalVisible,setEventData,l
     animationType="fade"
     transparent={true}
     visible={modalVisible}
-    onRequestClose={() => {
-      Alert.alert('Modal has been closed.');
+    
+    
+
+    onBackdropPress={() => {
       setModalVisible(!modalVisible);
     }}>
         <View style={styles.centeredView}>
 
     <View
       style={{
-        width: modalWidth|| "60%",
+        width: modalWidth|| "62%",
         // height: verticalScale(130),
         borderRadius: 10,
         backgroundColor: colors.white,
         borderWidth: 1,
         borderColor: colors.primary,
-        position: "absolute",
         shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
         shadowRadius: 2,
         elevation: 5,
+        position:"absolute",
         shadowOpacity: 0.5,
         zIndex: 100,
         // inputMarginTop:-20,
         shadowOffset: { width: 1, height: 3 },
-        top: verticalScale(110),
-        left: leftModal|| "30%",
+        top:-220,
+        left: leftModal|| "35%",
       }}
     >
       <ScrollView>

@@ -5,6 +5,7 @@ import {
   Text,
   View,
   Image,
+  TouchableOpacity
 } from "react-native";
 import React from "react";
 import CustomText from "../../../components/CustomText";
@@ -15,28 +16,45 @@ import SepratorLine from "../../../components/SepratorLine";
 import { Spacer } from "../../../components/Spacer";
 import NotificationBody from "./molecules/NotificationBody";
 import NotificationContainer from "./molecules/NotificationContainer";
+import Modal from "react-native-modal";
 
-const ManageNotification = ({ navigation }) => {
+const ManageNotification = ({ modalVisible, setModalVisible }) => {
+  const profileData = [
+    {
+      id: 1,
+      name: "Push Notification",
+      img: icons.person,
+      //   onPress: () => navigation.navigate("PersonalScreen"),
+    },
+    
+  ];
   return (
-    <View style={commonStyles.commonMain}>
-      <Spacer height={40} />
-      <NotificationBody navigation={navigation} />
-      <Spacer height={40} />
-      <SepratorLine backgroundColor={"#C9C9C9"} />
+    <Modal
+      animationType="fade"
+      transparent={true}
+      visible={modalVisible}
+      onBackdropPress={() => {
+        setModalVisible(!modalVisible);
+      }}
+    >
+      <View style={{backgroundColor:colors.white,borderRadius:20,
+       shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+       shadowRadius: 2,
+       elevation: 5,
+       shadowOpacity: 0.5,
+       // inputMarginTop:-20,
+       shadowOffset: { width: 1, height: 3 },
+      }}>
+        <View style={{height:"70%",width:"100%",
+       
+      }}> 
+        <NotificationBody setModalVisible={setModalVisible} />
 
-      <NotificationContainer
-        name={"Choose Organizations"}
-        // img={item.img}
-        // enable
-        // onPress={item.onPress}
-        // family={item?.family}
-      />
-      <SepratorLine backgroundColor={"#C9C9C9"} />
 
-      {/* if  account type volunteer */}
-      {/* <NameContainer name={"FAMILY SIZE"} />
-<DetailContainer name={"# of mouths"}/> */}
-    </View>
+        </View>
+        {/* <Spacer height={40} /> */}
+      </View>
+    </Modal>
   );
 };
 export default ManageNotification;

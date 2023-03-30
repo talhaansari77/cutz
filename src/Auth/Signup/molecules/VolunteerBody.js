@@ -63,6 +63,10 @@ const VolunteerBody = (props) => {
       placeholder: "Phone Number",
       error: signupErrors.phoneError,
       value: signupValue.phoneNumber,
+      keyboardType:"number-pad",
+
+      
+
       onChangeText: (txt) => {
         formatePhone(txt)
       },
@@ -263,6 +267,7 @@ const VolunteerBody = (props) => {
                 paddingLeft={20}
                 error={item.error}
                 value={item.value}
+                keyboardType={item.keyboardType}
                 onChangeText={item.onChangeText}
                 alignSelf="center"
                 // width="100%"
@@ -272,7 +277,7 @@ const VolunteerBody = (props) => {
                 onRightPress={item.onRightPress}
                 iconHeight={verticalScale(15)}
                 rigthIcon={item.rigthIcon}
-                keyboardType={item.id===2?'numeric':''}
+                // keyboardType={item.id===2?'numeric':''}
               />
             </>
           ))}

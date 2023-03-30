@@ -28,7 +28,7 @@ const VolunteerEditProfile = (props) => {
   const dispatch = useDispatch();
   const [showPassword1, setShowPassword1] = useState(true);
   const AuthUser = useSelector((state) => state.authReducers.authState);
-  console.log("CurrentUserData", AuthUser?.firstName);
+  console.log("CurrentUserData", AuthUser?.AuthUser);
   const [phoneRaw, setPhoneRaw] = useState("");
 
   const [editErrors, setEditError] = useState({

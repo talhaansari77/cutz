@@ -95,7 +95,7 @@ const SearchHeader = ({eventType, organizationName, setEventData,
             setModalVisible={setOpen}
             dropData={organizationName}
             setEventData={setOrgData}
-            leftModal={"5%"}
+            leftModal={"0%"}
             modalWidth ={"45%"}
           />
         {/* {

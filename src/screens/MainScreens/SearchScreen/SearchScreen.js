@@ -17,7 +17,7 @@ import { colors } from "../../../utils/Colors";
 import { icons } from "../../../../assets/icons";
 import { useIsFocused } from "@react-navigation/native";
 import { scale } from "react-native-size-matters";
-import { GetEvent } from "../../../services/EventClientsApi";
+import { getEvents } from "../../../services/Events";
 
 const SearchScreen = ({ navigation }) => {
   const focused = useIsFocused();
@@ -30,27 +30,31 @@ const SearchScreen = ({ navigation }) => {
   const [search, setSearch] = useState("");
   const [searchError, setSearchError] = useState(false);
 
-  useEffect(async () => {
-    getEvents();
+  useEffect(() => {
+    getEventData();
   }, [focused]);
 
   console.log("eventType", events);
 
-  const getEvents = async () => {
+  const getEventData = async () => {
     const orgName = [];
     const eventType = [];
-    const resp = await GetEvent();
     //  console.log("EventData", resp?.data)
-    resp?.data.forEach((item) => {
-      orgName.push({
-        name: item.organization,
+    getEvents().then((r) => {
+      let data = r.data;
+      data.forEach((item) => {
+        orgName.push({
+          name: item.organization,
+        });
       });
-    });
-    resp?.data.forEach((item) => {
-      eventType.push({
-        name: item.eventType,
+      data.forEach((item) => {
+        eventType.push({
+          name: item.eventType,
+        });
       });
+     
     });
+  
 
     setEventType(eventType);
     setOrganizationName(orgName);
@@ -59,38 +63,74 @@ const SearchScreen = ({ navigation }) => {
     onSearchEvents();
   }, [orgData, eventData]);
   const onSearchEvents = async (txt) => {
-    const resp = await GetEvent();
-    if (eventData) {
-      const filterEvents = resp?.data?.filter((item) => {
-        return item?.eventType == eventData;
-      });
+    // const resp = await GetEvent();
+    getEvents().then((r) => {
+      let data = r.data;
+      if (eventData) {
+        const eventTypes = data.filter((item) => {
+          return item?.eventType == eventData;
+        });
 
-      if (filterEvents.length != 0) {
-        console.log("EventsFilter", filterEvents);
+        if (eventTypes.length != 0) {
+          console.log("EventsFilter", eventTypes);
 
-        setTimeout(() => {
-          navigation.navigate("Welcome", { data: filterEvents });
-        }, 1000);
-        setSearchError(false);
-      } else {
-        setSearchError(true);
+          setTimeout(() => {
+            navigation.navigate("Welcome", { data: eventTypes });
+          }, 1000);
+          setSearchError(false);
+        } else {
+          setSearchError(true);
+        }
+      } else if (orgData) {
+        const companyData = data.filter((item) => {
+          return item?.organization == orgData;
+        });
+
+        if (companyData.length != 0) {
+          console.log("filterOrg", companyData);
+
+          setTimeout(() => {
+            navigation.navigate("Welcome", { data: companyData });
+          }, 1000);
+
+          setSearchError(false);
+        } else {
+          setSearchError(true);
+        }
       }
-    } else if (orgData) {
-      const filterOrg = resp?.data?.filter((item) => {
-        return item?.organization == orgData;
-      });
-      if (filterOrg.length != 0) {
-        console.log("filterOrg", filterOrg);
+    });
+    // if (eventData) {
+    //   const filterEvents = resp?.data?.filter((item) => {
+    //     return item?.eventType == eventData;
+    //   });
 
-        setTimeout(() => {
-          navigation.navigate("Welcome", { data: filterOrg });
-        }, 1000);
+    //   if (filterEvents.length != 0) {
+    //     console.log("EventsFilter", filterEvents);
 
-        setSearchError(false);
-      } else {
-        setSearchError(true);
-      }
-    }
+    //     setTimeout(() => {
+    //       navigation.navigate("Welcome", { data: filterEvents });
+    //     }, 1000);
+    //     setSearchError(false);
+    //   } else {
+    //     setSearchError(true);
+    //   }
+    // }
+    // else if (orgData) {
+    //   const filterOrg = resp?.data?.filter((item) => {
+    //     return item?.organization == orgData;
+    //   });
+    //   if (filterOrg.length != 0) {
+    //     console.log("filterOrg", filterOrg);
+
+    //     setTimeout(() => {
+    //       navigation.navigate("Welcome", { data: filterOrg });
+    //     }, 1000);
+
+    //     setSearchError(false);
+    //   } else {
+    //     setSearchError(true);
+    //   }
+    // }
   };
   const onSearchText = (txt) => {
     setSearchError(false);
@@ -101,23 +141,28 @@ const SearchScreen = ({ navigation }) => {
     if (search.length == 0) {
       return;
     } else {
-      const resp = await GetEvent();
-      const filterSearch = resp?.data.filter((item) => {
-        return `${item?.house} ${item?.place}  ${item?.zip}`
-          .toLowerCase()
-          .trim()
-          .includes(search.toLowerCase().trim());
+      getEvents().then((r) => {
+        let data = r.data;
+        const filterSearch = data.filter((item) => {
+          return `${item?.house} ${item?.place}  ${item?.zip}`
+            .toLowerCase()
+            .trim()
+            .includes(search.toLowerCase().trim());
+        });
+        if (filterSearch.length != 0) {
+          // console.log("filterSearchYahai", filterSearch);
+  
+          setTimeout(() => {
+            navigation.navigate("Welcome", { data: filterSearch });
+          }, 1000);
+          setSearchError(false);
+        } else {
+          setSearchError(true);
+        }
+       
+       
       });
-      if (filterSearch.length != 0) {
-        // console.log("filterSearchYahai", filterSearch);
-
-        setTimeout(() => {
-          navigation.navigate("Welcome", { data: filterSearch });
-        }, 1000);
-        setSearchError(false);
-      } else {
-        setSearchError(true);
-      }
+     
     }
   };
   return (

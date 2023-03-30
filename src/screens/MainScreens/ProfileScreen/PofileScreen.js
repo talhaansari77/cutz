@@ -1,5 +1,5 @@
 import { Alert, StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import commonStyles, { PH20 } from "../../../utils/CommonStyles";
 import ProfileHeader from "./molecules/ProfileHeader";
@@ -17,9 +17,11 @@ import {
   DeleteVolunteerEvent,
 } from "../../../services/EventClientsApi";
 import Toast from "react-native-root-toast";
+import ManageNotification from "../ManageNotification/ManageNotification";
 
 const ProfileScreen = ({ navigation, route }) => {
   console.log("RoutesType", route?.params);
+  const [modalVisible ,setModalVisible ] = useState(false)
 
   const AuthUser = useSelector((state) => state.authReducers.authState);
 
@@ -45,14 +47,14 @@ const ProfileScreen = ({ navigation, route }) => {
       id: 3,
       name: "Manage Notifications",
       img: icons.manage,
-      onPress: () => navigation.navigate("ManageNotification"),
+      onPress: () => setModalVisible(true),
     },
     {
       id: 4,
       name: "How to use Cutz",
       family: "semiBoldItalic",
       img: icons.howuse,
-      onPress: () => navigation.navigate(""),
+      // onPress: () => setModalVisible(true),
     },
   ];
 
@@ -73,7 +75,8 @@ const ProfileScreen = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={commonStyles.commonMain}>
+    <>
+      <SafeAreaView style={commonStyles.commonMain}>
       <PH20>
         <ProfileHeader AuthUser={AuthUser} />
       </PH20>
@@ -122,6 +125,10 @@ const ProfileScreen = ({ navigation, route }) => {
       <SepratorLine backgroundColor={"#C9C9C9"} />
       <Spacer height={20} />
     </SafeAreaView>
+          <ManageNotification  modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+
+    </>
+  
   );
 };
 

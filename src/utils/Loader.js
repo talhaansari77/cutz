@@ -16,9 +16,14 @@ const Loader = ({ loading, file }) => {
         width: "100%",
       }}
     >
-      <ActivityIndicator size={"large"} color={colors.primary}/>
+      {/* <ActivityIndicator size={"large"} color={colors.primary}/> */}
       
-   
+      <LottieView
+        style={{ height: 100 }}
+        source={file}
+        autoPlay
+        speed={1.5}
+      />
     </View>
   ) : (
     <></>

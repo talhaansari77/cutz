@@ -25,9 +25,17 @@ import TicketDetails from "../WelcomeScreen/Molecules/TicketDetails";
 import { useIsFocused } from "@react-navigation/native";
 import TicketCheckInAndOutVol from "./Molecules/TicketCheckInAndOutVol";
 import TicketCarousel from "./Molecules/TicketCarousel";
+import { useSelector } from "react-redux";
+import {
+  getReservationClient,
+  getReservationVolunteer,
+} from "../../../services/Reservation";
+import { getEvents } from "../../../services/Events";
+import { getEventGroup } from "../../../services/EventGroup";
 
 const ReceiptScreen = ({ navigation: { navigate }, route }) => {
   // console.log("RoutesType", route?.params);
+  const AuthUser = useSelector((state) => state.authReducers.authState);
   const isFocused = useIsFocused();
 
   const [check, setCheck] = useState(false);
@@ -36,99 +44,84 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
     checkOut: false,
     greet: false,
     ticketDetail: false,
+    events: [],
+    reservations: [],
+    tickets: [],
+    currentTicket: {},
+    ticketData: {},
+    pin1:"",
+    pin2:"",
+    pin3:"",
+    pin4:"",
   });
+
   // const { ticketDetail } = route.params;
-  const Header = () => (
-    <View
-      style={{
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        paddingHorizontal: scale(20),
-        paddingBottom: 10,
-      }}
-    >
-      <Image
-        source={icons.appIconNav}
-        resizeMode={"contain"}
-        containerStyle={{
-          height: 40,
-          width: 100,
-        }}
-      />
-      <View style={{ flexDirection: "row" }}>
-        {check ? (
-          <>
-            <Image
-              source={icons.ticket2}
-              resizeMode={"contain"}
-              containerStyle={{
-                height: 40,
-                width: 40,
-              }}
-            />
-            <Spacer width={10} />
-          </>
-        ) : (
-          <></>
-        )}
-        <Image
-          source={icons.bell}
-          resizeMode={"contain"}
-          containerStyle={{
-            height: 40,
-            width: 40,
-          }}
-        />
-      </View>
-    </View>
-  );
 
-  const InfoText = () => (
-    <View style={{ alignSelf: "center", alignItems: "center" }}>
-      <>
-        <CustomText
-          label={"REVIEW RESERVATION THEN"}
-          color={colors.secondary}
-          fontFamily={"semiBold"}
-        />
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <CustomText
-            label={"Proceed"}
-            color={colors.secondary}
-            marginRight={5}
-            fontFamily={"bold"}
-          />
-          <CustomText
-            label={"OR CANCEL"}
-            color={colors.secondary}
-            fontFamily={"semiBold"}
-          />
-        </View>
-        <Spacer height={15} />
-        <CustomText
-          label={"DO NOT enter the property,"}
-          color={colors.secondary}
-          fontFamily={"semiBold"}
-        />
-        <CustomText
-          label={"until the time of your reservation."}
-          color={colors.secondary}
-          fontFamily={"semiBold"}
-        />
-      </>
-    </View>
-  );
+  // let data= r.data;
+  // let myTickets=data.filter((t)=>r.clientID===AuthUser._id)
+  // useEffect(() => {
+  //   getEvents().then((r) => {
+  //     let data = r.data;
+  //     setState({
+  //       ...state,
+  //       events: data,
+  //     });
+  //   });
+  // }, [isFocused]);
+  useEffect(() => {
+    var data = [];
+    // setState({ ...state, tickets: [] });
+    getEvents().then((r) => {
+      let data = r.data;
 
-  const handleProceedPress = () => {
+      setState({
+        ...state,
+        events: data,
+      });
+    });
+
+    if (AuthUser._id)
+      if (AuthUser.clientStatus) {
+        getReservationClient(AuthUser.token).then((r) => {
+          data = r.data;
+
+          // let myTickets = data.map((t) => r.eventID === AuthUser._id);
+          setState({ ...state, reservations: data });
+        });
+      } else {
+        getReservationVolunteer(AuthUser.token).then((r) => {
+          data = r.data;
+          setState({ ...state, reservations: data });
+        });
+      }
+
+    state.events.map((e) => {
+      state.reservations.map((r) => {
+        if (e._id === r.eventID) {
+          state.tickets.push(e);
+        }
+      });
+    });
+    console.log("myTickets");
+    console.log(state.tickets.length);
+    // setState({ ...state, tickets: myTickets });
+  }, [isFocused]);
+
+  const handleProceedPress = (ticket) => {
     navigate("Event", {
       userType: route?.params?.userType,
+      location: ticket.location,
     });
   };
   const handleTicketPress = () => {
-    setState({ ...state, ticketDetail: true });
+    // setState({ ...state, ticketDetail: true });
+    getEventGroup("64220f310bb5bf7676e2aafe").then((r) => {
+      setState({ ...state, ticketData: r.data, ticketDetail: true });
+    });
   };
-
+  const handleCancelPress = () => {
+    navigate("Welcome");
+  };
   useEffect(() => {
     if (route?.params?.ticketDetail) setState({ ...state, ticketDetail: true });
     else setState({ ...state, ticketDetail: false });
@@ -146,11 +139,23 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
             cardBtnText={"Proceed"}
             handleProceedPress={handleProceedPress}
           /> */}
-          <TicketCarousel/>
+          <TicketCarousel
+            tickets={state.tickets}
+            state={state}
+            setState={setState}
+            handleCancelPress={handleCancelPress}
+            handleProceedPress={handleProceedPress}
+          />
         </>
-      ) : route?.params?.userType === "Client" ? (
+      ) : AuthUser.clientStatus ? (
         <>
-          <AppHeader backButton />
+          <AppHeader
+            backButton
+            onPressBack={() => {
+              setState({ ...state, ticketDetail: false });
+            }}
+          />
+          {/* <Text>{AuthUser._id}</Text> */}
           <TicketCheckInAndOut state={state} setState={setState} />
         </>
       ) : (

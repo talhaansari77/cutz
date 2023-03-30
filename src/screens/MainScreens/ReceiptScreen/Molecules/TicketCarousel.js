@@ -18,12 +18,16 @@ const data = [
   //   { id: 5, text: "Item 5" },
 ];
 const { height, width } = Dimensions.get("window");
-const TicketCarousel = () => {
+const TicketCarousel = ({
+  handleCancelPress,
+  handleProceedPress,
+  tickets,
+  state,
+  setState,
+}) => {
   const [activeSlide, setActiveSlide] = useState(0);
 
-  const renderItem = ({ item, index }) => <Card />;
-
-  const Card = () => (
+  const renderItem = ({ item, index }) => (
     <View style={styles.cardStyle}>
       <Image
         source={images.cardHeader}
@@ -41,7 +45,7 @@ const TicketCarousel = () => {
         }}
       >
         <CustomText
-          label={"EHH"}
+          label={item.organization}
           fontFamily={"semiBold"}
           color={colors.white}
           fontSize={14}
@@ -59,13 +63,13 @@ const TicketCarousel = () => {
           <Spacer width={10} />
           <View>
             <CustomText
-              label={"Friday, January 20"}
+              label={item.day + ", " + item.monthYear + item.date}
               fontFamily={"semiBold"}
               color={colors.secondary}
               fontSize={14}
             />
             <CustomText
-              label={"1:00 PM"}
+              label={item.eventStartTime}
               fontFamily={"semiBold"}
               color={colors.perFectDark}
               fontSize={11}
@@ -83,19 +87,19 @@ const TicketCarousel = () => {
           <Spacer width={15} />
           <View>
             <CustomText
-              label={"THURSTON HIGH SCHOOL"}
+              label={item.place}
               fontFamily={"semiBold"}
               color={colors.secondary}
               fontSize={14}
             />
             <CustomText
-              label={"26255 Schoolcraft St "}
+              label={item.house}
               fontFamily={"semiBold"}
               color={colors.perFectDark}
               fontSize={11}
             />
             <CustomText
-              label={"Redford Charter Twp, MI 48239"}
+              label={item.zip}
               fontFamily={"semiBold"}
               color={colors.perFectDark}
               fontSize={11}
@@ -118,7 +122,7 @@ const TicketCarousel = () => {
         <Spacer width={15} />
         <View>
           <CustomText
-            label={"FOOD DISTRIBUTION "}
+            label={item.eventType}
             fontFamily={"bold"}
             color={colors.secondary}
             fontSize={18}
@@ -174,7 +178,7 @@ const TicketCarousel = () => {
       <InfoText />
       <Spacer height={20} />
       <Carousel
-        data={data}
+        data={tickets}
         renderItem={renderItem}
         // sliderHeight={300}
         // itemHeight={60}
@@ -182,12 +186,15 @@ const TicketCarousel = () => {
         itemWidth={400}
         layout="default"
         inactiveSlideScale={0.8} // set inactive slide scale to make items smaller
-        onSnapToItem={(index) => setActiveSlide(index)} // update the active slide index
+        onSnapToItem={(index) => {
+          setActiveSlide(index);
+          setState({ ...state, currentTicket: tickets[index] });
+        }} // update the active slide index
       />
       <View style={{ alignItems: "center" }}>
         <Spacer height={10} />
         <Pagination
-          dotsLength={data.length}
+          dotsLength={tickets.length}
           activeDotIndex={activeSlide}
           containerStyle={styles.pagination}
           dotStyle={styles.dot}
@@ -211,7 +218,9 @@ const TicketCarousel = () => {
           }}
           width={"37%"}
           borderRadius={15}
-          onPress={() => {}}
+          onPress={() => {
+            handleProceedPress(tickets[activeSlide]);
+          }}
         />
         <Spacer width={20} />
         <CustomButton
@@ -229,7 +238,7 @@ const TicketCarousel = () => {
           backgroundColor={colors.gray2}
           color={colors.secondary}
           borderRadius={15}
-          // onPress={handleCancel}
+          onPress={handleCancelPress}
         />
       </View>
     </View>

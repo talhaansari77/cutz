@@ -15,6 +15,7 @@ import EventLocations from "../../screens/MainScreens/EventLocation/EventLocatio
 import PersonalScreen from "../../screens/MainScreens/PersonalScreen/PersonalScreen";
 import EditProfile from "../../screens/MainScreens/EditProfile/EditProfile";
 import ManageNotification from "../../screens/MainScreens/ManageNotification/ManageNotification";
+import ProfileStack from "../ProfileStack/ProfileStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -78,7 +79,7 @@ const MainStack = ({ route }) => {
       <Tab.Screen name="Welcome" component={WelcomeScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Receipt" component={ReceiptScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Profile" component={ProfileStack} />
       <Tab.Screen
         options={{
           tabBarItemStyle: { display: "none" },
@@ -86,29 +87,7 @@ const MainStack = ({ route }) => {
         name="Event"
         component={EventLocations}
       />
-      <Tab.Screen
-        // initialParams={{ type: route?.params }}
-        options={{
-          tabBarItemStyle: { display: "none" },
-        }}
-        name="PersonalScreen"
-        component={PersonalScreen}
-      />
-      <Tab.Screen
-        // initialParams={{ type: route?.params }}
-        options={{
-          tabBarItemStyle: { display: "none" },
-        }}
-        name="EditProfile"
-        component={EditProfile}
-      />
-      <Tab.Screen
-        options={{
-          tabBarItemStyle: { display: "none" },
-        }}
-        name="ManageNotification"
-        component={ManageNotification}
-      />
+     
     </Tab.Navigator>
   );
 };

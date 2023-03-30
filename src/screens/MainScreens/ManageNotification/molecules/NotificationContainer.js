@@ -2,7 +2,7 @@ import { StyleSheet, Text, View,TouchableOpacity,Image, Platform } from 'react-n
 import React,{useState} from 'react'
 import CustomText from '../../../../components/CustomText'
 import { colors } from '../../../../utils/Colors'
-import { scale } from 'react-native-size-matters'
+import { scale, verticalScale } from 'react-native-size-matters'
 import { Feather } from "@expo/vector-icons";
 import { icons } from '../../../../../assets/icons'
 
@@ -18,7 +18,8 @@ const NotificationContainer = (props) => {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: 20,
+        paddingHorizontal:scale(10),
+        paddingVertical:verticalScale(15)
       }}
     >
       <View style={{ flexDirection: "row", alignItems: "center",}}>
@@ -44,15 +45,11 @@ const NotificationContainer = (props) => {
           fontSize={13}
         //   fontWeight="bold"
           fontFamily={props.family ||"medium"}
-          marginLeft={ props?.enable?20:0}
+          marginLeft={ props?.enable?10:0}
           color={props.color|| colors.secondary}
         />
       </View>
-      <Image
-          resizeMode="contain"
-          style={{ width: scale(17), height: scale(17) }}
-          source={icons.go}
-        />
+     
     </TouchableOpacity>
   
   )
