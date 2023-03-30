@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Divider } from "react-native-elements";
-import { verticalScale } from "react-native-size-matters";
+import { scale, verticalScale } from "react-native-size-matters";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { colors } from "./src/utils/Colors";
 
@@ -23,8 +23,8 @@ const EventTimingCarousel = ({ data }) => {
       <View style={[styles.item, isFocused && styles.focusedItem]}>
         <Text
           style={[
-            styles.itemText,
-            { color: isFocused ? colors.secondary : colors.blue1 },
+            { color: isFocused ? colors.secondary : colors.blue1,
+            fontFamily:"semiBold",fontSize:isFocused?scale(23):scale(20) },
           ]}
         >
           {item.label}
