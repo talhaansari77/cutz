@@ -11,6 +11,7 @@ import { Spacer } from "../../../../components/Spacer";
 import { scale, verticalScale } from "react-native-size-matters";
 import CustomButton from "../../../../components/CustomButton";
 import { useSignup } from "../../../../Auth/Signup/useSignup";
+import * as FileSystem from "expo-file-system";
 import {
   DeleteClientEvent,
   UpdateClientEvent,
@@ -18,7 +19,7 @@ import {
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import Toast from "react-native-root-toast";
-const ClientEditProfile = ({ navigation, setLoading }) => {
+const ClientEditProfile = ({ navigation, setLoading,imageUri }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [familySize, setFamilySize] = useState("");
   const dispatch = useDispatch();
@@ -60,6 +61,8 @@ const ClientEditProfile = ({ navigation, setLoading }) => {
       phoneRaw
     );
     if (ValidateResponse) {
+      // const forBase64 = await FileSystem.readAsStringAsync(imageUri, { encoding: 'base64' });
+      console.log("Imagebsze",forBase64)
       const data = {
         firstName: signupValue.firstName,
         lastName: signupValue.lastName,

@@ -218,8 +218,8 @@ const TicketDetails = ({
           <Spacer height={40} />
         </View>
 
-        <Spacer height={60} />
-        <View style={{ flexDirection: "row", justifyContent: "center" }}>
+        <Spacer height={40} />
+        <View style={{ flexDirection: "row", justifyContent: "center",marginBottom:verticalScale(20)}}>
           <CustomButton
             title={cardBtnText}
             fontFamily="bold"

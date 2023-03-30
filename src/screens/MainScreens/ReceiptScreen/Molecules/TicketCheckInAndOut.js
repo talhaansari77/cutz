@@ -202,8 +202,8 @@ const TicketCheckInAndOut = ({ setState, state }) => {
           </Modal>
           <View
             style={{
-              height: 100,
-              width: 100,
+              height: 80,
+              width: 80,
               borderRadius: 50,
               alignSelf: "center",
               zIndex: 100,
@@ -212,13 +212,13 @@ const TicketCheckInAndOut = ({ setState, state }) => {
             <Avatar
               source={images.userAvatar}
               rounded
-              size={100}
+              size={80}
               containerStyle={{}}
             />
             <Avatar
               source={icons.cameraPlus}
               rounded
-              size={45}
+              size={40}
               containerStyle={{
                 alignSelf: "center",
                 position: "absolute",
@@ -228,7 +228,7 @@ const TicketCheckInAndOut = ({ setState, state }) => {
             />
           </View>
 
-          <Spacer height={20} />
+          <Spacer height={10} />
           <View style={styles.card}>
             <View style={styles.whiteCircle} />
             <View style={{ alignItems: "center" }}>

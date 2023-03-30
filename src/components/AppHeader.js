@@ -72,12 +72,12 @@ const AppHeader = ({ ticket, backButton, onPressTicket, onPressBack }) => {
       </View>
 
       <SepratorLine
-        height={2}
+        height={1}
         backgroundColor={colors.gray1}
         style={{
           shadowColor: Platform.OS == "ios" ? colors.gray : colors.black,
           shadowRadius: 2,
-          elevation: 5,
+          elevation: 2,
           shadowOpacity: 0.4,
           // inputMarginTop:-20,
           shadowOffset: { width: -1, height: 1 },
