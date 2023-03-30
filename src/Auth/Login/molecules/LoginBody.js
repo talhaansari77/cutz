@@ -22,6 +22,7 @@ const LoginBody = ({ user, setCheckUser, checkUser, navigation }) => {
   const dispatch=useDispatch()
 
   const [password, setPassword] = useState("");
+  console.log("")
 
   const onSubmitLogin = async () => {
     const validateResponse = useLogin(
@@ -93,6 +94,7 @@ const LoginBody = ({ user, setCheckUser, checkUser, navigation }) => {
           paddingLeft={20}
           error={passwordError}
           password={password}
+          secureTextEntry={showPassword}
           onChangeText={(txt) => {
             setPassword(txt);
             setPasswordError("");
