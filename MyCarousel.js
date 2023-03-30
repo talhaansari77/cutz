@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import { verticalScale } from "react-native-size-matters";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { colors } from "./src/utils/Colors";
@@ -61,13 +61,14 @@ const styles = StyleSheet.create({
   },
   item: {
     // width:"90%",
-    backgroundColor: colors.Brown1,
+    backgroundColor: colors.Brown3,
     borderRadius: 5,
     height: 40,
     width: "90%",
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
+  
     // marginVertical: 10,
     // marginHorizontal: 20,
   },
@@ -79,6 +80,14 @@ const styles = StyleSheet.create({
     fontFamily: "bold",
   },
   focusedItem: {
+    shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+    shadowRadius: 2,
+    elevation: 5,
+    position:"absolute",
+    shadowOpacity: 0.5,
+    zIndex: 100,
+    // inputMarginTop:-20,
+    shadowOffset: { width: 1, height: 3 },
     // backgroundColor: colors.Brown1,
     // shadowColor: "#000",
     // shadowOffset: {

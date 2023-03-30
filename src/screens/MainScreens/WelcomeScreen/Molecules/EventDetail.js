@@ -340,6 +340,7 @@ const EventDetail = ({ handleBookingPress, userType,state,setState }) => {
         borderColor: colors.secondary,
         paddingHorizontal: scale(18),
         paddingVertical: verticalScale(6),
+        marginVertical:10,
         ...styles.shadow,
       }}
       onPress={() => setDateIndex(indexx)}
@@ -467,6 +468,7 @@ const EventDetail = ({ handleBookingPress, userType,state,setState }) => {
               <Spacer width={20} />
             </>
           ))}
+          <Spacer height={10}/>
         </ScrollView>
       </PH20>
       <Spacer height={20} />
@@ -563,6 +565,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
 
-    elevation: 9,
+    elevation: 5,
   },
 });
