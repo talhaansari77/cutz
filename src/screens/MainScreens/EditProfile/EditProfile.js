@@ -24,12 +24,10 @@ const EditProfile = ({ route,navigation }) => {
   const [loading, setLoading] = useState(false)
 
   // console.log("RoutesType",route?.params?.type?.params?.userType)
-  console.log("ImageAssets",imageUri)
-
-
-
+  console.log("ImageAssets",authUser)
   useEffect(() => {
     // setImage(route?.params?.AuthUser?.profilePicture)
+    setImage(route?.params?.AuthUser?.profilePicture)
 
     setAuthUser(route?.params?.AuthUser)
  
@@ -45,7 +43,7 @@ console.log("ImageUrl",image)
 
       });
       if (result) {
-        setImageUri(result?.uri);
+        setImageUri(result);
         setImage(result.uri)
         // console.log("ResulteImageData",result.type)
        

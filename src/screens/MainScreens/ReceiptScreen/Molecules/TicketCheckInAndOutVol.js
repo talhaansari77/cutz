@@ -205,7 +205,7 @@ const TicketCheckInAndOutVol = ({ state, setState }) => {
             </View>
           </View>
         </View>
-        <Spacer height={20} />
+        <Spacer height={10} />
         <TouchableOpacity
           style={{ width: "75%" }}
           onPress={() => setState({ ...state, ticketDetail: false })}

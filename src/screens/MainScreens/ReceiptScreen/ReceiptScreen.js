@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   View,
   Platform,
+  ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState } from "react";
@@ -130,6 +131,8 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView>
+
       {!state.ticketDetail ? (
         <>
           {/* <Spacer height={notch?30:10} /> */}
@@ -174,6 +177,9 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
         </>
       )}
       <Loader file={loaderAnimation} loading={state.loading} />
+
+      </ScrollView>
+
 
     </SafeAreaView>
   );

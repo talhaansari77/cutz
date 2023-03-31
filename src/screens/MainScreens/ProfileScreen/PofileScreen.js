@@ -11,6 +11,7 @@ import { colors } from "../../../utils/Colors";
 import CustomText from "../../../components/CustomText";
 import { scale } from "react-native-size-matters";
 import { useSelector } from "react-redux";
+import { Dispatch } from "react";
 import authReducers from "../../../redux/reducers/authReducers";
 import {
   DeleteClientEvent,
@@ -18,9 +19,13 @@ import {
 } from "../../../services/EventClientsApi";
 import Toast from "react-native-root-toast";
 import ManageNotification from "../ManageNotification/ManageNotification";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../redux/actions";
 
 const ProfileScreen = ({ navigation, route }) => {
   console.log("RoutesType", route?.params);
+  const dispatch=useDispatch()
   const [modalVisible ,setModalVisible ] = useState(false)
 
   const AuthUser = useSelector((state) => state.authReducers.authState);
@@ -95,7 +100,7 @@ const ProfileScreen = ({ navigation, route }) => {
           </>
         );
       })}
-      <View style={{ height: "17%" }} />
+      <View style={{ height: "10%" }} />
       <SepratorLine backgroundColor={"#C9C9C9"} />
 
       <ProfileBody
@@ -123,7 +128,24 @@ const ProfileScreen = ({ navigation, route }) => {
         color={colors.primary}
       />
       <SepratorLine backgroundColor={"#C9C9C9"} />
-      <Spacer height={20} />
+      {/* <Spacer height={10} /> */}
+      <ProfileBody
+        name={"Logout"}
+        img={icons.howuse}
+        family={"semiBold"}
+        onPress={async () => {
+          await AsyncStorage.removeItem?.("CurrentAuth");
+          dispatch(logout({}))
+          navigation.navigate("AuthStack", { screen: "signup" });
+
+
+
+
+         
+        }}
+        color={colors.primary}
+      />
+      <SepratorLine backgroundColor={"#C9C9C9"} />
     </SafeAreaView>
           <ManageNotification  modalVisible={modalVisible} setModalVisible={setModalVisible}/>
 

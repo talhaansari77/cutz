@@ -21,6 +21,7 @@ import {
 } from "../../../../services/EventClientsApi";
 import Toast from "react-native-root-toast";
 import { URLS } from "../../../../services/Urls";
+import { UploadImage } from "../../../../services/UploadImage";
 const VolunteerEditProfile = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [familySize, setFamilySize] = useState("");
@@ -245,7 +246,8 @@ const VolunteerEditProfile = (props) => {
       setEditError
     );
     if (ValidateResponse) {
-    
+//       const forBase64 = await FileSystem.readAsStringAsync(props.imageUri, { encoding: 'base64' });
+// console.log("Imagebsze",forBase64)
       const data = {
         firstName: editValue.firstName,
         lastName: editValue.lastName,
@@ -258,6 +260,19 @@ const VolunteerEditProfile = (props) => {
         confirmPassword: editValue.confirmPassword,
         profilePicture: "",
       };
+    props.setLoading(true)
+
+      if (props.imageUri) {
+        try {
+          const res = await UploadImage(props.imageUri);
+          console.log("resImage", res);
+          data[
+            "profilePicture"
+          ] = `${"https://event-app-production-production.up.railway.app"}${
+            res.link
+          }`;
+        } catch (error) {}
+      }
       console.log("ChengeData", data);
       await UpdateVolunteerEvent(
         AuthUser?.token,

@@ -9,6 +9,10 @@ const authReducers = (state = initialState, actions) => {
       let LoginState = { ...state, authState: actions.payload };
       return LoginState;
     }
+    case constants.LOGIN: {
+      let LoginState = { ...state, authState:{} };
+      return LoginState;
+    }
     default:
       return state;
   }

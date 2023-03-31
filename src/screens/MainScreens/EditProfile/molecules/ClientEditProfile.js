@@ -19,7 +19,9 @@ import {
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import Toast from "react-native-root-toast";
-const ClientEditProfile = ({ navigation, setLoading,imageUri }) => {
+import { UploadImage } from "../../../../services/UploadImage";
+import { URLS } from "../../../../services/Urls";
+const ClientEditProfile = ({ navigation, setLoading, imageUri }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [familySize, setFamilySize] = useState("");
   const dispatch = useDispatch();
@@ -29,8 +31,8 @@ const ClientEditProfile = ({ navigation, setLoading,imageUri }) => {
 
   useEffect(() => {
     setFamilySize(AuthUser?.familySize);
-
   }, []);
+  console.log("AuthUsrCurren",AuthUser)
 
   const [signupErrors, setSignupError] = useState({
     firstError: "",
@@ -61,8 +63,6 @@ const ClientEditProfile = ({ navigation, setLoading,imageUri }) => {
       phoneRaw
     );
     if (ValidateResponse) {
-      // const forBase64 = await FileSystem.readAsStringAsync(imageUri, { encoding: 'base64' });
-      console.log("Imagebsze",forBase64)
       const data = {
         firstName: signupValue.firstName,
         lastName: signupValue.lastName,
@@ -73,6 +73,23 @@ const ClientEditProfile = ({ navigation, setLoading,imageUri }) => {
         password: signupValue.password,
         confirmPassword: signupValue.confirmPassword,
       };
+
+      setLoading(true)
+
+      if (imageUri) {
+        try {
+          const res = await UploadImage(imageUri);
+          console.log("resImage", res);
+          data[
+            "profilePicture"
+          ] = `${"https://event-app-production-production.up.railway.app"}${
+            res.link
+          }`;
+        } catch (error) {}
+      }
+
+      console.log("DataImage", data);
+
       await UpdateClientEvent(
         AuthUser?.token,
         data,
@@ -80,15 +97,7 @@ const ClientEditProfile = ({ navigation, setLoading,imageUri }) => {
         dispatch,
         setLoading
       );
-
-      // console.log("ResponseData", responData);
     }
-
-    // navigation.navigate("MainStack", {
-    //   screen: "Welcome",
-    //   params: { userType: props.checkUser },
-    //   merge: true,
-    // });
   };
 
   const onSubmitDelete = async () => {

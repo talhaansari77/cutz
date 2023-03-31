@@ -60,7 +60,7 @@ export const UpdateVolunteerEvent = async (
           const res = await GetVolunteerEvent(token);
           const data = res?.data;
           data["token"] = token;
-          data["currentUser"] = AuthUser.checkUser;
+          data["currentUser"] = AuthUser.currentUser;
           setLoading(false);
 
           Toast.show("Profile is updated");
@@ -110,7 +110,6 @@ export const UpdateClientEvent = async (
     headers: { Authorization: "Bearer " + token },
     data: data,
   };
-  setLoading(true);
 
   try {
     await axios
@@ -121,7 +120,7 @@ export const UpdateClientEvent = async (
           const res = await GetClientEvent(token);
           const data = res?.data;
           data["token"] = token;
-          data["currentUser"] = AuthUser.checkUser;
+          data["currentUser"] = AuthUser.currentUser;
           Toast.show("Profile is updated");
           console.log("UpdatedData", JSON.stringify(data, null, 2));
           setLoading(false);

@@ -77,8 +77,11 @@ const SearchScreen = ({ navigation }) => {
           setTimeout(() => {
             navigation.navigate("Welcome", { data: eventTypes });
           }, 1000);
+          setEventData("")
           setSearchError(false);
         } else {
+          setEventData("")
+
           setSearchError(true);
         }
       } else if (orgData) {
@@ -92,9 +95,12 @@ const SearchScreen = ({ navigation }) => {
           setTimeout(() => {
             navigation.navigate("Welcome", { data: companyData });
           }, 1000);
+          setOrgData("")
 
           setSearchError(false);
         } else {
+          setOrgData("")
+
           setSearchError(true);
         }
       }
