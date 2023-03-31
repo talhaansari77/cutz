@@ -19,8 +19,10 @@ import InputItem from "./InputItem";
 import { Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
+import OTP from "./OTP";
+import { URLS } from "../../../../services/Urls";
 
-const TicketCheckInAndOut = ({ setState, state }) => {
+const TicketCheckInAndOut = ({ setState, state,profilePicture }) => {
   const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
   const modelClose = () => {
@@ -52,7 +54,7 @@ const TicketCheckInAndOut = ({ setState, state }) => {
               style={{ position: "absolute", right: 20 }}
             >
               <Image
-                source={icons.close}
+                source={profilePicture?{uri:URLS.BASE_URL+profilePicture}:icons.close}
                 containerStyle={{
                   height: verticalScale(12),
                   width: verticalScale(12),
@@ -70,37 +72,12 @@ const TicketCheckInAndOut = ({ setState, state }) => {
               fontSize={16}
             />
             <Spacer height={20} />
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <InputItem
-                value={state.pin1}
-                onChange={(v) => {
-                  setState({ ...state, pin1: v });
-                }}
-              />
-              <InputItem
-                value={state.pin2}
-                spacer
-                onChange={(v) => {
-                  setState({ ...state, pin2: v });
-                }}
-              />
-              <InputItem
-                value={state.pin3}
-                spacer
-                onChange={(v) => {
-                  setState({ ...state, pin3: v });
-                }}
-              />
-              <InputItem
-                value={state.pin4}
-                spacer
-                onChange={(v) => {
-                  setState({ ...state, pin4: v });
-                }}
-              />
-            </View>
+              <OTP state={state} setState={setState} />
+              
+            {/* <View style={{ flexDirection: "row", alignItems: "center" }}> */}
+            {/* </View> */}
           </View>
-          <Spacer height={20} />
+          <Spacer height={30} />
         </View>
         <Spacer height={20} />
         <CustomButton
@@ -185,7 +162,7 @@ const TicketCheckInAndOut = ({ setState, state }) => {
                 checkIn: false,
                 checkOut: false,
                 greet: false,
-                ticketDetail: false
+                ticketDetail: false,
               });
               navigation.navigate("Welcome");
             }}

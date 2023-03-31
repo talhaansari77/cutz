@@ -2,9 +2,10 @@ import React from "react";
 import { TextInput } from "react-native";
 import { colors } from "../../../../utils/Colors";
 
-const InputItem = ({value,spacer,onChange}) => {
+const InputItem = ({value,spacer,onChange,ref}) => {
   return (
     <TextInput
+    ref={ref}
       placeholder={'0'}
       value={value}
       placeholderTextColor={colors.perFectDark}

@@ -6,7 +6,7 @@ import {
   Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CustomText from "../../../components/CustomText";
 import { Spacer } from "../../../components/Spacer";
 import { colors } from "../../../utils/Colors";
@@ -35,8 +35,6 @@ import { getEventGroup } from "../../../services/EventGroup";
 import Loader from "../../../utils/Loader";
 import loaderAnimation from "../../../../assets/Loaders";
 
-
-
 const ReceiptScreen = ({ navigation: { navigate }, route }) => {
   // console.log("RoutesType", route?.params);
   const AuthUser = useSelector((state) => state.authReducers.authState);
@@ -54,10 +52,10 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
     tickets: [],
     currentTicket: {},
     ticketData: {},
-    pin1:"",
-    pin2:"",
-    pin3:"",
-    pin4:"",
+    pin1: "",
+    pin2: "",
+    pin3: "",
+    pin4: "",
   });
   const loaderOn = () => {
     setState({ ...state, loading: true });
@@ -65,10 +63,12 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
   const loaderOff = () => {
     setState({ ...state, loading: false });
   };
-  
+
   useEffect(() => {
-    loaderOn()
+    loaderOn();
+    setState({ ...state, tickets: [] })
     var data = [];
+    var myTickets = [];
     // setState({ ...state, tickets: [] });
     getEvents().then((r) => {
       let data = r.data;
@@ -83,7 +83,6 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
       if (AuthUser.clientStatus) {
         getReservationClient(AuthUser.token).then((r) => {
           data = r.data;
-
           // let myTickets = data.map((t) => r.eventID === AuthUser._id);
           setState({ ...state, reservations: data });
         });
@@ -101,12 +100,14 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
         }
       });
     });
-    loaderOff()
-    // console.log("myTickets");
-    // console.log(state.tickets.length);
+    console.log("myTickets");
+    // console.log(myTickets.length);
     // setState({ ...state, tickets: myTickets });
+
+    loaderOff();
   }, [isFocused]);
-  
+
+
 
   const handleProceedPress = (ticket) => {
     navigate("Event", {
@@ -127,7 +128,7 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
     if (route?.params?.ticketDetail) setState({ ...state, ticketDetail: true });
     else setState({ ...state, ticketDetail: false });
   }, [isFocused]);
-
+  const pin1Ref = useRef("");
   return (
     <SafeAreaView style={styles.container}>
       {!state.ticketDetail ? (
@@ -157,7 +158,7 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
             }}
           />
           {/* <Text>{AuthUser._id}</Text> */}
-          <TicketCheckInAndOut state={state} setState={setState} />
+          <TicketCheckInAndOut state={state} setState={setState} profilePicture={AuthUser?.profilePicture} />
         </>
       ) : (
         <>
@@ -174,7 +175,6 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
         </>
       )}
       <Loader file={loaderAnimation} loading={state.loading} />
-
     </SafeAreaView>
   );
 };
@@ -254,3 +254,4 @@ const styles = StyleSheet.create({
     elevation: 9,
   },
 });
+
