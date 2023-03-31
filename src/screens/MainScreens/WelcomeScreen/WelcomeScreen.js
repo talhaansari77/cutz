@@ -110,14 +110,14 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
         <AppHeader />
         {!ticketVisible ? (
           <EventDetail
-            userType={route?.params?.userType}
+            userType={AuthUser?.clientStatus}
             handleBookingPress={handleBookingPress}
             state={state}
             setState={setState}
           />
         ) : (
           <TicketDetails
-            userType={route?.params?.userType}
+            userType={AuthUser?.clientStatus}
             ticketData={state.ticketData}
             handleConfirmPress={handleConfirmPress}
             handleCancelPress={handleCancelPress}

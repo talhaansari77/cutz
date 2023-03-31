@@ -112,7 +112,7 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
 
   const handleProceedPress = (ticket) => {
     navigate("Event", {
-      userType: route?.params?.userType,
+      // userType: route?.params?.userType,
       location: ticket.location,
     });
   };
@@ -125,14 +125,14 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
   const handleCancelPress = () => {
     navigate("Welcome");
   };
-  useEffect(() => {
-    if (route?.params?.ticketDetail) setState({ ...state, ticketDetail: true });
-    else setState({ ...state, ticketDetail: false });
-  }, [isFocused]);
+  // useEffect(() => {
+  //   if (route?.params?.ticketDetail) setState({ ...state, ticketDetail: true });
+  //   else setState({ ...state, ticketDetail: false });
+  // }, [isFocused]);
   const pin1Ref = useRef("");
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      {/* <ScrollView> */}
 
       {!state.ticketDetail ? (
         <>
@@ -152,7 +152,7 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
             handleProceedPress={handleProceedPress}
           />
         </>
-      ) : AuthUser.clientStatus ? (
+      ) : !AuthUser.clientStatus ? (
         <>
           <AppHeader
             backButton
@@ -168,9 +168,15 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
           <AppHeader />
           {state.greet ? (
             state.checkOut ? (
-              <SmileGreeting state={state} setState={setState} />
+              <SmileGreeting state={state} setState={setState} navigate={navigate} />
             ) : (
-              <ThumbGreeting />
+              <ThumbGreeting onPress={()=>{
+                setState({
+                  ...state,
+                  greet: false,
+                  checkIn: true,
+                });
+              }} />
             )
           ) : (
             <TicketCheckInAndOutVol state={state} setState={setState} />
@@ -179,7 +185,7 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
       )}
       <Loader file={loaderAnimation} loading={state.loading} />
 
-      </ScrollView>
+      {/* </ScrollView> */}
 
 
     </SafeAreaView>

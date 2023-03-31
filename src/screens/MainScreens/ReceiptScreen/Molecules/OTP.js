@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useRef, usestate } from "react";
 import { scale } from "react-native-size-matters";
 import { colors } from "../../../../utils/Colors";
 
@@ -20,9 +20,9 @@ const OTP = ({ state, setState }) => {
           keyboardType={"number-pad"}
           maxLength={1}
           style={styles.inputStyle}
-        //   value={state.pin1}
-          onChange={(v) => {
-            console.log(state.pin1)
+          value={state.pin1}
+          onChangeText={(v) => {
+            // console.log(v)
             setState({ ...state, pin1: v });
             pin2Ref.current.focus();
           }}
@@ -37,7 +37,7 @@ const OTP = ({ state, setState }) => {
           maxLength={1}
           style={styles.inputStyle}
           value={state.pin2}
-          onChange={(v) => {
+          onChangeText={(v) => {
             setState({ ...state, pin2: v });
             pin3Ref.current.focus();
           }}
@@ -52,7 +52,7 @@ const OTP = ({ state, setState }) => {
           maxLength={1}
           style={styles.inputStyle}
           value={state.pin3}
-          onChange={(v) => {
+          onChangeText={(v) => {
             setState({ ...state, pin3: v });
             pin4Ref.current.focus();
           }}
@@ -67,7 +67,7 @@ const OTP = ({ state, setState }) => {
           maxLength={1}
           style={styles.inputStyle}
           value={state.pin4}
-          onChange={(v) => {
+          onChangeText={(v) => {
             setState({ ...state, pin4: v });
           }}
         />

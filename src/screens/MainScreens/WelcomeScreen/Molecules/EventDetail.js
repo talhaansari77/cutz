@@ -373,7 +373,7 @@ const EventDetail = ({ handleBookingPress, userType,state,setState }) => {
     <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true}>
       <Spacer height={20} />
       <View style={{ alignItems: "center" }}>
-        {userType === "Client" ? (
+        {userType ? (
           <CustomText
             label={"WELCOME"}
             color={colors.primary}
@@ -493,7 +493,7 @@ const EventDetail = ({ handleBookingPress, userType,state,setState }) => {
 
       <Spacer height={20} />
       <View style={{}}>
-        {userType === "Client" ? (
+        {userType  ? (
           <EventTimingCarousel data={state.events} />
         ) : (
           state.events.map(({ eventStartTime }, index) => (
@@ -509,7 +509,7 @@ const EventDetail = ({ handleBookingPress, userType,state,setState }) => {
       <View style={{ alignItems: "center" }}>
         <CustomButton
           title={
-            userType === "Client"
+            userType 
               ? "Make My Reservation"
               : "Yes, I Will Volunteer!"
           }

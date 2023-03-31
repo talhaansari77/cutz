@@ -24,7 +24,7 @@ const EventTimingCarousel = ({ data }) => {
         <Text
           style={[
             { color: isFocused ? colors.secondary : colors.blue1,
-            fontFamily:"semiBold",fontSize:isFocused?scale(22):scale(20) },
+            fontFamily:"semiBold",fontSize:scale(20) },
           ]}
         >
           {moment(eventStartTime).utc().format('hh:mm A')+ " Available"}
