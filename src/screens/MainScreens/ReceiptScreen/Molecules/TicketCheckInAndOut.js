@@ -19,8 +19,10 @@ import InputItem from "./InputItem";
 import { Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
+import OTP from "./OTP";
+import { URLS } from "../../../../services/Urls";
 
-const TicketCheckInAndOut = ({ setState, state }) => {
+const TicketCheckInAndOut = ({ setState, state,profilePicture }) => {
   const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
   const modelClose = () => {
@@ -70,37 +72,12 @@ const TicketCheckInAndOut = ({ setState, state }) => {
               fontSize={16}
             />
             <Spacer height={20} />
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <InputItem
-                value={state.pin1}
-                onChange={(v) => {
-                  setState({ ...state, pin1: v });
-                }}
-              />
-              <InputItem
-                value={state.pin2}
-                spacer
-                onChange={(v) => {
-                  setState({ ...state, pin2: v });
-                }}
-              />
-              <InputItem
-                value={state.pin3}
-                spacer
-                onChange={(v) => {
-                  setState({ ...state, pin3: v });
-                }}
-              />
-              <InputItem
-                value={state.pin4}
-                spacer
-                onChange={(v) => {
-                  setState({ ...state, pin4: v });
-                }}
-              />
-            </View>
+              <OTP state={state} setState={setState} />
+              
+            {/* <View style={{ flexDirection: "row", alignItems: "center" }}> */}
+            {/* </View> */}
           </View>
-          <Spacer height={20} />
+          <Spacer height={30} />
         </View>
         <Spacer height={20} />
         <CustomButton
@@ -115,7 +92,7 @@ const TicketCheckInAndOut = ({ setState, state }) => {
             // inputMarginTop:-20,
             shadowOffset: { width: -1, height: 3 },
           }}
-          borderRadius={15}
+          borderRadius={12}
           onPress={() => {
             // state.checkIn
             // ? setState({ ...state, checkOut: true, greet: true })
@@ -185,7 +162,7 @@ const TicketCheckInAndOut = ({ setState, state }) => {
                 checkIn: false,
                 checkOut: false,
                 greet: false,
-                ticketDetail: false
+                ticketDetail: false,
               });
               navigation.navigate("Welcome");
             }}
@@ -210,12 +187,14 @@ const TicketCheckInAndOut = ({ setState, state }) => {
             }}
           >
             <Avatar
-              source={images.userAvatar}
+              source={ profilePicture?{uri:profilePicture}: images.userAvatar}
               rounded
               size={80}
               containerStyle={{}}
             />
-            <Avatar
+            {
+              !profilePicture&&(
+                    <Avatar
               source={icons.cameraPlus}
               rounded
               size={40}
@@ -226,12 +205,16 @@ const TicketCheckInAndOut = ({ setState, state }) => {
                 right: -5,
               }}
             />
+
+              )
+            }
+        
           </View>
 
           <Spacer height={10} />
           <View style={styles.card}>
             <View style={styles.whiteCircle} />
-            <View style={{ alignItems: "center" }}>
+            <View style={{ alignItems: "center" ,marginTop:-10}}>
               <CustomButton
                 title={"Get In Line!"}
                 width={"95%"}
@@ -333,7 +316,7 @@ export default TicketCheckInAndOut;
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.drakBlue,
-    height: "62%",
+    height: "65%",
     width: "90%",
     borderRadius: 12,
     paddingHorizontal: 10,
@@ -347,11 +330,11 @@ const styles = StyleSheet.create({
   },
   whiteCircle: {
     backgroundColor: colors.white,
-    height: 65,
+    height: 60,
     width: 65,
     borderRadius: 50,
     position: "relative",
-    top: -30,
+    top: -20,
     alignSelf: "center",
     zIndex: -100,
   },

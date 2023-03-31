@@ -1,91 +1,88 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
-import React, { useRef,useState } from "react";
-import { colors } from "./src/utils/Colors";
+import React, { useRef, useState } from "react";
 import { scale } from "react-native-size-matters";
+import { colors } from "../../../../utils/Colors";
 
-const Test = () => {
+const OTP = ({ state, setState }) => {
   const pin1Ref = useRef("");
   const pin2Ref = useRef("");
   const pin3Ref = useRef("");
   const pin4Ref = useRef("");
 
-  const [pin, setPin] = React.useState({
-    pin1: "",
-    pin2: "",
-    pin3: "",
-    pin4: "",
-  });
+  
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
         <TextInput
           ref={pin1Ref}
-          placeholder={"1"}
+          placeholder={"0"}
           placeholderTextColor={colors.perFectDark}
           keyboardType={"number-pad"}
           maxLength={1}
           style={styles.inputStyle}
+        //   value={state.pin1}
           onChange={(v) => {
-            setPin({ ...pin, pin1: v });
-            // if (pin.pin1 !== "") {
-              pin2Ref.current.focus();
-            // }
+            console.log(state.pin1)
+            setState({ ...state, pin1: v });
+            pin2Ref.current.focus();
           }}
         />
       </View>
       <View style={styles.inputContainer}>
         <TextInput
           ref={pin2Ref}
-          placeholder={"1"}
+          placeholder={"0"}
           placeholderTextColor={colors.perFectDark}
           keyboardType={"number-pad"}
           maxLength={1}
           style={styles.inputStyle}
+          value={state.pin2}
           onChange={(v) => {
-            setPin({ ...pin, pin2: v });
-            if (pin.pin2 !== "") {
-              pin3Ref.current.focus();
-            }
+            setState({ ...state, pin2: v });
+            pin3Ref.current.focus();
           }}
         />
       </View>
       <View style={styles.inputContainer}>
         <TextInput
           ref={pin3Ref}
-          placeholder={"1"}
+          placeholder={"0"}
           placeholderTextColor={colors.perFectDark}
           keyboardType={"number-pad"}
           maxLength={1}
           style={styles.inputStyle}
+          value={state.pin3}
           onChange={(v) => {
-            setPin({ ...pin, pin3: v });
-            if (pin.pin3 !== "") {
-              pin4Ref.current.focus();
-            }
+            setState({ ...state, pin3: v });
+            pin4Ref.current.focus();
           }}
         />
       </View>
       <View style={styles.inputContainer}>
         <TextInput
           ref={pin4Ref}
-          placeholder={"1"}
+          placeholder={"0"}
           placeholderTextColor={colors.perFectDark}
           keyboardType={"number-pad"}
           maxLength={1}
           style={styles.inputStyle}
-          onChange={(v) => setPin({ ...pin, pin4: v })}
+          value={state.pin4}
+          onChange={(v) => {
+            setState({ ...state, pin4: v });
+          }}
         />
       </View>
     </View>
   );
 };
 
-export default Test;
+export default OTP;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: colors.white,
+    // flex: 1,
+    width: "80%",
+    // backgroundColor: colors.red,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",

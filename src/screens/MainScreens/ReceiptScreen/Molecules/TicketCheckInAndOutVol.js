@@ -8,6 +8,7 @@ import { colors } from "../../../../utils/Colors";
 import CustomButton from "../../../../components/CustomButton";
 import InputItem from "./InputItem";
 import { verticalScale } from "react-native-size-matters";
+import OTP from "./OTP";
 
 const TicketCheckInAndOutVol = ({ state, setState }) => {
   return (
@@ -118,8 +119,8 @@ const TicketCheckInAndOutVol = ({ state, setState }) => {
                 fontSize={16}
               />
               <Spacer height={20} />
-
-              <View style={{ flexDirection: "row" }}>
+              <OTP state={state} setState={setState} />
+              {/* <View style={{ flexDirection: "row" }}>
                 <InputItem
                   value={state.pin1}
                   onChange={(v) => {
@@ -147,7 +148,7 @@ const TicketCheckInAndOutVol = ({ state, setState }) => {
                   }}
                   spacer
                 />
-              </View>
+              </View> */}
             </View>
             <Spacer height={10} />
             <View style={{ alignItems: "center" }}>
@@ -198,7 +199,7 @@ const TicketCheckInAndOutVol = ({ state, setState }) => {
                       setState({ ...state, checkOut: true, greet: true });
                     }
                   }
-                  modelClose();
+                  // modelClose();
                 }}
               />
               <Spacer height={10} />
