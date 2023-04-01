@@ -27,6 +27,7 @@ import { images } from "../../../../../assets/images";
 import { colors } from "../../../../utils/Colors";
 import { icons } from "../../../../../assets/icons";
 import CustomButton from "../../../../components/CustomButton";
+import moment from "moment";
 
 const TicketDetails = ({
   userType,
@@ -120,7 +121,7 @@ const TicketDetails = ({
             }}
           >
             <CustomText
-              label={ticketData.organization}
+              label={ticketData?.organization}
               fontFamily={"semiBold"}
               color={colors.white}
               fontSize={14}
@@ -138,13 +139,13 @@ const TicketDetails = ({
               <Spacer width={10} />
               <View>
                 <CustomText
-                  label={"Friday, January 20"}
+                  label={ticketData?.day + ", " + ticketData?.monthYear?.split(' ')[0] +" " + ticketData?.date}
                   fontFamily={"semiBold"}
                   color={colors.secondary}
                   fontSize={14}
                 />
                 <CustomText
-                  label={"1:00 PM"}
+                  label={moment(ticketData?.eventStartTime).utc().format('hh:mm A')}
                   fontFamily={"semiBold"}
                   color={colors.perFectDark}
                   fontSize={11}
@@ -162,19 +163,19 @@ const TicketDetails = ({
               <Spacer width={15} />
               <View>
                 <CustomText
-                  label={"THURSTON HIGH SCHOOL"}
+                  label={ticketData?.place}
                   fontFamily={"semiBold"}
                   color={colors.secondary}
                   fontSize={14}
                 />
                 <CustomText
-                  label={"26255 Schoolcraft St "}
+                  label={ticketData?.house}
                   fontFamily={"semiBold"}
                   color={colors.perFectDark}
                   fontSize={11}
                 />
                 <CustomText
-                  label={"Redford Charter Twp, MI 48239"}
+                  label={ticketData?.zip}
                   fontFamily={"semiBold"}
                   color={colors.perFectDark}
                   fontSize={11}
@@ -197,7 +198,7 @@ const TicketDetails = ({
             <Spacer width={15} />
             <View>
               <CustomText
-                label={ticketData.eventType}
+                label={ticketData?.eventType}
                 fontFamily={"bold"}
                 color={colors.secondary}
                 fontSize={18}

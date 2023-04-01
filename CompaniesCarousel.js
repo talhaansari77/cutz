@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { Divider } from "react-native-elements";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { colors } from "./src/utils/Colors";
-import moment from "moment";
+
 // const data = [
 //   { id: 1, text: "Item 1" },
 //   { id: 2, text: "Item 2" },
@@ -13,32 +12,15 @@ import moment from "moment";
 //   { id: 5, text: "Item 5" },
 // ];
 
-const EventTimingCarousel = ({ data, companyIndex ,setCompanyIndex}) => {
+const CompaniesCarousel = ({ data,setCompanyIndex,companyIndex }) => {
   const [activeSlide, setActiveSlide] = useState(3);
-  const carouselRef = useRef(null);
 
-  useEffect(() => {
-    setActiveSlide(companyIndex + 3);
-    carouselRef.current.snapToItem(companyIndex + 3);
-  }, [companyIndex]);
-  
-
-  const renderItem = ({ item: { eventStartTime }, index }) => {
+  const renderItem = ({ item, index }) => {
     const isFocused = index === activeSlide;
 
     return (
       <View style={[styles.item, isFocused && styles.focusedItem]}>
-        <Text
-          style={[
-            {
-              color: isFocused ? colors.secondary : colors.blue1,
-              fontFamily: "semiBold",
-              fontSize: scale(20),
-            },
-          ]}
-        >
-          {moment(eventStartTime).utc().format("hh:mm A") + " Available"}
-        </Text>
+        <Text style={[styles.itemText]}>{item.title}</Text>
       </View>
     );
   };
@@ -46,19 +28,24 @@ const EventTimingCarousel = ({ data, companyIndex ,setCompanyIndex}) => {
   return (
     <View style={styles.container}>
       <Carousel
-        ref={carouselRef}
+      
         data={data}
         renderItem={renderItem}
         sliderHeight={120}
-        itemHeight={45}
+        itemHeight={41}
         layout="default"
         vertical={true}
         loop={true}
-        ItemSeparatorComponent={() => <Divider width={1} />}
         nestedScrollEnabled={true}
-        inactiveSlideScale={0.8} // set inactive slide scale to make items smaller
+        activeSlideOffset={3}
+        inactiveSlideScale={1} // set inactive slide scale to make items smaller
         activeSlideAlignment="center" // set active slide alignment to center the selected item
-        onSnapToItem={(index) => setActiveSlide(index + 3)} // update the active slide index
+        
+        onSnapToItem={(index) => {
+            setActiveSlide(index + 3);
+            setCompanyIndex(index)
+            console.log(companyIndex);
+        }} // update the active slide index
       />
     </View>
   );
@@ -74,13 +61,14 @@ const styles = StyleSheet.create({
   },
   item: {
     // width:"90%",
-    // backgroundColor: colors.Brown1,
-    borderRadius: 5,
+    backgroundColor: colors.primary,
+    // borderRadius: 5,
     height: 40,
-    width: "90%",
+    width: 174,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
+
     // marginVertical: 10,
     // marginHorizontal: 20,
   },
@@ -88,10 +76,21 @@ const styles = StyleSheet.create({
     // backgroundColor: colors.Brown1,
     // paddingHorizontal: verticalScale(70),
     // paddingVertical:10,
-    fontSize: 26,
-    fontFamily: "bold",
+    fontSize: scale(14),
+    color: colors.white,
+    fontFamily: "semiBold",
   },
   focusedItem: {
+    borderRadius: 0,
+    backgroundColor: colors.darkOrange,
+    shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+    shadowRadius: 2,
+    elevation: 5,
+    position: "absolute",
+    shadowOpacity: 0.5,
+    zIndex: 100,
+    // inputMarginTop:-20,
+    shadowOffset: { width: 1, height: 3 },
     // backgroundColor: colors.Brown1,
     // shadowColor: "#000",
     // shadowOffset: {
@@ -100,6 +99,7 @@ const styles = StyleSheet.create({
     // },
     // shadowOpacity: 0.37,
     // shadowRadius: 7.49,
+
     // elevation: 5,
     // transform: [{ scale: 1.2 }], // increase size of the focused item
   },
@@ -123,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EventTimingCarousel;
+export default CompaniesCarousel;

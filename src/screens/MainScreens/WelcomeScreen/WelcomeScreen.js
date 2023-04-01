@@ -93,6 +93,15 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
     loaderOff();
   }, []);
 
+  // useEffect(() => {
+  //   loaderOn();
+  //   setTicketVisible(true);
+  //   setTimeout(() => {
+  //     setTicketVisible(false);
+  //     loaderOff();
+  //   }, 3000);
+  // }, [isFocused]);
+
   useEffect(() => {
     setTicketVisible(false);
   }, [isFocused]);
