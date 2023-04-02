@@ -68,13 +68,17 @@ const ProfileScreen = ({ navigation, route }) => {
       const res = await DeleteVolunteerEvent(AuthUser?.token);
       if (res?.data) {
         Toast.show("Account deleted successfully");
-        navigation.navigate("AuthStack", { screen: "signup" });
+        await AsyncStorage.removeItem?.("CurrentAuth");
+        dispatch(logout({}));
+        navigation.navigate("AuthStack", { screen: "login" });
       }
     } else {
       const res = await DeleteClientEvent(AuthUser?.token);
       if (res?.data) {
         Toast.show("Account deleted successfully");
-        navigation.navigate("AuthStack", { screen: "signup" });
+        await AsyncStorage.removeItem?.("CurrentAuth");
+        dispatch(logout({}));
+        navigation.navigate( "login" );
       }
     }
   };
@@ -136,7 +140,7 @@ const ProfileScreen = ({ navigation, route }) => {
           onPress={async () => {
             await AsyncStorage.removeItem?.("CurrentAuth");
             dispatch(logout({}));
-            navigation.navigate("AuthStack", { screen: "login" });
+            navigation.navigate(  "login" );
           }}
           color={colors.primary}
         />

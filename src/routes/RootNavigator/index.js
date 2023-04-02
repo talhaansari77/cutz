@@ -13,10 +13,16 @@ import {
 import { LoginActions } from "../../redux/actions";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import Login from "../../Auth/Login/Login";
+import Signup from "../../Auth/Signup/Signup";
+import ForgetPassword from "../../Auth/ForgetPassword/ForgetPassword";
+import Loader from "../../utils/Loader";
+import loaderAnimation from "../../../assets/Loaders";
 
 const RootNavigator = () => {
   const dispatch = useDispatch();
   const AuthData = useSelector((state) => state.authReducers.authState);
+  const [loading, setLoading] = useState(false)
   // console.log("DataSIUser", data);
   // const [AuthData, setAuthData] = useState(null);
   console.log("AuthData", AuthData);
@@ -25,8 +31,9 @@ const RootNavigator = () => {
     (async function () {
       let user = await AsyncStorage?.getItem("CurrentAuth");
       let AsyncData = JSON.parse?.(user);
-      console.log("AsycDataa", AsyncData.currentUser);
+      console.log("AsycDataa", AsyncData?.rememberMe);
       if (AsyncData?.token) {
+        setLoading(true)
         // setAuthData(AsyncData);
         if (AsyncData?.currentUser == "Client") {
           const res = await GetClientEvent(AsyncData?.token);
@@ -38,7 +45,9 @@ const RootNavigator = () => {
           console.log("currentUserAsyncData", data);
 
           dispatch(LoginActions(data));
+          setLoading(false)
         } else {
+          setLoading(true)
           const res = await GetVolunteerEvent(AsyncData?.token);
           const data = res?.data;
           console.log("DataIS", data);
@@ -48,30 +57,48 @@ const RootNavigator = () => {
           data["currentUser"] = AsyncData?.currentUser;
 
           dispatch(LoginActions(data));
+          setLoading(false)
         }
       }
     })();
   }, []);
   const Stack = createStackNavigator();
 
-  return (
-    <NavigationContainer>
-      {AuthData?.rememberMe ? (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="MainStack" component={MainStack} />
-          <Stack.Screen name="AuthStack" component={AuthStack} />
+  return loading?<>
+        <Loader file={loaderAnimation} loading={loading} />
 
-         
+  </>:(
+    <NavigationContainer>
+      {AuthData?.rememberMe === true ? (
+        <Stack.Navigator
+          initialRouteName="MainStack"
+          screenOptions={{ headerShown: false }}
+        >
+          {/* <Stack.Screen name="AuthStack" component={AuthStack} /> */}
+
+          <Stack.Screen name="MainStack" component={MainStack} />
+          <Stack.Screen name="login" component={Login} />
+          <Stack.Screen name="signup" component={Signup} />
+          <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
 
           {/* <Stack.Screen name="Reservation" component={MakeReservation} /> */}
         </Stack.Navigator>
       ) : (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="AuthStack" component={AuthStack} />
-          <Stack.Screen name="MainStack" component={MainStack} />
+        <>
+          {!AuthData?.rememberMe && (
+            <Stack.Navigator
+              initialRouteName="login"
+              screenOptions={{ headerShown: false }}
+            >
+              <Stack.Screen name="login" component={Login} />
+              <Stack.Screen name="signup" component={Signup} />
+              <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+              <Stack.Screen name="MainStack" component={MainStack} />
 
-          {/* <Stack.Screen name="Reservation" component={MakeReservation} /> */}
-        </Stack.Navigator>
+              {/* <Stack.Screen name="Reservation" component={MakeReservation} /> */}
+            </Stack.Navigator>
+          )}
+        </>
       )}
     </NavigationContainer>
   );
