@@ -13,6 +13,7 @@ import { VolunteerSignup } from "../../../services/LoginSignupApi";
 import { useVolunteerSignup } from "../useVolunteerSignup";
 import { useDispatch } from "react-redux";
 import { icons } from "../../../../assets/icons";
+import { useFocusEffect } from "@react-navigation/native";
 
 const VolunteerBody = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -45,6 +46,16 @@ const VolunteerBody = (props) => {
     employer: "",
     organization: "",
   });
+
+  useFocusEffect(
+    React.useCallback(() => {
+      return async () => {
+        signupValue({})
+      
+      };
+    }, [])
+  );
+
   const SignupData = [
     {
       id: 1,

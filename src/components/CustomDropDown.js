@@ -16,7 +16,7 @@ const height = Dimensions.get("screen").height;
 import Modal from "react-native-modal"
 
 const CustomDropDown = ({ dropData, modalVisible, setModalVisible,setEventData,leftModal,modalWidth }) => {
-  const [selectItem, setSelectItem] = useState(-1);
+  const [selectItem, setSelectItem] = useState(0);
   return (
     <Modal
     animationType="fade"

@@ -10,6 +10,7 @@ import { useLogin } from "../useLogin";
 import { ClientLogin, VolunteerLogin } from "../../../services/LoginSignupApi";
 import { useDispatch } from "react-redux";
 import { icons } from "../../../../assets/icons";
+import { useFocusEffect } from "@react-navigation/native";
 
 const LoginBody = ({ user, setCheckUser, checkUser, navigation }) => {
   const checkUserData = ["Client", "Volunteer"];
@@ -19,10 +20,22 @@ const LoginBody = ({ user, setCheckUser, checkUser, navigation }) => {
   const [passwordError, setPasswordError] = useState("");
   const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(false);
-  const dispatch=useDispatch()
-
+  const dispatch = useDispatch();
   const [password, setPassword] = useState("");
-  console.log("")
+
+  useFocusEffect(
+    React.useCallback(() => {
+      return async () => {
+        setEmail("");
+        setPassword("");
+        setCheckUser("Client")
+        setShowPassword(true);
+        setPasswordError("");
+        setEmailError("");
+        setRemember(false)
+      };
+    }, [])
+  );
 
   const onSubmitLogin = async () => {
     const validateResponse = useLogin(
@@ -31,7 +44,6 @@ const LoginBody = ({ user, setCheckUser, checkUser, navigation }) => {
       password,
       setPasswordError
     );
-
     const data = {
       email: email,
       password: password,
@@ -39,16 +51,32 @@ const LoginBody = ({ user, setCheckUser, checkUser, navigation }) => {
 
     if (validateResponse) {
       if (checkUser == "Client") {
-        await ClientLogin(data, setLoading, navigation, checkUser,dispatch,remember);
+        await ClientLogin(
+          data,
+          setLoading,
+          navigation,
+          checkUser,
+          dispatch,
+          remember
+        );
       } else if (checkUser == "Volunteer") {
-        console.log("Colluneter",checkUser)
-       await VolunteerLogin(data, setLoading, navigation, checkUser,dispatch,remember);
+        console.log("Colluneter", checkUser);
+        await VolunteerLogin(
+          data,
+          setLoading,
+          navigation,
+          checkUser,
+          dispatch,
+          remember
+        );
       }
     }
   };
   return (
     <>
-      <View style={{ paddingHorizontal: 10, alignItems: "center",marginTop:-25 }}>
+      <View
+        style={{ paddingHorizontal: 10, alignItems: "center", marginTop: -25 }}
+      >
         <View
           style={{
             flexDirection: "row",
@@ -93,7 +121,7 @@ const LoginBody = ({ user, setCheckUser, checkUser, navigation }) => {
           placeholder="Password"
           paddingLeft={20}
           error={passwordError}
-          password={password}
+          value={password}
           secureTextEntry={showPassword}
           onChangeText={(txt) => {
             setPassword(txt);
@@ -118,9 +146,7 @@ const LoginBody = ({ user, setCheckUser, checkUser, navigation }) => {
         loading={loading}
         onPress={() => onSubmitLogin()}
       />
-      </>
-
-      
+    </>
   );
 };
 

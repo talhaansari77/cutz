@@ -6,7 +6,7 @@ import {
 } from "react-native-size-matters";
 import styled from "react-native-styled-components";
 // import colors from './colors';
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import { colors } from "./Colors";
 const commonStyles = ScaledSheet.create({
   container: {
@@ -58,6 +58,15 @@ const commonStyles = ScaledSheet.create({
   center:{
     justifyContent: "center",
     alignItems: "center",
+  },
+  customShadow:{ 
+     shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+  shadowRadius: 2,
+  elevation: 5,
+  shadowOpacity: 0.4,
+  // inputMarginTop:-20,
+  shadowOffset: { width: -1, height: 3 }
+
   }
 });
 

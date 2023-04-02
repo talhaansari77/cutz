@@ -49,17 +49,17 @@ export const useVolunteerSignup = (signupValue, signupErrors, setSignupError ) =
     return;
   }
 
-  if (!signupValue.employer) {
-    setSignupError({ ...signupErrors, employerError: "employer is required" });
+  // if (!signupValue.employer) {
+  //   setSignupError({ ...signupErrors, employerError: "employer is required" });
 
-    return;
-  }
+  //   return;
+  // }
 
-  if (!signupValue.organization) {
-    setSignupError({ ...signupErrors, organizationError: "organization is required" });
+  // if (!signupValue.organization) {
+  //   setSignupError({ ...signupErrors, organizationError: "organization is required" });
 
-    return;
-  }
+  //   return;
+  // }
   if (!signupValue.password) {
     setSignupError({ ...signupErrors,passwordError : "password is required" });
 

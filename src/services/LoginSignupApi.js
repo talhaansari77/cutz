@@ -94,11 +94,7 @@ export const VolunteerSignup = async (
           data["currentUser"] = checkUser;
           dispatch(LoginActions(data));
           setTimeout(() => {
-            navigation.navigate("MainStack", {
-              screen: "Welcome",
-              params: { userType: checkUser },
-              merge: true,
-            });
+            navigation.navigate("login", {checkUser:checkUser});
           }, 1000);
 
           console.log("AccountCreates");

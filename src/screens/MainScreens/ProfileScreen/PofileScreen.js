@@ -1,5 +1,5 @@
 import { Alert, StyleSheet, Text, View } from "react-native";
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import commonStyles, { PH20 } from "../../../utils/CommonStyles";
 import ProfileHeader from "./molecules/ProfileHeader";
@@ -25,8 +25,8 @@ import { logout } from "../../../redux/actions";
 
 const ProfileScreen = ({ navigation, route }) => {
   console.log("RoutesType", route?.params);
-  const dispatch=useDispatch()
-  const [modalVisible ,setModalVisible ] = useState(false)
+  const dispatch = useDispatch();
+  const [modalVisible, setModalVisible] = useState(false);
 
   const AuthUser = useSelector((state) => state.authReducers.authState);
 
@@ -82,75 +82,71 @@ const ProfileScreen = ({ navigation, route }) => {
   return (
     <>
       <SafeAreaView style={commonStyles.commonMain}>
-      <PH20>
-        <ProfileHeader AuthUser={AuthUser} />
-      </PH20>
+        <PH20>
+          <ProfileHeader AuthUser={AuthUser} />
+        </PH20>
 
-      <SepratorLine />
-      {profileData.map((item) => {
-        return (
-          <>
-            <ProfileBody
-              name={item.name}
-              img={item.img}
-              onPress={item.onPress}
-              family={item?.family}
-            />
-            <SepratorLine backgroundColor={"#C9C9C9"} />
-          </>
-        );
-      })}
-      <View style={{ height: "10%" }} />
-      <SepratorLine backgroundColor={"#C9C9C9"} />
-
-      <ProfileBody
-        name={"Delete Account"}
-        img={icons.howuse}
-        family={"semiBold"}
-        onPress={() => {
-          Alert.alert(
-            "Caution — Deleting your account ",
-            `will prevent retrieving your account including active reservations`,
-            [
-              {
-                text: "confirm",
-                onPress: () => {
-                  onDeleteAccount();
-                },
-              },
-              {
-                text: "cancel",
-                onPress: () => console.log("Cancel Pressed"),
-              },
-            ]
+        <SepratorLine />
+        {profileData.map((item) => {
+          return (
+            <>
+              <ProfileBody
+                name={item.name}
+                img={item.img}
+                onPress={item.onPress}
+                family={item?.family}
+              />
+              <SepratorLine backgroundColor={"#C9C9C9"} />
+            </>
           );
-        }}
-        color={colors.primary}
+        })}
+        <View style={{ height: "10%" }} />
+        <SepratorLine backgroundColor={"#C9C9C9"} />
+
+        <ProfileBody
+          name={"Delete Account"}
+          img={icons.howuse}
+          family={"semiBold"}
+          onPress={() => {
+            Alert.alert(
+              "Caution — Deleting your account ",
+              `will prevent retrieving your account including active reservations`,
+              [
+                {
+                  text: "confirm",
+                  onPress: () => {
+                    onDeleteAccount();
+                  },
+                },
+                {
+                  text: "cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                },
+              ]
+            );
+          }}
+          color={colors.primary}
+        />
+        <SepratorLine backgroundColor={"#C9C9C9"} />
+        {/* <Spacer height={10} /> */}
+        <ProfileBody
+          name={"Logout"}
+          img={icons.howuse}
+          family={"semiBold"}
+          onPress={async () => {
+            await AsyncStorage.removeItem?.("CurrentAuth");
+            dispatch(logout({}));
+            navigation.navigate("AuthStack", { screen: "login" });
+          }}
+          color={colors.primary}
+        />
+        <SepratorLine backgroundColor={"#C9C9C9"} />
+      </SafeAreaView>
+      <ManageNotification
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
       />
-      <SepratorLine backgroundColor={"#C9C9C9"} />
-      {/* <Spacer height={10} /> */}
-      <ProfileBody
-        name={"Logout"}
-        img={icons.howuse}
-        family={"semiBold"}
-        onPress={async () => {
-          await AsyncStorage.removeItem?.("CurrentAuth");
-          dispatch(logout({}))
-          navigation.navigate("AuthStack", { screen: "signup" });
-
-
-
-
-         
-        }}
-        color={colors.primary}
-      />
-      <SepratorLine backgroundColor={"#C9C9C9"} />
-    </SafeAreaView>
-          <ManageNotification  modalVisible={modalVisible} setModalVisible={setModalVisible}/>
-
     </>
-  
   );
 };
 

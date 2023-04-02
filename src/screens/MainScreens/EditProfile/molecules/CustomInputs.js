@@ -16,7 +16,6 @@ const CustomInputs = (props) => {
   return (
     <View
       style={{
-      
         width: props.width || "100%",
       }}
     >
@@ -60,9 +59,8 @@ const CustomInputs = (props) => {
             style={{
               width: props.iconWidth || scale(20),
               height: props.iconHeight || verticalScale(20),
-              marginLeft: verticalScale(10),
-            }}
-          >
+              marginRight: verticalScale(10),
+            }}>
             <Image
               style={commonStyles.img}
               resizeMode="contain"

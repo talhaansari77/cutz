@@ -52,9 +52,7 @@ const SearchScreen = ({ navigation }) => {
           name: item.eventType,
         });
       });
-     
     });
-  
 
     setEventType(eventType);
     setOrganizationName(orgName);
@@ -77,10 +75,10 @@ const SearchScreen = ({ navigation }) => {
           setTimeout(() => {
             navigation.navigate("Welcome", { data: eventTypes });
           }, 1000);
-          setEventData("")
+          setEventData("");
           setSearchError(false);
         } else {
-          setEventData("")
+          setEventData("");
 
           setSearchError(true);
         }
@@ -88,18 +86,17 @@ const SearchScreen = ({ navigation }) => {
         const companyData = data.filter((item) => {
           return item?.organization == orgData;
         });
-
         if (companyData.length != 0) {
           console.log("filterOrg", companyData);
 
           setTimeout(() => {
             navigation.navigate("Welcome", { data: companyData });
           }, 1000);
-          setOrgData("")
+          setOrgData("");
 
           setSearchError(false);
         } else {
-          setOrgData("")
+          setOrgData("");
 
           setSearchError(true);
         }
@@ -157,7 +154,7 @@ const SearchScreen = ({ navigation }) => {
         });
         if (filterSearch.length != 0) {
           // console.log("filterSearchYahai", filterSearch);
-  
+
           setTimeout(() => {
             navigation.navigate("Welcome", { data: filterSearch });
           }, 1000);
@@ -165,10 +162,7 @@ const SearchScreen = ({ navigation }) => {
         } else {
           setSearchError(true);
         }
-       
-       
       });
-     
     }
   };
   return (

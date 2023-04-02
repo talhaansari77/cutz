@@ -21,9 +21,12 @@ import { useDispatch } from "react-redux";
 import Toast from "react-native-root-toast";
 import { UploadImage } from "../../../../services/UploadImage";
 import { URLS } from "../../../../services/Urls";
+import { icons } from "../../../../../assets/icons";
 const ClientEditProfile = ({ navigation, setLoading, imageUri }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [familySize, setFamilySize] = useState("");
+  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword1, setShowPassword1] = useState(true);
   const dispatch = useDispatch();
   const [phoneRaw, setPhoneRaw] = useState("");
 
@@ -259,6 +262,12 @@ const ClientEditProfile = ({ navigation, setLoading, imageUri }) => {
         alignSelf="center"
         width="100%"
         value={signupValue.password}
+        secureTextEntry={showPassword}
+        onRightPress={() => {
+          setShowPassword(!showPassword);
+        }}
+        iconHeight={verticalScale(15)}
+        rigthIcon={showPassword ? icons.eyeSlash : icons.eye}
         error={signupErrors.passwordError}
         onChangeText={(txt) => {
           setSignupValue({ ...signupValue, password: txt });
@@ -273,6 +282,12 @@ const ClientEditProfile = ({ navigation, setLoading, imageUri }) => {
         width="100%"
         value={signupValue.confirmPassword}
         error={signupErrors.confirmError}
+        secureTextEntry={showPassword1}
+        onRightPress={() => {
+          setShowPassword1(!showPassword1);
+        }}
+        iconHeight={verticalScale(15)}
+        rigthIcon={showPassword1 ? icons.eyeSlash : icons.eye}
         onChangeText={(txt) => {
           setSignupValue({ ...signupValue, confirmPassword: txt });
           setSignupError({ ...signupErrors, confirmError: "" });

@@ -31,6 +31,7 @@ const VolunteerEditProfile = (props) => {
   const AuthUser = useSelector((state) => state.authReducers.authState);
   console.log("CurrentUserData", AuthUser?.AuthUser);
   const [phoneRaw, setPhoneRaw] = useState("");
+  
 
   const [editErrors, setEditError] = useState({
     firstError: "",
@@ -375,6 +376,10 @@ const VolunteerEditProfile = (props) => {
                 onChangeText={item.onChangeText}
                 alignSelf="center"
                 width="100%"
+                secureTextEntry={item.secureTextEntry}
+                onRightPress={item.onRightPress}
+                iconHeight={verticalScale(15)}
+                rigthIcon={item.rigthIcon}
                 // iconWidth={scale(15)}
                 // secureTextEntry={item.secureTextEntry}
                 // onRightPress={item.onRightPress}

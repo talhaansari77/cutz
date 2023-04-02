@@ -15,6 +15,7 @@ import SignupBottom from "./SignupBottom";
 import { useSignup } from "../useSignup";
 import { ClientSignup } from "../../../services/LoginSignupApi";
 import { icons } from "../../../../assets/icons";
+import { useFocusEffect } from "@react-navigation/native";
 
 const SignupBody = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -43,6 +44,15 @@ const SignupBody = (props) => {
     password: "",
     confirmPassword: "",
   });
+
+  useFocusEffect(
+    React.useCallback(() => {
+      return async () => {
+        signupValue({})
+      
+      };
+    }, [])
+  );
 
   const onSetValue = (item) => {
     console.log("Item", item);

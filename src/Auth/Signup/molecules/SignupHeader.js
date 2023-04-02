@@ -13,6 +13,7 @@ const SignupHeader = ({ navigation,setCheckUser,checkUser }) => {
     "Volunteer",
 
   ]
+  console.log("CheckUserSignupData",checkUser)
   return (
     <View>
       <Spacer height={Platform.OS==='ios' ?0:10} />
@@ -44,7 +45,7 @@ const SignupHeader = ({ navigation,setCheckUser,checkUser }) => {
                   borderTopLeftRadius={10}
                   height={verticalScale(27)}
                   borderTopRightRadius={10}
-                  backgroundColor={ item==checkUser?colors.secondary:colors.primary}
+                  backgroundColor={ item==checkUser ?colors.secondary:colors.primary}
                   title={item}
                 />
 

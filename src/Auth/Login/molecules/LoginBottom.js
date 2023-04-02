@@ -14,6 +14,7 @@ import { verticalScale } from "react-native-size-matters";
 import { Feather } from "@expo/vector-icons";
 
 const LoginBottom = ({navigation,checkUser,remember, setRemember,onPress,loading}) => {
+
   return (
     <View style={{ alignItems: "center" }}>
       <Spacer height={20} />
@@ -61,6 +62,7 @@ const LoginBottom = ({navigation,checkUser,remember, setRemember,onPress,loading
       />
       <Spacer height={10} />
       <CustomText
+      onPress={()=>navigation.navigate("ForgetPassword",{checkUser:checkUser})}
         label="FORGOT PASSWORD"
         fontFamily="bold"
         fontSize={11}
@@ -80,7 +82,7 @@ const LoginBottom = ({navigation,checkUser,remember, setRemember,onPress,loading
           color={colors.darkGray}
         />
         <CustomText
-        onPress={()=>navigation.navigate("signup")}
+        onPress={()=>navigation.navigate("signup",{checkUser:checkUser})}
           label="CREATE AN ACCOUNT"
           fontFamily="bold"
           fontSize={8}
