@@ -6,7 +6,7 @@ import CustomText from "../../../../components/CustomText";
 import { Image } from "react-native-elements";
 import { scale, verticalScale } from "react-native-size-matters";
 
-const SmileGreeting = ({ setState, state }) => {
+const SmileGreeting = ({ setState, state ,navigate}) => {
   return (
     <View
       style={{
@@ -53,8 +53,18 @@ const SmileGreeting = ({ setState, state }) => {
       />
 
       <TouchableOpacity
-        onPress={() =>
-          setState({ checkIn: false, checkOut: false, greet: false })
+        onPress={() => {
+          console.log("first");
+          setState({
+            ...state,
+            checkIn: false,
+            checkOut: false,
+            greet: false,
+            ticketDetail: false,
+          });
+          navigate("Welcome");
+        }
+          
         }
         style={{
           position: "absolute",

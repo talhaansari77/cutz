@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, Platform } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import Carousel, { Pagination } from "react-native-snap-carousel";
@@ -12,7 +12,15 @@ import { colors } from "./src/utils/Colors";
 //   { id: 5, text: "Item 5" },
 // ];
 
-const MyCarousel = ({ data }) => {
+const MyCarousel = ({ data,companyIndex,setCompanyIndex }) => {
+  const carouselRef=useRef(null)
+  useEffect(() => {
+    setActiveSlide(companyIndex+3)
+    carouselRef.current.snapToItem(companyIndex+3);
+  }, [companyIndex])
+
+  
+  
   const [activeSlide, setActiveSlide] = useState(3);
 
   const renderItem = ({ item, index }) => {
@@ -38,6 +46,8 @@ const MyCarousel = ({ data }) => {
   return (
     <View style={styles.container}>
       <Carousel
+      ref={carouselRef}
+      
         data={data}
         renderItem={renderItem}
         sliderHeight={135}

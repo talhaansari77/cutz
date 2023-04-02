@@ -186,13 +186,7 @@ const TicketCheckInAndOutVol = ({ state, setState }) => {
                   if (!state.checkIn) {
                     if (eventCode === state?.currentTicket?.eventCode) {
                       setState({ ...state, checkIn: true , greet: true });
-                      setTimeout(() => {
-                            setState({
-                              ...state,
-                              greet: false,
-                              checkIn: true,
-                            });
-                          }, 3000);
+                      
                     }
                   } else {
                     if (eventCode === state?.currentTicket?.eventCode) {

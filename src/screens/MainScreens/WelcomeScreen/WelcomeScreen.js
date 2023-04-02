@@ -93,6 +93,15 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
     loaderOff();
   }, []);
 
+  // useEffect(() => {
+  //   loaderOn();
+  //   setTicketVisible(true);
+  //   setTimeout(() => {
+  //     setTicketVisible(false);
+  //     loaderOff();
+  //   }, 3000);
+  // }, [isFocused]);
+
   useEffect(() => {
     setTicketVisible(false);
   }, [isFocused]);
@@ -110,14 +119,14 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
         <AppHeader />
         {!ticketVisible ? (
           <EventDetail
-            userType={route?.params?.userType}
+            userType={AuthUser?.clientStatus}
             handleBookingPress={handleBookingPress}
             state={state}
             setState={setState}
           />
         ) : (
           <TicketDetails
-            userType={route?.params?.userType}
+            userType={AuthUser?.clientStatus}
             ticketData={state.ticketData}
             handleConfirmPress={handleConfirmPress}
             handleCancelPress={handleCancelPress}

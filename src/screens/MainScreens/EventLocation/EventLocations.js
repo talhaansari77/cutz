@@ -38,7 +38,7 @@ const EventLocations = ({ navigation, route }) => {
           onPress={() => {
             navigation.navigate("Receipt", {
               ticketDetail: true,
-              userType: route?.params?.userType,
+              // userType: route?.params?.userType,
             });
           }}
         >

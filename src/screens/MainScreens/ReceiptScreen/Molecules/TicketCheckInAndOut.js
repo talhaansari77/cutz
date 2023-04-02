@@ -22,7 +22,7 @@ import moment from "moment";
 import OTP from "./OTP";
 import { URLS } from "../../../../services/Urls";
 
-const TicketCheckInAndOut = ({ setState, state,profilePicture }) => {
+const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
   const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
   const modelClose = () => {
@@ -72,8 +72,8 @@ const TicketCheckInAndOut = ({ setState, state,profilePicture }) => {
               fontSize={16}
             />
             <Spacer height={20} />
-              <OTP state={state} setState={setState} />
-              
+            <OTP state={state} setState={setState} />
+
             {/* <View style={{ flexDirection: "row", alignItems: "center" }}> */}
             {/* </View> */}
           </View>
@@ -108,7 +108,9 @@ const TicketCheckInAndOut = ({ setState, state,profilePicture }) => {
                 setState({ ...state, checkOut: true, greet: true });
               }
             }
-            // modelClose();
+            // setState({ ...state, pin1: "", pin2: "", pin3: "", pin4: "" });
+
+            modelClose();
             // setTimeout(() => {
             //   setState({ ...state, pin1: "", pin2: "", pin3: "", pin4: "" })
             // }, 1000);
@@ -127,6 +129,7 @@ const TicketCheckInAndOut = ({ setState, state,profilePicture }) => {
             justifyContent: "center",
             alignItems: "center",
             paddingHorizontal: 20,
+            // backgroundColor:"red"
           }}
         >
           <CustomText
@@ -187,34 +190,32 @@ const TicketCheckInAndOut = ({ setState, state,profilePicture }) => {
             }}
           >
             <Avatar
-              source={ profilePicture?{uri:profilePicture}: images.userAvatar}
+              source={
+                profilePicture ? { uri: profilePicture } : images.userAvatar
+              }
               rounded
               size={80}
               containerStyle={{}}
             />
-            {
-              !profilePicture&&(
-                    <Avatar
-              source={icons.cameraPlus}
-              rounded
-              size={40}
-              containerStyle={{
-                alignSelf: "center",
-                position: "absolute",
-                bottom: -5,
-                right: -5,
-              }}
-            />
-
-              )
-            }
-        
+            {!profilePicture && (
+              <Avatar
+                source={icons.cameraPlus}
+                rounded
+                size={40}
+                containerStyle={{
+                  alignSelf: "center",
+                  position: "absolute",
+                  bottom: -5,
+                  right: -5,
+                }}
+              />
+            )}
           </View>
 
           <Spacer height={10} />
           <View style={styles.card}>
             <View style={styles.whiteCircle} />
-            <View style={{ alignItems: "center" ,marginTop:-10}}>
+            <View style={{ alignItems: "center", marginTop: -10 }}>
               <CustomButton
                 title={"Get In Line!"}
                 width={"95%"}
@@ -286,6 +287,7 @@ const TicketCheckInAndOut = ({ setState, state,profilePicture }) => {
                 fontSize={27}
               />
             </View>
+            <Spacer height={20} />
           </View>
           <Spacer height={20} />
           <View style={{ alignItems: "center" }}>

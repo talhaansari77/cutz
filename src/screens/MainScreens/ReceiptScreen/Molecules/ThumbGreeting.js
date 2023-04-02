@@ -1,13 +1,15 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { colors } from "../../../../utils/Colors";
 import { icons } from "../../../../../assets/icons";
 import CustomText from "../../../../components/CustomText";
 import { Image } from "react-native-elements";
 
-const ThumbGreeting = () => {
+const ThumbGreeting = ({onPress}) => {
   return (
-    <View
+    <TouchableOpacity
+    onPress={onPress}
+    activeOpacity={1}
       style={{
         flex: 1,
         backgroundColor: colors.Brown5,
@@ -60,7 +62,7 @@ const ThumbGreeting = () => {
         color={colors.white}
         fontSize={14}
       />
-    </View>
+    </TouchableOpacity>
   );
 };
 
