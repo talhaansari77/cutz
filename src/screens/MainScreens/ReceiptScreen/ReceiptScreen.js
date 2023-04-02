@@ -58,6 +58,7 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
     pin3: "",
     pin4: "",
   });
+
   const loaderOn = () => {
     setState({ ...state, loading: true });
   };
@@ -66,49 +67,47 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
   };
 
   useEffect(() => {
-    loaderOn();
-    setState({ ...state, tickets: [] })
-    var data = [];
-    var myTickets = [];
-    // setState({ ...state, tickets: [] });
-    getEvents().then((r) => {
-      let data = r.data;
+    if (isFocused) {
+      loaderOn();
+      // var myTickets = [];
+      getEvents().then((r) => {
+        let data = r.data;
 
-      setState({
-        ...state,
-        events: data,
+        setState({
+          ...state,
+          events: data,
+        });
       });
-    });
 
+      getReservationData().then((r) => {
+        let res = SetReservationData(state.events, r.data);
+        setState({ ...state, tickets: res, currentTicket: res[0] });
+      });
+
+      // loaderOff();
+    }
+  }, [isFocused]);
+
+  const getReservationData = () => {
+    let data = [];
     if (AuthUser._id)
       if (AuthUser.clientStatus) {
-        getReservationClient(AuthUser.token).then((r) => {
-          data = r.data;
-          // let myTickets = data.map((t) => r.eventID === AuthUser._id);
-          setState({ ...state, reservations: data });
-        });
+        return getReservationClient(AuthUser.token);
       } else {
-        getReservationVolunteer(AuthUser.token).then((r) => {
-          data = r.data;
-          setState({ ...state, reservations: data });
-        });
+        return getReservationVolunteer(AuthUser.token);
       }
-
-    state.events.map((e) => {
-      state.reservations.map((r) => {
+  };
+  const SetReservationData = (events, reservations) => {
+    let myTickets = [];
+    events.map((e) => {
+      reservations.map((r) => {
         if (e._id === r.eventID) {
-          state.tickets.push(e);
+          myTickets.push(e);
         }
       });
     });
-    console.log("myTickets");
-    // console.log(myTickets.length);
-    // setState({ ...state, tickets: myTickets });
-
-    loaderOff();
-  }, [isFocused]);
-
-
+    return myTickets;
+  };
 
   const handleProceedPress = (ticket) => {
     navigate("Event", {
@@ -129,66 +128,71 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
   //   if (route?.params?.ticketDetail) setState({ ...state, ticketDetail: true });
   //   else setState({ ...state, ticketDetail: false });
   // }, [isFocused]);
-  const pin1Ref = useRef("");
   return (
-    <SafeAreaView style={styles.container}>
-      {/* <ScrollView> */}
+    <>
+      <SafeAreaView style={styles.container}>
+        {/* <ScrollView> */}
 
-      {!state.ticketDetail ? (
-        <>
-          {/* <Spacer height={notch?30:10} /> */}
+        {!state.ticketDetail ? (
+          <>
+            {/* <Spacer height={notch?30:10} /> */}
 
-          <AppHeader ticket onPressTicket={handleTicketPress} />
-          {/* <TicketDetails
-            navigate={navigate}
-            cardBtnText={"Proceed"}
-            handleProceedPress={handleProceedPress}
-          /> */}
-          <TicketCarousel
-            tickets={state.tickets}
-            state={state}
-            setState={setState}
-            handleCancelPress={handleCancelPress}
-            handleProceedPress={handleProceedPress}
-          />
-        </>
-      ) : !AuthUser.clientStatus ? (
-        <>
-          <AppHeader
-            backButton
-            onPressBack={() => {
-              setState({ ...state, ticketDetail: false });
-            }}
-          />
-          {/* <Text>{AuthUser._id}</Text> */}
-          <TicketCheckInAndOut state={state} setState={setState} profilePicture={AuthUser?.profilePicture} />
-        </>
-      ) : (
-        <>
-          <AppHeader />
-          {state.greet ? (
-            state.checkOut ? (
-              <SmileGreeting state={state} setState={setState} navigate={navigate} />
+            <AppHeader ticket onPressTicket={handleTicketPress} />
+
+            <TicketCarousel
+              tickets={state.tickets}
+              state={state}
+              setState={setState}
+              handleCancelPress={handleCancelPress}
+              handleProceedPress={handleProceedPress}
+            />
+          </>
+        ) : AuthUser.clientStatus ? (
+          <>
+            <AppHeader
+              backButton={state.checkOut ? false : true}
+              onPressBack={() => {
+                setState({ ...state, ticketDetail: false });
+              }}
+            />
+            {/* <Text>{AuthUser._id}</Text> */}
+            <TicketCheckInAndOut
+              state={state}
+              setState={setState}
+              profilePicture={AuthUser?.profilePicture}
+            />
+          </>
+        ) : (
+          <>
+            <AppHeader />
+            {state.greet ? (
+              state.checkOut ? (
+                <SmileGreeting
+                  state={state}
+                  setState={setState}
+                  navigate={navigate}
+                />
+              ) : (
+                <ThumbGreeting
+                  onPress={() => {
+                    setState({
+                      ...state,
+                      greet: false,
+                      checkIn: true,
+                    });
+                  }}
+                />
+              )
             ) : (
-              <ThumbGreeting onPress={()=>{
-                setState({
-                  ...state,
-                  greet: false,
-                  checkIn: true,
-                });
-              }} />
-            )
-          ) : (
-            <TicketCheckInAndOutVol state={state} setState={setState} />
-          )}
-        </>
-      )}
+              <TicketCheckInAndOutVol state={state} setState={setState} />
+            )}
+          </>
+        )}
+
+        {/* </ScrollView> */}
+      </SafeAreaView>
       <Loader file={loaderAnimation} loading={state.loading} />
-
-      {/* </ScrollView> */}
-
-
-    </SafeAreaView>
+    </>
   );
 };
 
@@ -267,4 +271,3 @@ const styles = StyleSheet.create({
     elevation: 9,
   },
 });
-

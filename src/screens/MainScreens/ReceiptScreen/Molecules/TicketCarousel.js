@@ -130,7 +130,7 @@ const TicketCarousel = ({
             label={item.eventType}
             fontFamily={"bold"}
             color={colors.secondary}
-            fontSize={18}
+            fontSize={16}
           />
         </View>
       </View>
@@ -188,7 +188,7 @@ const TicketCarousel = ({
         // sliderHeight={300}
         // itemHeight={60}
         sliderWidth={width}
-        itemWidth={400}
+        itemWidth={width / 1.3}
         layout="default"
         inactiveSlideScale={0.8} // set inactive slide scale to make items smaller
         onSnapToItem={(index) => {
@@ -262,6 +262,8 @@ const styles = StyleSheet.create({
     // bottom: 0,
     paddingVertical: 10,
     width: width / 8,
+    overflow:'hidden'
+    
   },
   dot: {
     width: 8,

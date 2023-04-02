@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, Platform } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import Carousel, { Pagination } from "react-native-snap-carousel";
@@ -12,8 +12,16 @@ import { colors } from "./src/utils/Colors";
 //   { id: 5, text: "Item 5" },
 // ];
 
-const CompaniesCarousel = ({ data,setCompanyIndex,companyIndex }) => {
+const CompaniesCarousel = ({ data, setCompanyIndex, companyIndex }) => {
   const [activeSlide, setActiveSlide] = useState(3);
+  const carouselRef = useRef(null);
+
+  useEffect(() => {
+    // setActiveSlide(companyIndex + 3);
+   setTimeout(() => {
+    carouselRef.current.snapToItem(3);
+   }, 3000);
+  }, []);
 
   const renderItem = ({ item, index }) => {
     const isFocused = index === activeSlide;
@@ -28,7 +36,7 @@ const CompaniesCarousel = ({ data,setCompanyIndex,companyIndex }) => {
   return (
     <View style={styles.container}>
       <Carousel
-      
+        ref={carouselRef}
         data={data}
         renderItem={renderItem}
         sliderHeight={120}
@@ -40,11 +48,10 @@ const CompaniesCarousel = ({ data,setCompanyIndex,companyIndex }) => {
         activeSlideOffset={3}
         inactiveSlideScale={1} // set inactive slide scale to make items smaller
         activeSlideAlignment="center" // set active slide alignment to center the selected item
-        
         onSnapToItem={(index) => {
-            setActiveSlide(index + 3);
-            setCompanyIndex(index)
-            console.log(companyIndex);
+          setActiveSlide(index + 3);
+          setCompanyIndex(index);
+          console.log(companyIndex);
         }} // update the active slide index
       />
     </View>

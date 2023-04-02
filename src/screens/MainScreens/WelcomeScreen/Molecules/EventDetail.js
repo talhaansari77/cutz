@@ -375,6 +375,12 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
       <Spacer height={4} />
     </TouchableOpacity>
   );
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setCompanyIndex(0)
+  //   }, 5000);
+  // }, []);
+
   useEffect(() => {
     setDateIndex(companyIndex);
     setEventIndex(companyIndex);
