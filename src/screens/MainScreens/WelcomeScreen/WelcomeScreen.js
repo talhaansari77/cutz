@@ -112,7 +112,12 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
         let eventID = route?.params?.data[0]?._id;
         let i = state.events.findIndex((e) => e._id === eventID);
         // console.log("index", i);
-        setState({...state,searchIndex:i})
+        if(i){
+          setState({...state,searchIndex:i})
+        }
+        else{
+          alert("Not Found")
+        }
       }
     }, 1000);
     // console.log("Data=>",route?.params?.data)
