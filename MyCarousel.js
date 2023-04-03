@@ -15,9 +15,16 @@ import { colors } from "./src/utils/Colors";
 const MyCarousel = ({ data,companyIndex,setCompanyIndex }) => {
   const carouselRef=useRef(null)
   useEffect(() => {
-    setActiveSlide(companyIndex+3)
-    carouselRef.current.snapToItem(companyIndex+3);
+    setActiveSlide(companyIndex)
+    carouselRef.current.snapToItem(companyIndex);
   }, [companyIndex])
+
+  useEffect(() => {
+    // setActiveSlide(companyIndex + 3);
+   setTimeout(() => {
+    carouselRef.current.snapToItem(3);
+   }, 3000);
+  }, []);
 
   
   

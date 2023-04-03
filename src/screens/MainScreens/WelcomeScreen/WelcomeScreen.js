@@ -28,6 +28,7 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
     eventTypes: [],
     ticketData: {},
     loading: false,
+    searchIndex: -1,
   });
   const [ticketVisible, setTicketVisible] = useState(false);
   const isFocused = useIsFocused();
@@ -55,7 +56,6 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
           navigate("Receipt");
         });
       }
-      
   };
   const handleCancelPress = () => {
     setTicketVisible(false);
@@ -107,12 +107,16 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
   }, [isFocused]);
 
   useEffect(() => {
-    // 2023-03-12T20:30:11.000Z
-
-    console.log("dataTimeData",moment("2023-03-12T20:30:11.000Z",).utc().format('dddd MMM YYYY'));
-    //  console.log("TimeFormatData",timeData)
-  
-  }, [isFocused])
+    setTimeout(() => {
+      if (isFocused && route?.params?.data) {
+        let eventID = route?.params?.data[0]?._id;
+        let i = state.events.findIndex((e) => e._id === eventID);
+        // console.log("index", i);
+        setState({...state,searchIndex:i})
+      }
+    }, 1000);
+    // console.log("Data=>",route?.params?.data)
+  }, [isFocused]);
   return (
     <>
       <SafeAreaView style={styles.container}>

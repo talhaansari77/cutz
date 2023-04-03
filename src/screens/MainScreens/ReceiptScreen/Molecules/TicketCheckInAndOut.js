@@ -173,8 +173,23 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
         </View>
       ) : (
         <>
+          {/* {visible ? (
+            <View
+              style={{
+                position: "absolute",
+                zIndex: 100,
+                height: "100%",
+                width: "100%",
+              }}
+            >
+              <ModalContent />
+            </View>
+          ) : (
+            <></>
+          )} */}
           <Modal
             transparent
+            animationType="fade"
             visible={visible}
             onRequestClose={() => setVisible(false)}
           >
@@ -231,7 +246,7 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
                   fontSize={15}
                 />
                 <CustomText
-                  label={state.currentTicket._id}
+                  label={state?.currentTicket?._id}
                   color={colors.white}
                   fontFamily={"bold"}
                   fontSize={12}
@@ -274,7 +289,7 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
                   />
                 </View>
                 <CustomText
-                  label={state?.ticketData?.groupLetter.toUpperCase()}
+                  label={state?.ticketData?.groupLetter?.toUpperCase()}
                   color={colors.white}
                   fontFamily={"Righteous"}
                   fontSize={120}

@@ -12,7 +12,7 @@ import { colors } from "./src/utils/Colors";
 //   { id: 5, text: "Item 5" },
 // ];
 
-const CompaniesCarousel = ({ data, setCompanyIndex, companyIndex }) => {
+const CompaniesCarousel = ({ data, setCompanyIndex, companyIndex,state }) => {
   const [activeSlide, setActiveSlide] = useState(3);
   const carouselRef = useRef(null);
 
@@ -22,6 +22,11 @@ const CompaniesCarousel = ({ data, setCompanyIndex, companyIndex }) => {
     carouselRef.current.snapToItem(3);
    }, 3000);
   }, []);
+  
+  useEffect(() => {
+    let searchIndex=state.searchIndex
+    carouselRef.current.snapToItem(searchIndex);
+  }, [state.searchIndex]);
 
   const renderItem = ({ item, index }) => {
     const isFocused = index === activeSlide;
@@ -51,7 +56,7 @@ const CompaniesCarousel = ({ data, setCompanyIndex, companyIndex }) => {
         onSnapToItem={(index) => {
           setActiveSlide(index + 3);
           setCompanyIndex(index);
-          console.log(companyIndex);
+          // console.log(companyIndex);
         }} // update the active slide index
       />
     </View>

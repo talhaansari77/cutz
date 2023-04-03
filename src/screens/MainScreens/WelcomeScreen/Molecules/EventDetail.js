@@ -388,6 +388,14 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
     eventIndexRef.current.scrollTo({ y: 100 * companyIndex });
   }, [companyIndex]);
 
+  // useEffect(() => {
+  //   let searchIndex=state.searchIndex
+  //   setDateIndex(searchIndex);
+  //   setEventIndex(searchIndex);
+  //   dateIndexRef.current.scrollTo({ x: 100 * searchIndex });
+  //   eventIndexRef.current.scrollTo({ y: 100 * searchIndex });
+  // }, [state.searchIndex]);
+
   
 
   return (
@@ -467,6 +475,7 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
         data={state.companyData}
         setCompanyIndex={setCompanyIndex}
         companyIndex={companyIndex}
+        state={state}
       />
 
       <Spacer height={15} />
@@ -484,6 +493,7 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
         data={state.eventTypes}
         companyIndex={companyIndex}
         setCompanyIndex={setCompanyIndex}
+        state={state}
       />
 
       <Spacer height={20} />

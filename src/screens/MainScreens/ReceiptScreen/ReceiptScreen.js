@@ -72,20 +72,15 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
       // var myTickets = [];
       getEvents().then((r) => {
         let data = r.data;
-
-        setState({
-          ...state,
-          events: data,
+        getReservationData().then((r) => {
+          let res = SetReservationData(data, r.data);
+          setState({ ...state, tickets: res, currentTicket: res[0] });
         });
-      });
-
-      getReservationData().then((r) => {
-        let res = SetReservationData(state.events, r.data);
-        setState({ ...state, tickets: res, currentTicket: res[0] });
       });
 
       // loaderOff();
     }
+    
   }, [isFocused]);
 
   const getReservationData = () => {
@@ -110,10 +105,10 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
   };
 
   const handleProceedPress = (ticket) => {
-    navigate("Event", {
-      // userType: route?.params?.userType,
-      location: ticket.location,
-    });
+    if (ticket)
+      navigate("Event", {
+        location: ticket.location,
+      });
   };
   const handleTicketPress = () => {
     // setState({ ...state, ticketDetail: true });
@@ -125,8 +120,11 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
     navigate("Welcome");
   };
   // useEffect(() => {
-  //   if (route?.params?.ticketDetail) setState({ ...state, ticketDetail: true });
-  //   else setState({ ...state, ticketDetail: false });
+  //   if (isFocused) {
+  //     if (route?.params?.ticketDetail)
+  //       setState({ ...state, ticketDetail: true });
+  //     else setState({ ...state, ticketDetail: false });
+  //   } 
   // }, [isFocused]);
   return (
     <>

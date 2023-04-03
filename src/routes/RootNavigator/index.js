@@ -22,7 +22,7 @@ import loaderAnimation from "../../../assets/Loaders";
 const RootNavigator = () => {
   const dispatch = useDispatch();
   const AuthData = useSelector((state) => state.authReducers.authState);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   // console.log("DataSIUser", data);
   // const [AuthData, setAuthData] = useState(null);
   console.log("AuthData", AuthData);
@@ -33,7 +33,7 @@ const RootNavigator = () => {
       let AsyncData = JSON.parse?.(user);
       console.log("AsycDataa", AsyncData?.rememberMe);
       if (AsyncData?.token) {
-        setLoading(true)
+        setLoading(true);
         // setAuthData(AsyncData);
         if (AsyncData?.currentUser == "Client") {
           const res = await GetClientEvent(AsyncData?.token);
@@ -45,9 +45,9 @@ const RootNavigator = () => {
           console.log("currentUserAsyncData", data);
 
           dispatch(LoginActions(data));
-          setLoading(false)
+          setLoading(false);
         } else {
-          setLoading(true)
+          setLoading(true);
           const res = await GetVolunteerEvent(AsyncData?.token);
           const data = res?.data;
           console.log("DataIS", data);
@@ -57,17 +57,18 @@ const RootNavigator = () => {
           data["currentUser"] = AsyncData?.currentUser;
 
           dispatch(LoginActions(data));
-          setLoading(false)
+          setLoading(false);
         }
       }
     })();
   }, []);
   const Stack = createStackNavigator();
 
-  return loading?<>
-        <Loader file={loaderAnimation} loading={loading} />
-
-  </>:(
+  return loading ? (
+    <>
+      <Loader file={loaderAnimation} loading={loading} />
+    </>
+  ) : (
     <NavigationContainer>
       {AuthData?.rememberMe === true ? (
         <Stack.Navigator
