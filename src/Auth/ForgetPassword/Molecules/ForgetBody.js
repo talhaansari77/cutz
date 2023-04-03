@@ -6,7 +6,7 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
-  Image
+  Image,
 } from "react-native";
 import React, { useState } from "react";
 import CustomTextInput from "../../../components/CustomTextInput";
@@ -27,14 +27,15 @@ import {
 import Toast from "react-native-root-toast";
 import CustomLogo from "../../../components/CustomLogo";
 
-const ForgetBody = ({ navigation, checkUserParams,route,setCheckUser ,checkUser}) => {
+const ForgetBody = ({
+  navigation,
+  checkUserParams,
+  route,
+  setCheckUser,
+  checkUser,
+}) => {
   const AuthUser = useSelector((state) => state.authReducers.authState);
-  const checkUserData=[
-    "Client",
-    "Volunteer",
-
-  ]
-
+  const checkUserData = ["Client", "Volunteer"];
 
   const [showPassword, setShowPassword] = useState(true);
   const [showPassword1, setShowPassword1] = useState(true);
@@ -42,12 +43,12 @@ const ForgetBody = ({ navigation, checkUserParams,route,setCheckUser ,checkUser}
   const dispatch = useDispatch();
 
   const [passwordValue, setPasswordValue] = useState({
-      email:"",
+    email: "",
     password: "",
     confirmPassword: "",
   });
   const [forgetErrors, setForgetErrors] = useState({
-      emailError:"",
+    emailError: "",
     passwordError: "",
     confirmError: "",
   });
@@ -89,33 +90,31 @@ const ForgetBody = ({ navigation, checkUserParams,route,setCheckUser ,checkUser}
       {/* Webview and stuff */}
 
       <PH20>
-    
-          <CustomLogo/>
-      <View
+        <CustomLogo />
+        <View
           style={{
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "center",
-          }}>
-            {
-              checkUserData.map((item,index)=>{
-                return(
-                  <CustomButton
-                  onPress={()=>setCheckUser(item)}
-                  width={"46%"}
-                  borderTopLeftRadius={10}
-                  height={verticalScale(27)}
-                  borderTopRightRadius={10}
-                  backgroundColor={ item==checkUser?colors.secondary:colors.primary}
-                  title={item}
-                />
-
-                )
-
-              })
-            }
+          }}
+        >
+          {checkUserData.map((item, index) => {
+            return (
+              <CustomButton
+                onPress={() => setCheckUser(item)}
+                width={"46%"}
+                borderTopLeftRadius={10}
+                height={verticalScale(27)}
+                borderTopRightRadius={10}
+                backgroundColor={
+                  item == checkUser ? colors.secondary : colors.primary
+                }
+                title={item}
+              />
+            );
+          })}
         </View>
-        <Spacer height={20}/>
+        <Spacer height={20} />
 
         <CustomTextInput
           placeholder="E-mail"
@@ -124,14 +123,13 @@ const ForgetBody = ({ navigation, checkUserParams,route,setCheckUser ,checkUser}
           width="100%"
           value={passwordValue.email}
           error={forgetErrors.emailError}
-         
           onChangeText={(txt) => {
             setPasswordValue({ ...passwordValue, email: txt });
-            setForgetErrors({ ...forgetErrors, emailError: "" });
+            setForgetErrors({ ...forgetErrors, emailError: "" }); 
           }}
           borderRadius={15}
         />
-        <Spacer height={20}/>
+        <Spacer height={20} />
         <CustomTextInput
           placeholder="New Password"
           paddingLeft={20}

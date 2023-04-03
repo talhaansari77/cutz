@@ -48,12 +48,18 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
       if (AuthUser.clientStatus) {
         postEventReservationClient(data, AuthUser.token).then((r) => {
           loaderOff();
+         if(r?.data)
           navigate("Receipt");
+          else
+          alert("Event already reserved for user")
         });
       } else {
         postEventReservationVolunteer(data, AuthUser.token).then((r) => {
           loaderOff();
+          if(r?.data)
           navigate("Receipt");
+          else
+          alert("Event already reserved for user")
         });
       }
   };
