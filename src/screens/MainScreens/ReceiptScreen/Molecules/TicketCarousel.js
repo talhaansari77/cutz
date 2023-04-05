@@ -30,7 +30,7 @@ const TicketCarousel = ({
   state,
   setState,
 }) => {
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [activeSlide, setActiveSlide] = useState(1);
 
   const renderItem = ({ item, index }) => (
     <View style={styles.cardStyle}>

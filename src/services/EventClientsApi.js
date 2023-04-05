@@ -150,46 +150,84 @@ export const UpdateClientEvent = async (
 
 
 export const ForgetClientPassword = async (
-  token,
   data,
-  AuthUser,
-  dispatch,
-  setLoading
+  setLoading,
+  navigation
 ) => {
-  console.log("TokenData", token);
   const options = {
     method: "PATCH",
-    url: `${URLS.BASE_URL}${URLS.GET_CLIENT}`,
-    headers: { Authorization: "Bearer " + token },
+    url: `${URLS.BASE_URL}${URLS.CLIENT_GORGET_PASSWORD}`,
+
     data: data,
   };
+  setLoading(true)
 
   try {
     await axios
       .request(options)
       .then(async function (response) {
-        // console.log("userCreated", response?.message);
+        console.log("userCreated", response);
         if (response) {
-          const res = await GetClientEvent(token);
-          const data = res?.data;
-          data["token"] = token;
-          data["currentUser"] = AuthUser.currentUser;
-          Toast.show("Password is changed");
+          Toast.show("Password updated successfully");
           setLoading(false);
+          navigation.goBack()
 
-          dispatch(LoginActions(data));
-          //   return res
         } else {
           setLoading(false);
 
 
-          Toast.show("something wrong");
+          Toast.show("Email not exist please signup first");
 
           console.log("AccountExist");
         }
       })
       .catch((error) => {
         setLoading(false);
+        Toast.show("Email not exist please signup first");
+
+        // Toast.show("Account is already exist");
+      });
+
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
+export const ForgetVolunteerPassword = async (
+  data,
+  setLoading,
+  navigation
+) => {
+  const options = {
+    method: "PATCH",
+    url: `${URLS.BASE_URL}${URLS.VOLUNTEER_GORGET_PASSWORD}`,
+
+    data: data,
+  };
+  setLoading(true)
+
+  try {
+    await axios
+      .request(options)
+      .then(async function (response) {
+        console.log("userCreated", response?.data?.message);
+        if (response) {
+          Toast.show("Password updated successfully");
+          setLoading(false);
+          navigation.goBack()
+        } else {
+          setLoading(false);
+
+
+          Toast.show("Email not exist please signup first");
+
+          console.log("AccountExist");
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        Toast.show("Email not exist please signup first");
+
         // Toast.show("Account is already exist");
       });
 

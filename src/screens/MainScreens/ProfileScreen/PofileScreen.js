@@ -70,7 +70,7 @@ const ProfileScreen = ({ navigation, route }) => {
         Toast.show("Account deleted successfully");
         await AsyncStorage.removeItem?.("CurrentAuth");
         dispatch(logout({}));
-        navigation.navigate("AuthStack", { screen: "login" });
+        navigation.replace("AuthStack", { screen: "login" });
       }
     } else {
       const res = await DeleteClientEvent(AuthUser?.token);
@@ -78,7 +78,7 @@ const ProfileScreen = ({ navigation, route }) => {
         Toast.show("Account deleted successfully");
         await AsyncStorage.removeItem?.("CurrentAuth");
         dispatch(logout({}));
-        navigation.navigate( "login" );
+        navigation.replace("login");
       }
     }
   };
@@ -140,7 +140,7 @@ const ProfileScreen = ({ navigation, route }) => {
           onPress={async () => {
             await AsyncStorage.removeItem?.("CurrentAuth");
             dispatch(logout({}));
-            navigation.navigate(  "login" );
+            navigation.navigate("login");
           }}
           color={colors.primary}
         />
