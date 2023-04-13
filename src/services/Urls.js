@@ -11,6 +11,8 @@ export const URLS={
     EVENTS_RESERVATION_VOLUNTEER:'api/v1/eventreservationvolunteer',
     EVENT_GROUP:"api/v1/eventgroup",
     UPLOAD_IMAGE:"api/v1/upload",
+    ORGANIZATION:"api/v1/organization",
+    TIMING:"api/v1/timing",
     GOOGL_MAP_API:"AIzaSyCpr_ajK9YsgNa184_UyE0e3BXmiPPXFZ8",
 
 

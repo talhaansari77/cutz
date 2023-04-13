@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,Image } from "react-native";
+import { StyleSheet, Text, View,Image, TouchableOpacity } from "react-native";
 import React from "react";
 import ProfilePhoto from "../../../../components/ProfilePhoto";
 import CustomText from "../../../../components/CustomText";
@@ -8,6 +8,7 @@ import SepratorLine from "../../../../components/SepratorLine";
 import { images } from "../../../../../assets/images";
 import { icons } from "../../../../../assets/icons";
 import { Avatar } from "react-native-elements";
+import { onClickImage } from "../../EditProfile/EditProfile";
 const ProfileHeader = ({ AuthUser }) => {
   console.log("CurrentAuth", AuthUser?.firstName);
   return (
@@ -48,6 +49,8 @@ const ProfileHeader = ({ AuthUser }) => {
                 size={70}
                 containerStyle={{}}
               />
+                            <TouchableOpacity activeOpacity={0.6} onPress={onClickImage}>
+
               <Avatar
                 source={icons.cameraPlus}
                 rounded
@@ -59,6 +62,7 @@ const ProfileHeader = ({ AuthUser }) => {
                   right: -5,
                 }}
               />
+              </TouchableOpacity>
             </>
           )}
         </View>

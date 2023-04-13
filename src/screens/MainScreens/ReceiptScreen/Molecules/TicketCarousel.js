@@ -10,6 +10,7 @@ import CustomText from "../../../../components/CustomText";
 import { Spacer } from "../../../../components/Spacer";
 import { colors } from "../../../../utils/Colors";
 import moment from 'moment';
+import { getOrganizationById } from "../../../../services/Organization";
 
 const data = [
   { id: 1, text: "Item 1" },
@@ -31,123 +32,135 @@ const TicketCarousel = ({
   setState,
 }) => {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [org, setOrg] = useState('...');
 
-  const renderItem = ({ item, index }) => (
-    <View style={styles.cardStyle}>
-      <Image
-        source={images.cardHeader}
-        containerStyle={{ width: "100%", height: 40 }}
-        resizeMode={"stretch"}
-      />
-      <Spacer height={10} />
-      <View
-        style={{
-          paddingHorizontal: scale(50),
-          paddingVertical: verticalScale(5),
-          backgroundColor: colors.darkOrange,
-          alignSelf: "center",
-          borderRadius: 5,
-        }}
-      >
-        <CustomText
-          label={item.organization}
-          fontFamily={"semiBold"}
-          color={colors.white}
-          fontSize={14}
-        />
-      </View>
-      <Spacer height={20} />
-      <View>
-        <View style={{ flexDirection: "row" }}>
-          <Spacer width={15} />
-          <Image
-            source={icons.calender}
-            resizeMode={"contain"}
-            containerStyle={{ height: scale(30), width: scale(30) }}
-          />
-          <Spacer width={10} />
-          <View>
-            <CustomText
-              label={item.day + ", " + item.monthYear.split(' ')[0] +" " + item.date}
-              fontFamily={"semiBold"}
-              color={colors.secondary}
-              fontSize={14}
-            />
-            <CustomText
-              label={moment(item.eventStartTime).utc().format('hh:mm A')}
-              fontFamily={"semiBold"}
-              color={colors.perFectDark}
-              fontSize={11}
-            />
-          </View>
-        </View>
-        <Spacer height={25} />
-        <View style={{ flexDirection: "row" }}>
-          <Spacer width={10} />
-          <Image
-            source={icons.marker}
-            resizeMode={"contain"}
-            containerStyle={{ height: scale(30), width: scale(30) }}
-          />
-          <Spacer width={15} />
-          <View>
-            <CustomText
-              label={item.place}
-              fontFamily={"semiBold"}
-              color={colors.secondary}
-              fontSize={14}
-            />
-            <CustomText
-              label={item.house}
-              fontFamily={"semiBold"}
-              color={colors.perFectDark}
-              fontSize={11}
-            />
-            <CustomText
-              label={item.zip}
-              fontFamily={"semiBold"}
-              color={colors.perFectDark}
-              fontSize={11}
-            />
-          </View>
-        </View>
-      </View>
-      <Spacer height={15} />
-
-      <View style={{ flexDirection: "row" }}>
-        <Spacer width={10} />
+  const renderItem = ({ item, index }) =>
+   {
+    getOrganizationById(item.orgId).then((r)=>setOrg(r.data.organizationName))
+    // console.log(r)
+    return(
+      <View style={styles.cardStyle}>
         <Image
-          source={icons.ticket1}
-          resizeMode={"contain"}
-          style={{
-            tintColor: colors.secondary,
-          }}
-          containerStyle={{ height: scale(30), width: scale(30) }}
+          source={images.cardHeader}
+          containerStyle={{ width: "100%", height: 40 }}
+          resizeMode={"stretch"}
         />
-        <Spacer width={15} />
-        <View>
+        <Spacer height={10} />
+        <View
+          style={{
+            paddingHorizontal: scale(50),
+            paddingVertical: verticalScale(5),
+            backgroundColor: colors.darkOrange,
+            alignSelf: "center",
+            borderRadius: 5,
+          }}
+        >
           <CustomText
-            label={item.eventType}
-            fontFamily={"bold"}
-            color={colors.secondary}
-            fontSize={16}
+            label={org}
+            fontFamily={"semiBold"}
+            color={colors.white}
+            fontSize={14}
           />
         </View>
+        <Spacer height={20} />
+        <View>
+          <View style={{ flexDirection: "row" }}>
+            <Spacer width={15} />
+            <Image
+              source={icons.calender}
+              resizeMode={"contain"}
+              containerStyle={{ height: scale(30), width: scale(30) }}
+            />
+            <Spacer width={10} />
+            <View>
+              <CustomText
+                label={
+                  moment(item?.eventStartTime).utc().format("dddd") +
+                  ", " +
+                  moment(item?.eventStartTime).utc().format("MMMM") +
+                  " " +
+                  moment(item?.eventStartTime).utc().format("DD")
+                }
+                fontFamily={"semiBold"}
+                color={colors.secondary}
+                fontSize={14}
+              />
+              <CustomText
+                label={moment(item.eventStartTime).utc().format('hh:mm A')}
+                fontFamily={"semiBold"}
+                color={colors.perFectDark}
+                fontSize={11}
+              />
+            </View>
+          </View>
+          <Spacer height={25} />
+          <View style={{ flexDirection: "row" }}>
+            <Spacer width={10} />
+            <Image
+              source={icons.marker}
+              resizeMode={"contain"}
+              containerStyle={{ height: scale(30), width: scale(30) }}
+            />
+            <Spacer width={15} />
+            <View>
+              <CustomText
+                label={item.addresses[0].place}
+                fontFamily={"semiBold"}
+                color={colors.secondary}
+                fontSize={14}
+              />
+              <CustomText
+                label={item.addresses[0].house}
+                fontFamily={"semiBold"}
+                color={colors.perFectDark}
+                fontSize={11}
+              />
+              <CustomText
+                label={item.addresses[0].zip}
+                fontFamily={"semiBold"}
+                color={colors.perFectDark}
+                fontSize={11}
+              />
+            </View>
+          </View>
+        </View>
+        <Spacer height={15} />
+  
+        <View style={{ flexDirection: "row" }}>
+          <Spacer width={10} />
+          <Image
+            source={icons.ticket1}
+            resizeMode={"contain"}
+            style={{
+              tintColor: colors.secondary,
+            }}
+            containerStyle={{ height: scale(30), width: scale(30) }}
+          />
+          <Spacer width={15} />
+          <View>
+            <CustomText
+              label={item.eventType}
+              fontFamily={"bold"}
+              color={colors.secondary}
+              fontSize={16}
+            />
+          </View>
+        </View>
+  
+        <Image
+          source={images.cardBottom}
+          containerStyle={{
+            width: "100%",
+            height: 40,
+            position: "absolute",
+            bottom: 0,
+          }}
+          resizeMode={"stretch"}
+        />
+        <Spacer height={40} />
       </View>
-
-      <Image
-        source={images.cardBottom}
-        containerStyle={{
-          width: "100%",
-          height: 40,
-          position: "absolute",
-          bottom: 0,
-        }}
-        resizeMode={"stretch"}
-      />
-      <Spacer height={40} />
-    </View>
-  );
+    );
+   }
 
   const InfoText = () => (
     <View style={{ alignSelf: "center", alignItems: "center" }}>

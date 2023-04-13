@@ -21,6 +21,7 @@ import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
 import OTP from "./OTP";
 import { URLS } from "../../../../services/Urls";
+import { onClickImage } from "../../EditProfile/EditProfile";
 
 const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
   const navigation = useNavigation();
@@ -213,17 +214,19 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
               containerStyle={{}}
             />
             {!profilePicture && (
-              <Avatar
-                source={icons.cameraPlus}
-                rounded
-                size={40}
-                containerStyle={{
-                  alignSelf: "center",
-                  position: "absolute",
-                  bottom: -5,
-                  right: -5,
-                }}
-              />
+              <TouchableOpacity activeOpacity={0.6} onPress={onClickImage}>
+                <Avatar
+                  source={icons.cameraPlus}
+                  rounded
+                  size={40}
+                  containerStyle={{
+                    alignSelf: "center",
+                    position: "absolute",
+                    bottom: -5,
+                    right: -5,
+                  }}
+                />
+              </TouchableOpacity>
             )}
           </View>
 

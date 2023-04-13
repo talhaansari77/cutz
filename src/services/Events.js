@@ -7,3 +7,8 @@ export const getEvents = async () => {
     return await axios.get(`${URLS.BASE_URL}${URLS.GET_EVENTS}`);
   } catch (error) {}
 };
+export const getEventById = async (id) => {
+  try {
+    return await axios.get(`${URLS.BASE_URL}${URLS.GET_EVENTS}/${id}`);
+  } catch (error) {}
+};

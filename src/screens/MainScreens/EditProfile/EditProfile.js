@@ -23,6 +23,26 @@ import * as ImagePicker from "expo-image-picker";
 import Loader from "../../../utils/Loader";
 import loaderAnimation from "../../../../assets/Loaders/index";
 
+
+export const onClickImage = async () => {
+  try {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      includeBase64: true,
+      // base64: true,
+    });
+    if (result) {
+      setImageUri(result);
+      setImage(result.uri);
+      // console.log("ResulteImageData",result.type)
+    } else {
+      setImageUri("");
+    }
+  } catch (error) {
+    console.log("Error reading an image", error);
+  }
+};
 const EditProfile = ({ route, navigation }) => {
   const [authUser, setAuthUser] = useState(null);
   const [imageUri, setImageUri] = useState("");
@@ -38,25 +58,7 @@ const EditProfile = ({ route, navigation }) => {
     setAuthUser(route?.params?.AuthUser);
   }, [route?.params]);
   console.log("ImageUrl", image);
-  const onClickImage = async () => {
-    try {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: true,
-        aspect: [4, 3],
-        includeBase64: true,
-        // base64: true,
-      });
-      if (result) {
-        setImageUri(result);
-        setImage(result.uri);
-        // console.log("ResulteImageData",result.type)
-      } else {
-        setImageUri("");
-      }
-    } catch (error) {
-      console.log("Error reading an image", error);
-    }
-  };
+ 
   return (
     <View style={commonStyles.commonMain}>
       <ScrollView>

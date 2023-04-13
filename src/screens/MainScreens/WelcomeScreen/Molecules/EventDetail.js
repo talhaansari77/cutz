@@ -5,6 +5,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Spacer } from "../../../../components/Spacer";
@@ -20,6 +21,8 @@ import Loader from "../../../../utils/Loader";
 import loaderAnimation from "../../../../../assets/Loaders";
 import moment from "moment";
 import CompaniesCarousel from "../../../../../CompaniesCarousel";
+import { getEvents } from "../../../../services/Events";
+import { getTimings } from "../../../../services/Organization copy";
 
 const { height, width } = Dimensions.get("window");
 // data being used
@@ -175,10 +178,14 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
   const [index, setIndex] = useState(0);
   const [dateIndex, setDateIndex] = useState(0);
   const [companyIndex, setCompanyIndex] = useState(3);
+  const [companyIndex1, setCompanyIndex1] = useState(3);
+  const [typeIndex, setTypeIndex] = useState(0);
+  // const [timingIndex, setTypeIndex] = useState(0);
   const [companyName, setCompany] = useState("EAGLES");
   const [eventType, setEventType] = useState("FOOD DISTRIBUTION");
   const [eventIndex, setEventIndex] = useState(0);
   const [timingIndex, setTimingIndex] = useState(0);
+  const [dataLoader, setDataLoader] = useState(false);
   const dateIndexRef = useRef(null);
   const eventIndexRef = useRef(null);
 
@@ -382,11 +389,43 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
   // }, []);
 
   useEffect(() => {
-    setDateIndex(companyIndex);
-    setEventIndex(companyIndex);
-    dateIndexRef.current.scrollTo({ x: 100 * companyIndex });
-    eventIndexRef.current.scrollTo({ y: 100 * companyIndex });
+    //   setDateIndex(companyIndex);
+    //   setEventIndex(companyIndex);
+    //   dateIndexRef.current.scrollTo({ x: 100 * companyIndex });
+    //   eventIndexRef.current.scrollTo({ y: 100 * companyIndex });
+    setDataLoader(true);
+    getEvents().then((r) => {
+      let events = r.data;
+      let eventTypes = events.filter((e) => e.orgId === companyIndex);
+      eventTypes = eventTypes.map((o, index) => ({
+        index: index,
+        id: o._id,
+        title: o.eventType,
+      }));
+      console.log(companyIndex, eventTypes);
+
+      setState({
+        ...state,
+        eventTypes: eventTypes,
+      });
+      setDataLoader(false);
+    });
   }, [companyIndex]);
+
+  useEffect(() => {
+    setDataLoader(true)
+    getTimings().then((r) => {
+      let data = r.data;
+      data = data.filter((e) => e.eventId === typeIndex);
+      console.log(typeIndex, data);
+
+      setState({
+        ...state,
+        timings: data,
+      });
+      setDataLoader(false)
+    });
+  }, [typeIndex]);
 
   // useEffect(() => {
   //   let searchIndex=state.searchIndex
@@ -395,8 +434,6 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
   //   dateIndexRef.current.scrollTo({ x: 100 * searchIndex });
   //   eventIndexRef.current.scrollTo({ y: 100 * searchIndex });
   // }, [state.searchIndex]);
-
-  
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true}>
@@ -491,32 +528,51 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
 
       <MyCarousel
         data={state.eventTypes}
-        companyIndex={companyIndex}
-        setCompanyIndex={setCompanyIndex}
+        dataLoader={dataLoader}
+        companyIndex1={companyIndex1}
+        setCompanyIndex1={setCompanyIndex1}
         state={state}
+        typeIndex={typeIndex}
+        setTypeIndex={setTypeIndex}
       />
 
       <Spacer height={20} />
       <PH20>
-        <ScrollView
-          ref={dateIndexRef}
-          horizontal
-          showsHorizontalScrollIndicator={false}
+        {state.timings.length && state.eventTypes.length ? (
+          <ScrollView
+            ref={dateIndexRef}
+            horizontal
+            showsHorizontalScrollIndicator={false}
 
-          // style={{ flexDirection: "row", justifyContent: "space-between" }}
-        >
-          {state.events.map(({ date, day, monthYear }, index) => (
-            <>
-              <EventDateItem
-                date={date}
-                day={day}
-                MMYY={monthYear}
-                indexx={index}
-              />
-              <Spacer width={20} />
-            </>
-          ))}
-        </ScrollView>
+            // style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            {state.timings.map(
+              ({ eventStartTime, date, day, monthYear }, index) => (
+                <>
+                  <EventDateItem
+                    date={moment(eventStartTime).utc().format("DD")}
+                    day={moment(eventStartTime).utc().format("dddd")}
+                    MMYY={
+                      moment(eventStartTime).utc().format("MMM") +
+                      " " +
+                      moment(eventStartTime).utc().format("yy")
+                    }
+                    indexx={index}
+                  />
+                  <Spacer width={20} />
+                </>
+              )
+            )}
+          </ScrollView>
+        ) : (
+          <View style={{ alignSelf: "center" }}>
+            {dataLoader ? (
+              <ActivityIndicator color={colors.primary} size={"large"} />
+            ) : (
+              <Text style={{ fontSize: 22, color: "#000" }}>Not Found</Text>
+            )}
+          </View>
+        )}
       </PH20>
       <Spacer height={20} />
       <ScrollView
@@ -526,26 +582,39 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
         style={{ height: 230 }}
       >
         <PH20>
-          {state.events.map(({ place, house, zip }, index) => (
-            <AddressContainer
-              place={place}
-              house={house}
-              zip={zip}
-              indexx={index}
-              backgroundColor={eventIndex === index ? "#EDB879" : "#F7DFC3"}
-            />
-          ))}
+          {state.events?.[companyIndex1]?.addresses?.map(
+            ({ place, house, zip }, index) => (
+              <AddressContainer
+                place={place}
+                house={house}
+                zip={zip}
+                indexx={index}
+                backgroundColor={eventIndex === index ? "#EDB879" : "#F7DFC3"}
+              />
+            )
+          )}
         </PH20>
       </ScrollView>
 
       <Spacer height={20} />
       <View style={{}}>
         {userType ? (
-          <EventTimingCarousel
-            data={state.events}
-            companyIndex={companyIndex}
-            setCompanyIndex={setCompanyIndex}
-          />
+          state.timings.length && state.eventTypes.length ? (
+            <EventTimingCarousel
+              data={state.timings}
+              state={state}
+              timingIndex={timingIndex}
+              setTimingIndex={setTimingIndex}
+            />
+          ) : (
+            <View style={{ alignSelf: "center" }}>
+              {dataLoader ? (
+                <ActivityIndicator color={colors.primary} size={"large"} />
+              ) : (
+                <Text style={{ fontSize: 22, color: "#000" }}>Not Found</Text>
+              )}
+            </View>
+          )
         ) : (
           state.events.map(({ eventStartTime }, index) => (
             <EventTimingListItemVolunteer
@@ -572,7 +641,7 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
           }}
           borderRadius={15}
           onPress={() => {
-            handleBookingPress(companyIndex);
+            handleBookingPress(timingIndex);
           }}
         />
       </View>

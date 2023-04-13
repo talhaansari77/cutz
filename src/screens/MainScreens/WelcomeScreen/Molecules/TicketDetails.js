@@ -36,10 +36,9 @@ const TicketDetails = ({
   handleProceedPress,
   navigate,
   cardBtnText,
-  ticketData
+  ticketData,
 }) => {
   const [check, setCheck] = useState(false);
-
 
   const InfoText = () => (
     <View style={{ alignSelf: "center", alignItems: "center" }}>
@@ -139,13 +138,21 @@ const TicketDetails = ({
               <Spacer width={10} />
               <View>
                 <CustomText
-                  label={ticketData?.day + ", " + ticketData?.monthYear?.split(' ')[0] +" " + ticketData?.date}
+                  label={
+                    moment(ticketData?.eventStartTime).utc().format("dddd") +
+                    ", " +
+                    moment(ticketData?.eventStartTime).utc().format("MMMM") +
+                    " " +
+                    moment(ticketData?.eventStartTime).utc().format("DD")
+                  }
                   fontFamily={"semiBold"}
                   color={colors.secondary}
                   fontSize={14}
                 />
                 <CustomText
-                  label={moment(ticketData?.eventStartTime).utc().format('hh:mm A')}
+                  label={moment(ticketData?.eventStartTime)
+                    .utc()
+                    .format("hh:mm A")}
                   fontFamily={"semiBold"}
                   color={colors.perFectDark}
                   fontSize={11}
@@ -163,19 +170,19 @@ const TicketDetails = ({
               <Spacer width={15} />
               <View>
                 <CustomText
-                  label={ticketData?.place}
+                  label={ticketData?.addresses[0].place}
                   fontFamily={"semiBold"}
                   color={colors.secondary}
                   fontSize={14}
                 />
                 <CustomText
-                  label={ticketData?.house}
+                  label={ticketData?.addresses[0].house}
                   fontFamily={"semiBold"}
                   color={colors.perFectDark}
                   fontSize={11}
                 />
                 <CustomText
-                  label={ticketData?.zip}
+                  label={ticketData?.addresses[0].zip}
                   fontFamily={"semiBold"}
                   color={colors.perFectDark}
                   fontSize={11}
@@ -220,7 +227,13 @@ const TicketDetails = ({
         </View>
 
         <Spacer height={40} />
-        <View style={{ flexDirection: "row", justifyContent: "center",marginBottom:verticalScale(20)}}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            marginBottom: verticalScale(20),
+          }}
+        >
           <CustomButton
             title={cardBtnText}
             fontFamily="bold"

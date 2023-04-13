@@ -9,7 +9,7 @@ import { useIsFocused } from "@react-navigation/native";
 import Carousel from "react-native-reanimated-carousel";
 import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getEvents } from "../../../services/Events";
+import { getEventById, getEvents } from "../../../services/Events";
 import Loader from "../../../utils/Loader";
 import loaderAnimation from "../../../../assets/Loaders";
 import {
@@ -17,6 +17,11 @@ import {
   postEventReservationVolunteer,
 } from "../../../services/Reservation";
 import moment from "moment";
+import {
+  getOrganizationById,
+  getOrganizations,
+} from "../../../services/Organization";
+import { getTimings } from "../../../services/Organization copy";
 
 const WelcomeScreen = ({ navigation: { navigate }, route }) => {
   const AuthUser = useSelector((state) => state.authReducers.authState);
@@ -26,6 +31,7 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
     events: [],
     companyData: [],
     eventTypes: [],
+    timings: [],
     ticketData: {},
     loading: false,
     searchIndex: -1,
@@ -37,8 +43,8 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
     loaderOn();
     const data = {
       // clientID: "6420311a0bb5bf7676e2aa8e",
-      eventGroupID: "64220f310bb5bf7676e2aafe",
-      eventID: state.ticketData._id,
+      eventGroupID: state.ticketData.groupId,
+      eventID: state.ticketData.eventId,
       checkIN: "",
       checkOut: "",
     };
@@ -48,18 +54,14 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
       if (AuthUser.clientStatus) {
         postEventReservationClient(data, AuthUser.token).then((r) => {
           loaderOff();
-         if(r?.data)
-          navigate("Receipt");
-          else
-          alert("Event already reserved for user")
+          if (r?.data) navigate("Receipt");
+          else alert("Event already reserved for Client");
         });
       } else {
         postEventReservationVolunteer(data, AuthUser.token).then((r) => {
           loaderOff();
-          if(r?.data)
-          navigate("Receipt");
-          else
-          alert("Event already reserved for user")
+          if (r?.data) navigate("Receipt");
+          else alert("Event already reserved for Volunteer");
         });
       }
   };
@@ -67,8 +69,32 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
     setTicketVisible(false);
   };
   const handleBookingPress = (index) => {
-    setState({ ...state, ticketData: state.events[index] });
-    setTicketVisible(true);
+    loaderOn();
+
+    let time = index;
+    getEventById(time.eventId).then((r) => {
+      let event = r.data;
+      getOrganizationById(event.orgId).then((r) => {
+        let org = r.data;
+        setState({
+          ...state,
+          ticketData: {
+            ...time,
+            ...event,
+            eventId:event._id,
+            groupId: time._id,
+            organization: org.organizationName,
+          },
+        });
+        setTicketVisible(true);
+        console.log('state.ticketData',{
+          ...time,
+          ...event,
+          organization: org.organizationName,
+        });
+      });
+      // loaderOff();
+    });
   };
   const loaderOn = () => {
     setState({ ...state, loading: true });
@@ -78,25 +104,48 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
   };
 
   useEffect(() => {
+    // let companyData = [];
+    // let eventTypes = [];
     loaderOn();
-    getEvents().then((r) => {
+    getOrganizations().then((r) => {
       let data = r.data;
-      let eventTypes = data.map((o) => ({
-        title: o.eventType,
-      }));
       let companyData = data.map((o, index) => ({
         index: index,
-        title: o.organization,
+        id: o._id,
+        title: o.organizationName,
       }));
-      // console.log(eventTypes);
-      setState({
-        ...state,
-        events: data,
-        eventTypes: eventTypes,
-        companyData: companyData,
+      getEvents().then((r) => {
+        let events = r.data;
+        // setTimeout(() => {
+        //   console.log(events[0].addresses)
+        // }, 3000);
+        let eventTypes = events.map((o, index) => ({
+          index: index,
+          id: o._id,
+          title: o.eventType,
+        }));
+
+        getTimings().then((r) => {
+          let data = r.data;
+          setState({
+            ...state,
+            events: events,
+            eventTypes: eventTypes,
+            companyData: companyData,
+            timings: data,
+          });
+        });
       });
     });
-    loaderOff();
+
+    // setTimeout(() => {
+    //   setState({
+    //     ...state,
+    //     eventTypes: eventTypes,
+    //     companyData: companyData,
+    //   });
+    //   console.log("companyData", companyData);
+    // }, 3000);
   }, []);
 
   // useEffect(() => {
@@ -118,11 +167,10 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
         let eventID = route?.params?.data[0]?._id;
         let i = state.events.findIndex((e) => e._id === eventID);
         // console.log("index", i);
-        if(i){
-          setState({...state,searchIndex:i})
-        }
-        else{
-          alert("Not Found")
+        if (i) {
+          setState({ ...state, searchIndex: i });
+        } else {
+          alert("Not Found");
         }
       }
     }, 1000);

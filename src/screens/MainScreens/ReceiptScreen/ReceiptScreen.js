@@ -35,6 +35,8 @@ import { getEvents } from "../../../services/Events";
 import { getEventGroup } from "../../../services/EventGroup";
 import Loader from "../../../utils/Loader";
 import loaderAnimation from "../../../../assets/Loaders";
+import { getTimingBy, getTimings } from "../../../services/Organization copy";
+import { getOrganizationById } from "../../../services/Organization";
 
 const ReceiptScreen = ({ navigation: { navigate }, route }) => {
   // console.log("RoutesType", route?.params);
@@ -72,15 +74,15 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
       // var myTickets = [];
       getEvents().then((r) => {
         let data = r.data;
-        getReservationData().then((r) => {
-          let res = SetReservationData(data, r.data);
+        getReservationData().then((r1) => {
+          let res = SetReservationData(data, r1.data);
+          console.log("res", res);
           setState({ ...state, tickets: res, currentTicket: res[0] });
         });
       });
 
       // loaderOff();
     }
-    
   }, [isFocused]);
 
   const getReservationData = () => {
@@ -97,7 +99,8 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
     events.map((e) => {
       reservations.map((r) => {
         if (e._id === r.eventID) {
-          myTickets.push(e);
+          let t = getTimingBy(r.eventGroupID).then((t) => t.data);
+          myTickets.push({ ...e, ...t });
         }
       });
     });
@@ -107,7 +110,7 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
   const handleProceedPress = (ticket) => {
     if (ticket)
       navigate("Event", {
-        location: ticket.location,
+        location: ticket.addresses[0].location,
       });
   };
   const handleTicketPress = () => {
@@ -124,7 +127,7 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
   //     if (route?.params?.ticketDetail)
   //       setState({ ...state, ticketDetail: true });
   //     else setState({ ...state, ticketDetail: false });
-  //   } 
+  //   }
   // }, [isFocused]);
   return (
     <>

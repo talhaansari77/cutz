@@ -1,5 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, StyleSheet, Platform } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Platform,
+  ActivityIndicator,
+} from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { colors } from "./src/utils/Colors";
@@ -12,22 +18,27 @@ import { colors } from "./src/utils/Colors";
 //   { id: 5, text: "Item 5" },
 // ];
 
-const MyCarousel = ({ data,companyIndex,setCompanyIndex }) => {
-  const carouselRef=useRef(null)
-  useEffect(() => {
-    setActiveSlide(companyIndex)
-    carouselRef.current.snapToItem(companyIndex);
-  }, [companyIndex])
+const MyCarousel = ({
+  data,
+  state,
+  typeIndex,
+  setTypeIndex,
+  setCompanyIndex1,
+  dataLoader,
+}) => {
+  const carouselRef = useRef(null);
+  // useEffect(() => {
+  //   setActiveSlide(companyIndex)
+  //   carouselRef.current.snapToItem(companyIndex);
+  // }, [companyIndex])
 
-  useEffect(() => {
-    // setActiveSlide(companyIndex + 3);
-   setTimeout(() => {
-    carouselRef.current.snapToItem(3);
-   }, 3000);
-  }, []);
+  // useEffect(() => {
+  //   // setActiveSlide(companyIndex + 3);
+  //   setTimeout(() => {
+  //     carouselRef.current.snapToItem(3);
+  //   }, 3000);
+  // }, []);
 
-  
-  
   const [activeSlide, setActiveSlide] = useState(3);
 
   const renderItem = ({ item, index }) => {
@@ -38,9 +49,9 @@ const MyCarousel = ({ data,companyIndex,setCompanyIndex }) => {
         <Text
           style={[
             styles.itemText,
-            { color: isFocused ? colors.blue1 : colors.black,
-              fontSize:scale(20),
-
+            {
+              color: isFocused ? colors.blue1 : colors.black,
+              fontSize: scale(20),
             },
           ]}
         >
@@ -52,21 +63,35 @@ const MyCarousel = ({ data,companyIndex,setCompanyIndex }) => {
 
   return (
     <View style={styles.container}>
-      <Carousel
-      ref={carouselRef}
-      
-        data={data}
-        renderItem={renderItem}
-        sliderHeight={135}
-        itemHeight={45}
-        layout="default"
-        vertical={true}
-        loop={true}
-        nestedScrollEnabled={true}
-        inactiveSlideScale={0.8} // set inactive slide scale to make items smaller
-        activeSlideAlignment="center" // set active slide alignment to center the selected item
-        onSnapToItem={(index) => setActiveSlide(index + 3)} // update the active slide index
-      />
+      {data.length ? (
+        <Carousel
+          ref={carouselRef}
+          data={data}
+          renderItem={renderItem}
+          sliderHeight={135}
+          itemHeight={45}
+          layout="default"
+          vertical={true}
+          loop={true}
+          nestedScrollEnabled={true}
+          inactiveSlideScale={0.8} // set inactive slide scale to make items smaller
+          activeSlideAlignment="center" // set active slide alignment to center the selected item
+          onSnapToItem={(index) => {
+            setActiveSlide(index + 3);
+            setTypeIndex(state.eventTypes[index].id);
+            setCompanyIndex1(index);
+            console.log(state.eventTypes[index]);
+          }} // update the active slide index
+        />
+      ) : (
+        <View style={{ alignSelf: "center" }}>
+          {dataLoader ? (
+            <ActivityIndicator color={colors.primary} size={"large"} />
+          ) : (
+            <Text style={{ fontSize: 22, color: "#000" }}>Not Found</Text>
+          )}
+        </View>
+      )}
     </View>
   );
 };
@@ -88,7 +113,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
-  
+
     // marginVertical: 10,
     // marginHorizontal: 20,
   },
@@ -104,7 +129,7 @@ const styles = StyleSheet.create({
     shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
     shadowRadius: 2,
     elevation: 5,
-    position:"absolute",
+    position: "absolute",
     shadowOpacity: 0.5,
     zIndex: 100,
     // inputMarginTop:-20,

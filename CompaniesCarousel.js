@@ -12,7 +12,7 @@ import { colors } from "./src/utils/Colors";
 //   { id: 5, text: "Item 5" },
 // ];
 
-const CompaniesCarousel = ({ data, setCompanyIndex, companyIndex,state }) => {
+const CompaniesCarousel = ({ data, setCompanyIndex, companyIndex,state}) => {
   const [activeSlide, setActiveSlide] = useState(3);
   const carouselRef = useRef(null);
 
@@ -54,9 +54,9 @@ const CompaniesCarousel = ({ data, setCompanyIndex, companyIndex,state }) => {
         inactiveSlideScale={1} // set inactive slide scale to make items smaller
         activeSlideAlignment="center" // set active slide alignment to center the selected item
         onSnapToItem={(index) => {
-          setActiveSlide(index + 3);
-          setCompanyIndex(index);
-          // console.log(companyIndex);
+          setActiveSlide(index+3);
+          setCompanyIndex(state.companyData[index].id);
+          console.log(state.companyData[index].title);       
         }} // update the active slide index
       />
     </View>

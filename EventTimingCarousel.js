@@ -13,21 +13,21 @@ import moment from "moment";
 //   { id: 5, text: "Item 5" },
 // ];
 
-const EventTimingCarousel = ({ data, companyIndex ,setCompanyIndex}) => {
+const EventTimingCarousel = ({ data,state, timingIndex, setTimingIndex }) => {
   const [activeSlide, setActiveSlide] = useState(3);
   const carouselRef = useRef(null);
 
-  useEffect(() => {
-    setActiveSlide(companyIndex );
-    carouselRef.current.snapToItem(companyIndex );
-  }, [companyIndex]);
+  // useEffect(() => {
+  //   setActiveSlide(companyIndex );
+  //   carouselRef.current.snapToItem(companyIndex );
+  // }, [companyIndex]);
 
-  useEffect(() => {
-    // setActiveSlide(companyIndex + 3);
-   setTimeout(() => {
-    carouselRef.current.snapToItem(3);
-   }, 3000);
-  }, []);
+  // useEffect(() => {
+  //   // setActiveSlide(companyIndex + 3);
+  //   setTimeout(() => {
+  //     carouselRef.current.snapToItem(3);
+  //   }, 3000);
+  // }, []);
 
   const renderItem = ({ item: { eventStartTime }, index }) => {
     const isFocused = index === activeSlide;
@@ -64,7 +64,11 @@ const EventTimingCarousel = ({ data, companyIndex ,setCompanyIndex}) => {
         nestedScrollEnabled={true}
         inactiveSlideScale={0.8} // set inactive slide scale to make items smaller
         activeSlideAlignment="center" // set active slide alignment to center the selected item
-        onSnapToItem={(index) => setActiveSlide(index + 3)} // update the active slide index
+        onSnapToItem={(index) => {
+          setActiveSlide(index + 3);
+          setTimingIndex(state.timings[index])
+          // console.log(state.timings[index].eventId)
+        }} // update the active slide index
       />
     </View>
   );
