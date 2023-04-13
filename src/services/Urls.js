@@ -3,6 +3,8 @@ export const URLS={
     CLIENT_SIGNUP:'api/v1/client/signup',
     CLIENT_LOGIN:'api/v1/client/login',
     GET_CLIENT:'api/v1/client',
+    CLIENT_GORGET_PASSWORD:'api/v1/client/forgetpassword',
+    VOLUNTEER_GORGET_PASSWORD:'api/v1/volunteer/forgetpassword',
     VOLUNTEER_LOGIN:"api/v1/volunteer/login",
     VOLUNTEER_SIGNUP:"api/v1/volunteer/signup",
     GET_VOLUNTEER:'api/v1/volunteer',

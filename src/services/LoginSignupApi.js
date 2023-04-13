@@ -160,7 +160,7 @@ export const ClientLogin = async (
           Toast.show("Login successfully");
 
           setTimeout(() => {
-            navigation.navigate("MainStack", {
+            navigation.replace("MainStack", {
               screen: "Welcome",
               params: { userType: checkUser },
               merge: true,
@@ -232,7 +232,7 @@ export const VolunteerLogin = async (
           Toast.show("Login successfully");
 
           setTimeout(() => {
-            navigation.navigate("MainStack", {
+            navigation.replace("MainStack", {
               screen: "Welcome",
               params: { userType: checkUser },
               merge: true,

@@ -22,6 +22,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {
   ForgetClientPassword,
+  ForgetVolunteerPassword,
   UpdateClientEvent,
 } from "../../../services/EventClientsApi";
 import Toast from "react-native-root-toast";
@@ -60,26 +61,34 @@ const ForgetBody = ({
       setForgetErrors
     );
     const data = {
-      password: passwordValue.password,
-      confirmPassword: passwordValue.confirmPassword,
+      
+        email:passwordValue.email,
+        password:passwordValue.password,
+        confirmPassword:passwordValue.confirmPassword
+        
     };
 
     if (validateResponse) {
       if (checkUser == "Client") {
         console.log("checkUserParams", checkUser);
-        if (Object.keys(AuthUser).length !== 0) {
+        // if (Object.keys(AuthUser).length !== 0) {
           await ForgetClientPassword(
-            AuthUser?.token,
             data,
-            AuthUser,
-            dispatch,
-            setLoading
+            setLoading,
+            navigation,
+
           );
-        } else {
-          Toast.show("Client not exist please create account");
-        }
+        // } else {
+        //   Toast.show("Client not exist please create account");
+        // }
       } else if (checkUser == "Volunteer") {
         console.log("checkUserParams", checkUser);
+          await ForgetVolunteerPassword(
+            data,
+            setLoading,
+            navigation
+          );
+       
         //  await VolunteerLogin(data, setLoading, navigation, checkUser,dispatch,remember);
       }
     }
