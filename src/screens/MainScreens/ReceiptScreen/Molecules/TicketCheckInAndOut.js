@@ -249,10 +249,10 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
                   fontSize={15}
                 />
                 <CustomText
-                  label={state?.currentTicket?._id}
+                  label={state?.currentTicket?.event_id}
                   color={colors.white}
                   fontFamily={"bold"}
-                  fontSize={12}
+                  fontSize={15}
                 />
               </View>
               <Spacer height={5} />
@@ -264,7 +264,7 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
               /> */}
               <CustomText
                 label={
-                  moment("2023-03-12T20:30:11.000Z").utc().format("DD/MM/YY") +
+                  moment(state?.currentTicket?.eventStartTime).utc().format("DD/MM/YY") +
                   " @ " +
                   moment(state?.currentTicket?.eventStartTime)
                     .utc()
