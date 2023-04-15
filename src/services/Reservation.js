@@ -41,7 +41,7 @@ export const postEventReservationClient = async (data, token) => {
 export const postEventReservationVolunteer = async (data, token) => {
   const options = {
     method: "POST",
-    url: `${URLS.BASE_URL}${URLS.EVENTS_RESERVATION_CLIENT}`,
+    url: `${URLS.BASE_URL}${URLS.EVENTS_RESERVATION_VOLUNTEER}`,
     headers: { Accept: "application/json", Authorization: "Bearer " + token },
     data: data,
   };

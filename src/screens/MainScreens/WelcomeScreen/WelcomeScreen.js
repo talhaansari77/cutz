@@ -42,7 +42,6 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
   const handleConfirmPress = () => {
     loaderOn();
     const data = {
-      // clientID: "6420311a0bb5bf7676e2aa8e",
       eventGroupID: state.ticketData.groupId,
       eventID: state.ticketData.eventId,
       checkIN: "",
@@ -65,36 +64,42 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
         });
       }
   };
-  const handleCancelPress = () => {
-    setTicketVisible(false);
-  };
   const handleBookingPress = (index) => {
     loaderOn();
 
-    let time = index;
-    getEventById(time.eventId).then((r) => {
-      let event = r.data;
-      getOrganizationById(event.orgId).then((r) => {
-        let org = r.data;
-        setState({
-          ...state,
-          ticketData: {
+    let time = index?index:state.timings[index];
+    if(time.eventId){
+
+      getEventById(time.eventId).then((r) => {
+        let event = r.data;
+        getOrganizationById(event.orgId).then((r) => {
+          let org = r.data;
+          setState({
+            ...state,
+            ticketData: {
+              ...time,
+              ...event,
+              eventId:event._id,
+              groupId: time._id,
+              organization: org.organizationName,
+            },
+          });
+          setTicketVisible(true);
+          console.log('state.ticketData',{
             ...time,
             ...event,
-            eventId:event._id,
-            groupId: time._id,
             organization: org.organizationName,
-          },
+          });
         });
-        setTicketVisible(true);
-        console.log('state.ticketData',{
-          ...time,
-          ...event,
-          organization: org.organizationName,
-        });
+        // loaderOff();
       });
-      // loaderOff();
-    });
+    }else{
+      loaderOff();
+      alert(index)
+    }
+  };
+  const handleCancelPress = () => {
+    setTicketVisible(false);
   };
   const loaderOn = () => {
     setState({ ...state, loading: true });

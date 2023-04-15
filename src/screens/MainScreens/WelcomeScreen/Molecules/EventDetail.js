@@ -23,6 +23,7 @@ import moment from "moment";
 import CompaniesCarousel from "../../../../../CompaniesCarousel";
 import { getEvents } from "../../../../services/Events";
 import { getTimings } from "../../../../services/Organization copy";
+import EventTimingListItemVolunteer from "./EventTimingListItemVolunteer";
 
 const { height, width } = Dimensions.get("window");
 // data being used
@@ -175,7 +176,6 @@ const eventDateList = [
 ];
 
 const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
-  const [index, setIndex] = useState(0);
   const [dateIndex, setDateIndex] = useState(0);
   const [companyIndex, setCompanyIndex] = useState(3);
   const [companyIndex1, setCompanyIndex1] = useState(3);
@@ -302,28 +302,7 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
       />
     </View>
   );
-  const EventTimingListItemVolunteer = ({ label, indexx }) => (
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        // justifyContent:'center'
-        paddingHorizontal: "30%",
-        paddingVertical: 10,
-      }}
-    >
-      <TouchableOpacity
-        onPress={() => setIndex(indexx)}
-        style={{
-          height: 20,
-          width: 20,
-          backgroundColor: index === indexx ? colors.primary : colors.gray1,
-        }}
-      />
-      <Spacer width={10} />
-      <CustomText label={label} fontFamily={"semiBold"} />
-    </View>
-  );
+
   const EventTimingListItem = ({ label, color, fontSize, dividerBottom }) => (
     <View
       style={{
@@ -413,7 +392,7 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
   }, [companyIndex]);
 
   useEffect(() => {
-    setDataLoader(true)
+    setDataLoader(true);
     getTimings().then((r) => {
       let data = r.data;
       data = data.filter((e) => e.eventId === typeIndex);
@@ -423,7 +402,7 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
         ...state,
         timings: data,
       });
-      setDataLoader(false)
+      setDataLoader(false);
     });
   }, [typeIndex]);
 
@@ -583,15 +562,18 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
       >
         <PH20>
           {state.events?.[companyIndex1]?.addresses?.map(
-            ({ place, house, zip }, index) => (
-              <AddressContainer
-                place={place}
-                house={house}
-                zip={zip}
-                indexx={index}
-                backgroundColor={eventIndex === index ? "#EDB879" : "#F7DFC3"}
-              />
-            )
+            ({ place, house, zip }, index) =>
+              dataLoader ? (
+                <ActivityIndicator color={colors.primary} size={"large"} />
+              ) : (
+                <AddressContainer
+                  place={place}
+                  house={house}
+                  zip={zip}
+                  indexx={index}
+                  backgroundColor={eventIndex === index ? "#EDB879" : "#F7DFC3"}
+                />
+              )
           )}
         </PH20>
       </ScrollView>
@@ -615,14 +597,52 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
               )}
             </View>
           )
-        ) : (
-          state.events.map(({ eventStartTime }, index) => (
+        ) : state.timings.length && state.eventTypes.length ? (
+          <>
             <EventTimingListItemVolunteer
-              label={moment(eventStartTime).utc().format("hh:mm A")}
-              indexx={index}
-              key={index}
+              label={
+                " Prep Event: " +
+                moment(
+                  state.timings.find((t) => t._id == typeIndex)
+                    ?.priorEventStartTime
+                )
+                  .utc()
+                  .format("hh:mmA") +
+                " - " +
+                moment(state.timings.find((t) => t._id == typeIndex)?.priorEventEndTime)
+                  .utc()
+                  .format("hh:mmA")
+              }
             />
-          ))
+            <EventTimingListItemVolunteer
+              label={
+                " Event: " +
+                moment(state.timings.find((t) => t._id == typeIndex)?.eventStartTime).utc().format("hh:mmA") +
+                " - " +
+                moment(state.timings.find((t) => t._id == typeIndex)?.eventEndTime).utc().format("hh:mmA")
+              }
+            />
+            <EventTimingListItemVolunteer
+              label={
+                " Clean Up: " +
+                moment(state.timings.find((t) => t._id == typeIndex)?.afterEventStartTime)
+                  .utc()
+                  .format("hh:mmA") +
+                " - " +
+                moment(state.timings.find((t) => t._id == typeIndex)?.afterEventEndTime)
+                  .utc()
+                  .format("hh:mmA")
+              }
+            />
+          </>
+        ) : (
+          <View style={{ alignSelf: "center" }}>
+            {dataLoader ? (
+              <ActivityIndicator color={colors.primary} size={"large"} />
+            ) : (
+              <Text style={{ fontSize: 22, color: "#000" }}>Not Found</Text>
+            )}
+          </View>
         )}
       </View>
       <Spacer height={20} />

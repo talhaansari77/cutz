@@ -12,19 +12,21 @@ import { colors } from "./src/utils/Colors";
 //   { id: 5, text: "Item 5" },
 // ];
 
-const CompaniesCarousel = ({ data, setCompanyIndex, companyIndex,state}) => {
+const CompaniesCarousel = ({ data, setCompanyIndex, companyIndex, state }) => {
   const [activeSlide, setActiveSlide] = useState(3);
   const carouselRef = useRef(null);
 
   useEffect(() => {
     // setActiveSlide(companyIndex + 3);
-   setTimeout(() => {
-    carouselRef.current.snapToItem(3);
-   }, 3000);
+    setTimeout(() => {
+      if (data) {
+        carouselRef.current.snapToItem(3);
+      }
+    }, 3000);
   }, []);
-  
+
   useEffect(() => {
-    let searchIndex=state.searchIndex
+    let searchIndex = state.searchIndex;
     carouselRef.current.snapToItem(searchIndex);
   }, [state.searchIndex]);
 
@@ -54,9 +56,9 @@ const CompaniesCarousel = ({ data, setCompanyIndex, companyIndex,state}) => {
         inactiveSlideScale={1} // set inactive slide scale to make items smaller
         activeSlideAlignment="center" // set active slide alignment to center the selected item
         onSnapToItem={(index) => {
-          setActiveSlide(index+3);
+          setActiveSlide(index + 3);
           setCompanyIndex(state.companyData[index].id);
-          console.log(state.companyData[index].title);       
+          console.log(state.companyData[index].title);
         }} // update the active slide index
       />
     </View>
