@@ -24,6 +24,7 @@ import CompaniesCarousel from "../../../../../CompaniesCarousel";
 import { getEvents } from "../../../../services/Events";
 import { getTimings } from "../../../../services/Organization copy";
 import EventTimingListItemVolunteer from "./EventTimingListItemVolunteer";
+import { useSelector } from "react-redux";
 
 const { height, width } = Dimensions.get("window");
 // data being used
@@ -188,6 +189,7 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
   const [dataLoader, setDataLoader] = useState(false);
   const dateIndexRef = useRef(null);
   const eventIndexRef = useRef(null);
+  const AuthUser = useSelector((state) => state.authReducers.authState);
 
   const Header = () => (
     <View
@@ -602,14 +604,11 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
             <EventTimingListItemVolunteer
               label={
                 " Prep Event: " +
-                moment(
-                  state.timings.find((t) => t._id == typeIndex)
-                    ?.priorEventStartTime
-                )
+                moment(state.timings[dateIndex].priorEventStartTime)
                   .utc()
                   .format("hh:mmA") +
                 " - " +
-                moment(state.timings.find((t) => t._id == typeIndex)?.priorEventEndTime)
+                moment(state.timings[dateIndex].priorEventEndTime)
                   .utc()
                   .format("hh:mmA")
               }
@@ -617,19 +616,23 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
             <EventTimingListItemVolunteer
               label={
                 " Event: " +
-                moment(state.timings.find((t) => t._id == typeIndex)?.eventStartTime).utc().format("hh:mmA") +
+                moment(state.timings[dateIndex].eventStartTime)
+                  .utc()
+                  .format("hh:mmA") +
                 " - " +
-                moment(state.timings.find((t) => t._id == typeIndex)?.eventEndTime).utc().format("hh:mmA")
+                moment(state.timings[dateIndex].eventEndTime)
+                  .utc()
+                  .format("hh:mmA")
               }
             />
             <EventTimingListItemVolunteer
               label={
                 " Clean Up: " +
-                moment(state.timings.find((t) => t._id == typeIndex)?.afterEventStartTime)
+                moment(state.timings[dateIndex].afterEventStartTime)
                   .utc()
                   .format("hh:mmA") +
                 " - " +
-                moment(state.timings.find((t) => t._id == typeIndex)?.afterEventEndTime)
+                moment(state.timings[dateIndex].afterEventEndTime)
                   .utc()
                   .format("hh:mmA")
               }
@@ -661,7 +664,22 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
           }}
           borderRadius={15}
           onPress={() => {
-            handleBookingPress(timingIndex);
+            let id = "";
+            if (AuthUser.clientStatus) {
+              if (!timingIndex) {
+                id = state.timings[0];
+              }
+              else{
+                id=timingIndex
+              }
+            } else {
+              if (!dateIndex) {
+                id = state.timings[0];
+              } else {
+                id = state.timings[dateIndex];
+              }
+            }
+            handleBookingPress(id);
           }}
         />
       </View>

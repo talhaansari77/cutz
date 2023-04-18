@@ -65,37 +65,44 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
       }
   };
   const handleBookingPress = (index) => {
-    loaderOn();
+    if (state.eventTypes.length) {
+      if (state.timings.length) {
+        loaderOn();
 
-    let time = index?index:state.timings[index];
-    if(time.eventId){
-
-      getEventById(time.eventId).then((r) => {
-        let event = r.data;
-        getOrganizationById(event.orgId).then((r) => {
-          let org = r.data;
-          setState({
-            ...state,
-            ticketData: {
-              ...time,
-              ...event,
-              eventId:event._id,
-              groupId: time._id,
-              organization: org.organizationName,
-            },
+        let time = index ? index : state.timings[index];
+        if (time.eventId) {
+          getEventById(time.eventId).then((r) => {
+            let event = r.data;
+            getOrganizationById(event.orgId).then((r) => {
+              let org = r.data;
+              setState({
+                ...state,
+                ticketData: {
+                  ...time,
+                  ...event,
+                  eventId: event._id,
+                  groupId: time._id,
+                  organization: org.organizationName,
+                },
+              });
+              setTicketVisible(true);
+              console.log("state.ticketData", {
+                ...time,
+                ...event,
+                organization: org.organizationName,
+              });
+            });
+            // loaderOff();
           });
-          setTicketVisible(true);
-          console.log('state.ticketData',{
-            ...time,
-            ...event,
-            organization: org.organizationName,
-          });
-        });
-        // loaderOff();
-      });
-    }else{
-      loaderOff();
-      alert(index)
+        } else {
+          loaderOff();
+          alert('Error');
+        }
+      } else {
+        alert("Select Timing");
+      }
+    } else {
+      alert("Select Event Type");
     }
   };
   const handleCancelPress = () => {

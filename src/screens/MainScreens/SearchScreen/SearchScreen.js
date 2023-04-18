@@ -18,6 +18,7 @@ import { icons } from "../../../../assets/icons";
 import { useIsFocused } from "@react-navigation/native";
 import { scale } from "react-native-size-matters";
 import { getEvents } from "../../../services/Events";
+import { getOrganizations } from "../../../services/Organization";
 
 const SearchScreen = ({ navigation }) => {
   const focused = useIsFocused();
@@ -42,24 +43,28 @@ const SearchScreen = ({ navigation }) => {
     //  console.log("EventData", resp?.data)
     getEvents().then((r) => {
       let data = r.data;
-      data.forEach((item) => {
-        orgName.push({
-          name: item.organization,
-        });
-      });
+      
       data.forEach((item) => {
         eventType.push({
           name: item.eventType,
         });
       });
     });
-
+    getOrganizations((r)=>{
+      let data = r.data;
+      data.forEach((item) => {
+        orgName.push({
+          name: item.organizationName,
+        });
+      });
+    })
     setEventType(eventType);
     setOrganizationName(orgName);
   };
   useEffect(() => {
     onSearchEvents();
   }, [orgData, eventData]);
+
   const onSearchEvents = async (txt) => {
     // const resp = await GetEvent();
     getEvents().then((r) => {

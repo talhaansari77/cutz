@@ -179,18 +179,31 @@ const TicketCheckInAndOutVol = ({ state, setState }) => {
                   //     });
                   //   }, 3000);
                   // }
-
+                  // let pinTemplate = { pin1: "", pin2: "", pin3: "", pin4: "" };
                   let eventCode =
                     state.pin1 + state.pin2 + state.pin3 + state.pin4;
                   console.log(eventCode, state?.currentTicket?.eventCode);
                   if (!state.checkIn) {
                     if (eventCode === state?.currentTicket?.eventCode) {
-                      setState({ ...state, checkIn: true , greet: true });
-                      
+                      setState({
+                        ...state,
+                        checkIn: true,
+                        greet: true,
+                        pin1: "", pin2: "", pin3: "", pin4: "" 
+                      });
+                    } else {
+                      alert("Invalid Code");
                     }
                   } else {
                     if (eventCode === state?.currentTicket?.eventCode) {
-                      setState({ ...state, checkOut: true, greet: true });
+                      setState({
+                        ...state,
+                        checkOut: true,
+                        greet: true,
+                        pin1: "", pin2: "", pin3: "", pin4: "" 
+                      });
+                    } else {
+                      alert("Invalid Code");
                     }
                   }
                   // modelClose();
@@ -203,7 +216,7 @@ const TicketCheckInAndOutVol = ({ state, setState }) => {
         <Spacer height={10} />
         <TouchableOpacity
           style={{ width: "75%" }}
-          onPress={() => setState({ ...state, ticketDetail: false })}
+          onPress={() => setState({ ...state, ticketDetail: false,pin1: "", pin2: "", pin3: "", pin4: ""  })}
         >
           <Image
             source={icons.back}

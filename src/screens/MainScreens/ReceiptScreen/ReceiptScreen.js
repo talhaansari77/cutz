@@ -94,13 +94,16 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
         return getReservationVolunteer(AuthUser.token);
       }
   };
+
   const SetReservationData = (events, reservations) => {
     let myTickets = [];
     events.map((e) => {
       reservations.map((r) => {
         if (e._id === r.eventID) {
-          let t = getTimingBy(r.eventGroupID).then((t) => t.data);
-          myTickets.push({ ...e, ...t });
+          
+          myTickets.push({...e,eventGroupID:r.eventGroupID});
+          console.log("res ==>", e);
+          // myTickets.push({ ...e, eventStartTime: eventStartTime });
         }
       });
     });
