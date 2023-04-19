@@ -18,6 +18,8 @@ import Signup from "../../Auth/Signup/Signup";
 import ForgetPassword from "../../Auth/ForgetPassword/ForgetPassword";
 import Loader from "../../utils/Loader";
 import loaderAnimation from "../../../assets/Loaders";
+import ConfirmEmail from "../../Auth/ForgetPassword/ConfirmEmail/ConfirmEmail";
+import ConfirmOtp from "../../Auth/ForgetPassword/ConfirmOtp/ConfirmOtp";
 
 const RootNavigator = () => {
   const dispatch = useDispatch();
@@ -94,6 +96,10 @@ const RootNavigator = () => {
               <Stack.Screen name="login" component={Login} />
               <Stack.Screen name="signup" component={Signup} />
               <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+              <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} />
+              <Stack.Screen name="ConfirmOtp" component={ConfirmOtp} />
+
+
               <Stack.Screen name="MainStack" component={MainStack} />
 
               {/* <Stack.Screen name="Reservation" component={MakeReservation} /> */}

@@ -62,7 +62,7 @@ const LoginBottom = ({navigation,checkUser,remember, setRemember,onPress,loading
       />
       <Spacer height={10} />
       <CustomText
-      onPress={()=>navigation.navigate("ForgetPassword",{checkUser:checkUser})}
+      onPress={()=>navigation.navigate("ConfirmEmail",{checkUser:checkUser})}
         label="FORGOT PASSWORD"
         fontFamily="bold"
         fontSize={11}
