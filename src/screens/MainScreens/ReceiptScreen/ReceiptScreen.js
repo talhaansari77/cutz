@@ -37,6 +37,8 @@ import Loader from "../../../utils/Loader";
 import loaderAnimation from "../../../../assets/Loaders";
 import { getTimingBy, getTimings } from "../../../services/Organization copy";
 import { getOrganizationById } from "../../../services/Organization";
+import moment from "moment";
+const currentDate = new Date().toString();
 
 const ReceiptScreen = ({ navigation: { navigate }, route }) => {
   // console.log("RoutesType", route?.params);
@@ -118,36 +120,40 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
   const handleTicketPress = () => {
     // setState({ ...state, ticketDetail: true });
     console.log(state.currentTicket);
-    
-      // getOrganizationById(event.orgId).then((r) => {
-      //   let org = r.data;
-      //   setState({
-      //     ...state,
-      //     ticketData: {
-      //       ...time,
-      //       ...event,
-      //       eventId: event._id,
-      //       groupId: time._id,
-      //       organization: org.organizationName,
-      //     },
-      //   });
-      //   setTicketVisible(true);
-      //   console.log("state.ticketData", {
-      //     ...time,
-      //     ...event,
-      //     organization: org.organizationName,
-      //   });
-      // });
-      // loaderOff();
-    
+
+    // getOrganizationById(event.orgId).then((r) => {
+    //   let org = r.data;
+    //   setState({
+    //     ...state,
+    //     ticketData: {
+    //       ...time,
+    //       ...event,
+    //       eventId: event._id,
+    //       groupId: time._id,
+    //       organization: org.organizationName,
+    //     },
+    //   });
+    //   setTicketVisible(true);
+    //   console.log("state.ticketData", {
+    //     ...time,
+    //     ...event,
+    //     organization: org.organizationName,
+    //   });
+    // });
+    // loaderOff();
+
     getEventGroup().then((r) => {
       // console.log(state.currentTicket._id)
       // console.log(r.data.find((rr)=>rr.eventID===state.currentTicket._id))
-      let grp =r.data.find((rr)=>rr.eventID===state.currentTicket._id)
+      let grp = r.data.find((rr) => rr.eventID === state.currentTicket._id);
       // getTimingBy(tickets[index].eventGroupID).then((t) => {
       //   setTime(t.data.eventStartTime);
       // });
-    setState({ ...state, ticketData: {...state.currentTicket,...grp}, ticketDetail: true });
+      setState({
+        ...state,
+        ticketData: { ...state.currentTicket, ...grp },
+        ticketDetail: true,
+      });
     });
   };
   const handleCancelPress = () => {
@@ -169,7 +175,22 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
           <>
             {/* <Spacer height={notch?30:10} /> */}
 
-            <AppHeader ticket onPressTicket={handleTicketPress} />
+            <AppHeader
+              ticket={
+                moment(state?.time?.eventStartTime)
+                  .utc()
+                  .format("YYYY-MM-DD") ==
+                  moment(currentDate).utc().format("YYYY-MM-DD") &&
+                moment(currentDate).utc().format("hh:mm A") >
+                  moment(state?.time?.eventStartTime)
+                    .subtract(10, "minutes")
+                    .utc()
+                    .format("hh:mm A")
+                  ? true
+                  : false
+              }
+              onPressTicket={handleTicketPress}
+            />
 
             <TicketCarousel
               tickets={state.tickets}

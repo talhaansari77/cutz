@@ -68,15 +68,13 @@ const TicketCarousel = ({
 
   const renderItem = ({ item, index }) => {
     // var time =''
-    
+
     // console.log(moment(time[index]).utc().format("YYYY-MM-DD"));
     if (
-      (moment(time).subtract(3,'days').utc().format("YYYY-MM-DD") ==
-      moment(currentDate).utc().format("YYYY-MM-DD"))&&(
-          
-        moment(currentDate).utc().format("hh:mm A") >
-          moment(time).subtract(10, "minutes").utc().format("hh:mm A")
-      )
+      moment(time).utc().format("YYYY-MM-DD") ==
+        moment(currentDate).utc().format("YYYY-MM-DD") &&
+      moment(currentDate).utc().format("hh:mm A") >
+        moment(time).subtract(10, "minutes").utc().format("hh:mm A")
     )
       return loader ? (
         <View style={styles.cardStyle}>
@@ -333,7 +331,7 @@ const TicketCarousel = ({
             );
             getTimingBy(tickets[index].eventGroupID).then((t) => {
               setTime(t.data.eventStartTime);
-              setState({...state,time:t.data})
+              setState({ ...state, time: t.data });
               setLoader(false);
             });
           }} // update the active slide index
