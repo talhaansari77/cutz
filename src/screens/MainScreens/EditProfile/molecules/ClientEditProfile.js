@@ -22,11 +22,20 @@ import Toast from "react-native-root-toast";
 import { UploadImage } from "../../../../services/UploadImage";
 import { URLS } from "../../../../services/Urls";
 import { icons } from "../../../../../assets/icons";
-const ClientEditProfile = ({ navigation, setLoading, imageUri }) => {
+const ClientEditProfile = ({
+  navigation,
+  setLoading,
+  imageUri,
+  setImageUri,
+}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [familySize, setFamilySize] = useState("");
   const [showPassword, setShowPassword] = useState(true);
   const [showPassword1, setShowPassword1] = useState(true);
+  const [newPassword, setNewPassword] = useState("");
+  const [newConfirmPassword, setNewConfirmPassword] = useState("");
+  const [newPassError, setNewPassError] = useState("");
+  const [newConfirmError, setNewConfirmError] = useState("");
   const dispatch = useDispatch();
   const [phoneRaw, setPhoneRaw] = useState("");
 
@@ -35,7 +44,7 @@ const ClientEditProfile = ({ navigation, setLoading, imageUri }) => {
   useEffect(() => {
     setFamilySize(AuthUser?.familySize);
   }, []);
-  console.log("AuthUsrCurren",AuthUser)
+  console.log("AuthUsrCurren", AuthUser);
 
   const [signupErrors, setSignupError] = useState({
     firstError: "",
@@ -54,8 +63,8 @@ const ClientEditProfile = ({ navigation, setLoading, imageUri }) => {
     phoneNumber: AuthUser?.phoneNumber,
     address: AuthUser?.address,
     familySize: AuthUser?.familySize,
-    password: AuthUser?.password,
-    confirmPassword: AuthUser?.confirmPassword,
+    password: "empty1111",
+    confirmPassword: "empty1111",
   });
   const onSubmitUpdate = async () => {
     console.log("nkbk");
@@ -66,18 +75,43 @@ const ClientEditProfile = ({ navigation, setLoading, imageUri }) => {
       phoneRaw
     );
     if (ValidateResponse) {
-      const data = {
+    const  data = {
         firstName: signupValue.firstName,
         lastName: signupValue.lastName,
         email: signupValue.email,
         phoneNumber: signupValue.phoneNumber,
         address: signupValue.address,
         familySize: Number(signupValue.familySize),
-        password: signupValue.password,
-        confirmPassword: signupValue.confirmPassword,
+        // password: signupValue.password,
+        // confirmPassword: signupValue.confirmPassword,
       };
+   
+      if (newPassword) {
+        if (newPassword.length <= 7) {
+          setNewPassError("password must be greater then 7 digits");
+          return;
+        }
+        if (!newConfirmPassword) {
+          setNewConfirmError("Confirm password is required");
+          return;
+        }
+        if (newConfirmPassword != newPassword) {
+          setNewConfirmError("confirm password is not match");
+          return;
+        }
+        data[
+          "password"
+        ] = newPassword;
+        data[
+          "confirmPassword"
+        ] = newConfirmPassword;
 
-      setLoading(true)
+      }
+
+
+    
+
+      setLoading(true);
 
       if (imageUri) {
         try {
@@ -261,17 +295,17 @@ const ClientEditProfile = ({ navigation, setLoading, imageUri }) => {
         paddingLeft={20}
         alignSelf="center"
         width="100%"
-        value={signupValue.password}
+        value={newPassword}
+        error={newPassError}
         secureTextEntry={showPassword}
         onRightPress={() => {
           setShowPassword(!showPassword);
         }}
         iconHeight={verticalScale(15)}
         rigthIcon={showPassword ? icons.eyeSlash : icons.eye}
-        error={signupErrors.passwordError}
         onChangeText={(txt) => {
-          setSignupValue({ ...signupValue, password: txt });
-          setSignupError({ ...signupErrors, passwordError: "" });
+          setNewPassword(txt);
+        setNewPassError  ('');
         }}
       />
       <Spacer height={30} />
@@ -280,8 +314,8 @@ const ClientEditProfile = ({ navigation, setLoading, imageUri }) => {
         paddingLeft={20}
         alignSelf="center"
         width="100%"
-        value={signupValue.confirmPassword}
-        error={signupErrors.confirmError}
+        value={newConfirmPassword}
+        error={newConfirmError}
         secureTextEntry={showPassword1}
         onRightPress={() => {
           setShowPassword1(!showPassword1);
@@ -289,8 +323,8 @@ const ClientEditProfile = ({ navigation, setLoading, imageUri }) => {
         iconHeight={verticalScale(15)}
         rigthIcon={showPassword1 ? icons.eyeSlash : icons.eye}
         onChangeText={(txt) => {
-          setSignupValue({ ...signupValue, confirmPassword: txt });
-          setSignupError({ ...signupErrors, confirmError: "" });
+          setNewConfirmPassword(txt);
+          setNewConfirmError( "" );
         }}
       />
       <Spacer height={50} />

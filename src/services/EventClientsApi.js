@@ -176,13 +176,13 @@ export const ClientForgetPassword = async (
         });
       } else {
         setLoading(false);
-        Toast.show("No volunteer with email ", email);
+        Toast.show("Client not exist with this email ", email);
       }
     })
 
     .catch(function (error) {
       setLoading(false);
-      Toast.show("No volunteer with email ", email);
+      Toast.show("Client not exist with this email ", email);
     });
 };
 export const VolunteerForgetPassword = async (
@@ -215,7 +215,7 @@ export const VolunteerForgetPassword = async (
         });
       } else {
         setLoading(false);
-        Toast.show("No volunteer with email ", email);
+        Toast.show("Volunteer not exist with this email ", email);
       }
     })
 
@@ -256,7 +256,7 @@ export const VolunteerSendOtp = async (
         });
       } else {
         setLoading(false);
-        Toast.show("No volunteer with email ", email);
+        Toast.show("Volunteer not exist with this email ",);
       }
 
       // console.log(response?.data?.message);
@@ -264,7 +264,7 @@ export const VolunteerSendOtp = async (
 
     .catch(function (error) {
       setLoading(false);
-      Toast.show("No volunteer with email ", email);
+      Toast.show("Volunteer not exist with this email ", email);
     });
 };
 
@@ -312,7 +312,7 @@ export const ClientSendOtp = async (
         });
       } else {
         setLoading(false);
-        Toast.show("No volunteer with email ", email);
+        Toast.show("Client not exist with this email ", email);
       }
 
       console.log(response?.data?.message);
@@ -320,7 +320,7 @@ export const ClientSendOtp = async (
 
     .catch(function (error) {
       setLoading(false);
-      Toast.show("No volunteer with email ", email);
+      Toast.show("Client not exist with this email ", email);
     });
 };
 

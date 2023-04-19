@@ -28,6 +28,11 @@ const VolunteerEditProfile = (props) => {
   const [showPassword, setShowPassword] = useState(true);
   const dispatch = useDispatch();
   const [showPassword1, setShowPassword1] = useState(true);
+  const [newPassword, setNewPassword] = useState("");
+  const [newConfirmPassword, setNewConfirmPassword] = useState("");
+  const [newPassError, setNewPassError] = useState("");
+  const [newConfirmError, setNewConfirmError] = useState("");
+  // const [newPasword, setnewPawword] = useState(second)
   const AuthUser = useSelector((state) => state.authReducers.authState);
   console.log("CurrentUserData", AuthUser?.AuthUser);
   const [phoneRaw, setPhoneRaw] = useState("");
@@ -51,8 +56,8 @@ const VolunteerEditProfile = (props) => {
     email: AuthUser?.email,
     phoneNumber: AuthUser?.phoneNumber,
     address: AuthUser?.address,
-    password: AuthUser?.password,
-    confirmPassword: AuthUser?.confirmPassword,
+    password: "empty11111",
+    confirmPassword: "empty11111",
     employer: AuthUser.employer,
     organization: AuthUser.organization,
   });
@@ -179,7 +184,7 @@ const VolunteerEditProfile = (props) => {
     {
       id: 7,
       placeholder: "Password",
-      error: editErrors.passwordError,
+      error: newPassError,
       secureTextEntry: showPassword,
       rigthIcon: showPassword ? icons.eyeSlash : icons.eye,
 
@@ -192,10 +197,10 @@ const VolunteerEditProfile = (props) => {
       //   else setShowPassword1(!showPassword1);
       // }}
 
-      value: editValue.password,
+      value: newPassword,
       onChangeText: (txt) => {
-        setEditValue({ ...editValue, password: txt });
-        setEditError({ ...editErrors, passwordError: "" });
+        setNewPassword( txt );
+        setNewPassError( "" );
       },
 
       //   value: signupValues.country,
@@ -204,8 +209,8 @@ const VolunteerEditProfile = (props) => {
     {
       id: 7,
       placeholder: "Confirm Password",
-      error: editErrors.confirmError,
-      value: editValue.confirmPassword,
+      error: newConfirmError,
+      value: newConfirmPassword,
       rigthIcon: showPassword1 ? icons.eyeSlash : icons.eye,
 
       secureTextEntry: showPassword1,
@@ -213,8 +218,8 @@ const VolunteerEditProfile = (props) => {
         setShowPassword1(!showPassword1);
       },
       onChangeText: (txt) => {
-        setEditValue({ ...editValue, confirmPassword: txt });
-        setEditError({ ...editErrors, confirmError: "" });
+        setNewConfirmPassword( txt );
+        setNewConfirmError( "" );
       },
 
       //   value: signupValues.country,
@@ -257,10 +262,34 @@ const VolunteerEditProfile = (props) => {
         address: editValue.address,
         employer: editValue.employer,
         organization: editValue.organization,
-        password: editValue.password,
-        confirmPassword: editValue.confirmPassword,
+        // password: editValue.password,
+        // confirmPassword: editValue.confirmPassword,
         profilePicture: "",
       };
+
+      if (newPassword) {
+        if (newPassword.length <= 7) {
+          setNewPassError("password must be greater then 7 digits");
+          return;
+        }
+        if (!newConfirmPassword) {
+          setNewConfirmError("Confirm password is required");
+          return;
+        }
+        if (newConfirmPassword != newPassword) {
+          setNewConfirmError("confirm password is not match");
+          return;
+        }
+        data[
+          "password"
+        ] = newPassword;
+        data[
+          "confirmPassword"
+        ] = newConfirmPassword;
+
+      }
+
+
     props.setLoading(true)
 
       if (props.imageUri) {
