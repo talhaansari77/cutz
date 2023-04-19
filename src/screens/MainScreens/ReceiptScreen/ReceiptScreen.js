@@ -100,8 +100,7 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
     events.map((e) => {
       reservations.map((r) => {
         if (e._id === r.eventID) {
-          
-          myTickets.push({...e,eventGroupID:r.eventGroupID});
+          myTickets.push({ ...e, eventGroupID: r.eventGroupID });
           console.log("res ==>", e);
           // myTickets.push({ ...e, eventStartTime: eventStartTime });
         }
@@ -118,8 +117,37 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
   };
   const handleTicketPress = () => {
     // setState({ ...state, ticketDetail: true });
-    getEventGroup("64220f310bb5bf7676e2aafe").then((r) => {
-      setState({ ...state, ticketData: r.data, ticketDetail: true });
+    console.log(state.currentTicket);
+    
+      // getOrganizationById(event.orgId).then((r) => {
+      //   let org = r.data;
+      //   setState({
+      //     ...state,
+      //     ticketData: {
+      //       ...time,
+      //       ...event,
+      //       eventId: event._id,
+      //       groupId: time._id,
+      //       organization: org.organizationName,
+      //     },
+      //   });
+      //   setTicketVisible(true);
+      //   console.log("state.ticketData", {
+      //     ...time,
+      //     ...event,
+      //     organization: org.organizationName,
+      //   });
+      // });
+      // loaderOff();
+    
+    getEventGroup().then((r) => {
+      // console.log(state.currentTicket._id)
+      // console.log(r.data.find((rr)=>rr.eventID===state.currentTicket._id))
+      let grp =r.data.find((rr)=>rr.eventID===state.currentTicket._id)
+      // getTimingBy(tickets[index].eventGroupID).then((t) => {
+      //   setTime(t.data.eventStartTime);
+      // });
+    setState({ ...state, ticketData: {...state.currentTicket,...grp}, ticketDetail: true });
     });
   };
   const handleCancelPress = () => {

@@ -189,21 +189,34 @@ const TicketCheckInAndOutVol = ({ state, setState }) => {
                         ...state,
                         checkIn: true,
                         greet: true,
-                        pin1: "", pin2: "", pin3: "", pin4: "" 
+                        pin1: "",
+                        pin2: "",
+                        pin3: "",
+                        pin4: "",
                       });
                     } else {
                       alert("Invalid Code");
                     }
                   } else {
-                    if (eventCode === state?.currentTicket?.eventCode) {
-                      setState({
-                        ...state,
-                        checkOut: true,
-                        greet: true,
-                        pin1: "", pin2: "", pin3: "", pin4: "" 
-                      });
+                    if (
+                      moment(currentDate).utc().format("hh:mm A") >
+                      moment(state?.time?.eventEndTime).utc().format("hh:mm A")
+                    ) {
+                      if (eventCode === state?.currentTicket?.eventCode) {
+                        setState({
+                          ...state,
+                          checkOut: true,
+                          greet: true,
+                          pin1: "",
+                          pin2: "",
+                          pin3: "",
+                          pin4: "",
+                        });
+                      } else {
+                        alert("Invalid Code");
+                      }
                     } else {
-                      alert("Invalid Code");
+                      alert("There is still some time left");
                     }
                   }
                   // modelClose();
@@ -216,7 +229,16 @@ const TicketCheckInAndOutVol = ({ state, setState }) => {
         <Spacer height={10} />
         <TouchableOpacity
           style={{ width: "75%" }}
-          onPress={() => setState({ ...state, ticketDetail: false,pin1: "", pin2: "", pin3: "", pin4: ""  })}
+          onPress={() =>
+            setState({
+              ...state,
+              ticketDetail: false,
+              pin1: "",
+              pin2: "",
+              pin3: "",
+              pin4: "",
+            })
+          }
         >
           <Image
             source={icons.back}
