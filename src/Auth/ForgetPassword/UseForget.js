@@ -1,20 +1,6 @@
 import { validateEmail } from "../../utils/Email_Password_Validation";
 export const UseForget = (passwordValue, forgetErrors, setForgetErrors) => {
-  if (!passwordValue.email) {
-    setForgetErrors({
-      ...forgetErrors,
-      emailError: "email is required",
-    });
-    return;
-  }
-  if (!validateEmail(passwordValue.email)) {
-    setForgetErrors({
-      ...forgetErrors,
-      emailError: "enter valid email",
-    });
 
-    return;
-  }
   if (!passwordValue?.password) {
     setForgetErrors({
       ...forgetErrors,

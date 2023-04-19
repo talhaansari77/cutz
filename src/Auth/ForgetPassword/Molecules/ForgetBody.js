@@ -21,9 +21,11 @@ import { UseForget } from "../UseForget";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {
+  ClientForgetPassword,
   ForgetClientPassword,
   ForgetVolunteerPassword,
   UpdateClientEvent,
+  VolunteerForgetPassword,
 } from "../../../services/EventClientsApi";
 import Toast from "react-native-root-toast";
 import CustomLogo from "../../../components/CustomLogo";
@@ -32,6 +34,7 @@ const ForgetBody = ({
   navigation,
   checkUserParams,
   route,
+  email,
   setCheckUser,
   checkUser,
 }) => {
@@ -44,7 +47,6 @@ const ForgetBody = ({
   const dispatch = useDispatch();
 
   const [passwordValue, setPasswordValue] = useState({
-    email: "",
     password: "",
     confirmPassword: "",
   });
@@ -61,34 +63,27 @@ const ForgetBody = ({
       setForgetErrors
     );
     const data = {
-      
-        email:passwordValue.email,
-        password:passwordValue.password,
-        confirmPassword:passwordValue.confirmPassword
-        
+      email: email,
+      password: passwordValue.password,
+      confirmPassword: passwordValue.confirmPassword,
     };
+    setLoading(true);
 
     if (validateResponse) {
       if (checkUser == "Client") {
         console.log("checkUserParams", checkUser);
         // if (Object.keys(AuthUser).length !== 0) {
-          await ForgetClientPassword(
-            data,
-            setLoading,
-            navigation,
 
-          );
+        ClientForgetPassword(data, setLoading, navigation, checkUser, email);
+
         // } else {
         //   Toast.show("Client not exist please create account");
         // }
       } else if (checkUser == "Volunteer") {
         console.log("checkUserParams", checkUser);
-          await ForgetVolunteerPassword(
-            data,
-            setLoading,
-            navigation
-          );
-       
+
+        VolunteerForgetPassword(data, setLoading, navigation, checkUser, email);
+
         //  await VolunteerLogin(data, setLoading, navigation, checkUser,dispatch,remember);
       }
     }
@@ -125,20 +120,6 @@ const ForgetBody = ({
         </View>
         <Spacer height={20} />
 
-        <CustomTextInput
-          placeholder="E-mail"
-          paddingLeft={20}
-          alignSelf="center"
-          width="100%"
-          value={passwordValue.email}
-          error={forgetErrors.emailError}
-          onChangeText={(txt) => {
-            setPasswordValue({ ...passwordValue, email: txt });
-            setForgetErrors({ ...forgetErrors, emailError: "" }); 
-          }}
-          borderRadius={15}
-        />
-        <Spacer height={20} />
         <CustomTextInput
           placeholder="New Password"
           paddingLeft={20}

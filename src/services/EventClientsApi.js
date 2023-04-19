@@ -130,7 +130,6 @@ export const UpdateClientEvent = async (
         } else {
           setLoading(false);
 
-
           Toast.show("something wrong");
 
           console.log("AccountExist");
@@ -147,94 +146,263 @@ export const UpdateClientEvent = async (
   }
 };
 
-
-
-export const ForgetClientPassword = async (
+export const ClientForgetPassword = async (
   data,
   setLoading,
-  navigation
+  navigation,
+  checkUser,
+  email
 ) => {
-  const options = {
-    method: "PATCH",
-    url: `${URLS.BASE_URL}${URLS.CLIENT_GORGET_PASSWORD}`,
+  console.log("EmailData", email);
+  axios
+    .post(
+      `${URLS.BASE_URL}${URLS.CLIENT_FORGET_PASSWORD}`,
 
-    data: data,
-  };
-  setLoading(true)
-
-  try {
-    await axios
-      .request(options)
-      .then(async function (response) {
-        console.log("userCreated", response);
-        if (response) {
-          Toast.show("Password updated successfully");
-          setLoading(false);
-          navigation.goBack()
-
-        } else {
-          setLoading(false);
-
-
-          Toast.show("Email not exist please signup first");
-
-          console.log("AccountExist");
-        }
-      })
-      .catch((error) => {
+      // "https://event-app-production-production.up.railway.app/api/v1/forgetpasswordclient/resetpass",
+      data,
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    )
+    .then(function (response) {
+      if (response?.data?.message == "Password Updated Successfully") {
         setLoading(false);
-        Toast.show("Email not exist please signup first");
+        Toast.show("Password Updated Successfully");
 
-        // Toast.show("Account is already exist");
-      });
+        navigation.navigate("login", {
+          checkUser: checkUser,
+        });
+      } else {
+        setLoading(false);
+        Toast.show("Client not exist with this email ", email);
+      }
+    })
 
-    return res;
-  } catch (error) {
-    return error;
-  }
+    .catch(function (error) {
+      setLoading(false);
+      Toast.show("Client not exist with this email ", email);
+    });
 };
-export const ForgetVolunteerPassword = async (
+export const VolunteerForgetPassword = async (
   data,
   setLoading,
-  navigation
+  navigation,
+  checkUser,
+  email
 ) => {
-  const options = {
-    method: "PATCH",
-    url: `${URLS.BASE_URL}${URLS.VOLUNTEER_GORGET_PASSWORD}`,
+  console.log("EmailData", email);
+  axios
+    .post(
+      `${URLS.BASE_URL}${URLS.VOLUNTEER_FORGET_PASSWORD}`,
 
-    data: data,
-  };
-  setLoading(true)
-
-  try {
-    await axios
-      .request(options)
-      .then(async function (response) {
-        console.log("userCreated", response?.data?.message);
-        if (response) {
-          Toast.show("Password updated successfully");
-          setLoading(false);
-          navigation.goBack()
-        } else {
-          setLoading(false);
-
-
-          Toast.show("Email not exist please signup first");
-
-          console.log("AccountExist");
-        }
-      })
-      .catch((error) => {
+      // "https://event-app-production-production.up.railway.app/api/v1/forgetpasswordvolunteer/resetpass",
+      data,
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    )
+    .then(function (response) {
+      if (response?.data?.message == "Password Updated Successfully") {
         setLoading(false);
-        Toast.show("Email not exist please signup first");
+        Toast.show("Password Updated Successfully");
 
-        // Toast.show("Account is already exist");
-      });
+        navigation.navigate("login", {
+          checkUser: checkUser,
+        });
+      } else {
+        setLoading(false);
+        Toast.show("Volunteer not exist with this email ", email);
+      }
+    })
 
-    return res;
-  } catch (error) {
-    return error;
-  }
+    .catch(function (error) {
+      setLoading(false);
+      Toast.show("No volunteer with email ", email);
+    });
+};
+
+export const VolunteerSendOtp = async (
+  data,
+  setLoading,
+  navigation,
+  checkUser,
+  email
+) => {
+  console.log("EmailData", email);
+  axios
+    .post(
+      `${URLS.BASE_URL}${URLS.CHECK_VOLUNTEER_EMAIL}`,
+
+      // "https://event-app-production-production.up.railway.app/api/v1/forgetpasswordvolunteer/sendotp",
+      data,
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    )
+    .then(function (response) {
+      if (response?.data?.message == "OTP sent successfully") {
+        setLoading(false);
+        Toast.show("OTP sent successfully");
+
+        navigation.navigate("ConfirmOtp", {
+          checkUser: checkUser,
+          email: email,
+        });
+      } else {
+        setLoading(false);
+        Toast.show("Volunteer not exist with this email ",);
+      }
+
+      // console.log(response?.data?.message);
+    })
+
+    .catch(function (error) {
+      setLoading(false);
+      Toast.show("Volunteer not exist with this email ", email);
+    });
+};
+
+// console.log("DataJson",JSON.stringify(data))
+// const options = {
+//   method: "POST",
+//   url: 'https://event-app-production-production.up.railway.app/api/v1/forgetpasswordvolunteer/sendotp',
+//   headers: {
+//     Accept: 'application/json',
+//     'Content-Type': 'application/json',
+//   },    body:  JSON.stringify(data),
+// };
+// try {
+//   return await axios.request(options);
+// } catch (error) {}
+
+export const ClientSendOtp = async (
+  data,
+  setLoading,
+  navigation,
+  checkUser,
+  email
+) => {
+  console.log("EmailData", email);
+  axios
+    .post(
+      `${URLS.BASE_URL}${URLS.CHECK_CLIENT_EMAIL}`,
+
+      // "https://event-app-production-production.up.railway.app/api/v1/forgetpasswordclient/sendotp",
+      data,
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    )
+    .then(function (response) {
+      if (response?.data?.message == "OTP sent successfully") {
+        setLoading(false);
+        Toast.show("OTP sent successfully");
+
+        navigation.navigate("ConfirmOtp", {
+          checkUser: checkUser,
+          email: email,
+        });
+      } else {
+        setLoading(false);
+        Toast.show("Client not exist with this email ", email);
+      }
+
+      console.log(response?.data?.message);
+    })
+
+    .catch(function (error) {
+      setLoading(false);
+      Toast.show("Client not exist with this email ", email);
+    });
+};
+
+export const VolunteerOtpVerified = async (
+  data,
+  setLoading,
+  navigation,
+  checkUser,
+  email
+) => {
+  console.log("EmailData", email);
+  axios
+    .post(
+      `${URLS.BASE_URL}${URLS.VOLUNTEER_OTP_VERIFIED}`,
+
+      // "https://event-app-production-production.up.railway.app/api/v1/forgetpasswordvolunteer/verifyotp",
+      data,
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    )
+    .then(function (response) {
+      if (response?.data?.message == "Otp matched successfully") {
+        setLoading(false);
+        Toast.show("Otp matched successfully");
+
+        navigation.navigate("ForgetPassword", {
+          checkUser: checkUser,
+          email: email,
+        });
+      } else {
+        setLoading(false);
+        Toast.show("Please enter valid otp");
+      }
+    })
+
+    .catch(function (error) {
+      setLoading(false);
+      Toast.show("Please enter valid otp");
+    });
+};
+
+export const ClientOtpVerified = async (
+  data,
+  setLoading,
+  navigation,
+  checkUser,
+  email
+) => {
+  console.log("EmailData", email);
+  axios
+    .post(
+      `${URLS.BASE_URL}${URLS.CLIENT_OTP_VERIFIED}`,
+      // "https://event-app-production-production.up.railway.app/api/v1/forgetpasswordclient/verifyotp",
+      data,
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    )
+    .then(function (response) {
+      if (response?.data?.message == "Otp matched successfully") {
+        setLoading(false);
+        Toast.show("Otp matched successfully");
+
+        navigation.navigate("ForgetPassword", {
+          checkUser: checkUser,
+          email: email,
+        });
+      } else {
+        setLoading(false);
+        Toast.show("Please enter valid otp");
+      }
+    })
+
+    .catch(function (error) {
+      setLoading(false);
+      Toast.show("Please enter valid otp");
+    });
 };
 
 export const DeleteClientEvent = async (token) => {

@@ -17,6 +17,7 @@ import ForgetBody from "./Molecules/ForgetBody";
 import { scale } from "react-native-size-matters";
 import { icons } from "../../../assets/icons";
 const ForgetPassword = ({ navigation, route }) => {
+  const email=route?.params?.email
   const [checkUser, setCheckUser] = useState(route?.params?.checkUser);
 
   return (
@@ -56,6 +57,7 @@ const ForgetPassword = ({ navigation, route }) => {
           <Spacer height={10} />
           <ForgetBody
             checkUser={checkUser}
+            email={email}
             setCheckUser={setCheckUser}
             navigation={navigation}
           />

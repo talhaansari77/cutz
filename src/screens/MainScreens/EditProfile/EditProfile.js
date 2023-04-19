@@ -24,7 +24,7 @@ import Loader from "../../../utils/Loader";
 import loaderAnimation from "../../../../assets/Loaders/index";
 
 
-export const onClickImage = async () => {
+export const onClickImage = async (setImageUri,setImage) => {
   try {
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -85,7 +85,10 @@ const EditProfile = ({ route, navigation }) => {
                   }}
                 />
 
-                <TouchableOpacity activeOpacity={0.6} onPress={onClickImage}>
+                <TouchableOpacity activeOpacity={0.6} onPress={()=>{
+                  onClickImage(setImageUri,setImage)
+
+                }}>
                   <Avatar
                     source={icons.cameraPlus}
                     rounded
@@ -108,7 +111,11 @@ const EditProfile = ({ route, navigation }) => {
                   containerStyle={{}}
                 />
 
-                <TouchableOpacity activeOpacity={0.6} onPress={onClickImage}>
+                <TouchableOpacity activeOpacity={0.6} onPress={()=>{
+                                    onClickImage(setImageUri,setImage)
+
+
+                }}>
                   <Avatar
                     source={icons.cameraPlus}
                     rounded
