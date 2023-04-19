@@ -35,7 +35,7 @@ const SearchScreen = ({ navigation }) => {
     getEventData();
   }, [focused]);
 
-  console.log("eventType", events);
+  console.log("eventType", organizationName);
 
   const getEventData = async () => {
     const orgName = [];
@@ -50,14 +50,35 @@ const SearchScreen = ({ navigation }) => {
         });
       });
     });
-    getOrganizations((r)=>{
+
+    getOrganizations().then((r) => {
       let data = r.data;
+      
       data.forEach((item) => {
         orgName.push({
           name: item.organizationName,
         });
       });
-    })
+    });
+
+
+    // getOrganizations().then((r)=>{
+    //     let data = r.data;
+    //   data.forEach((item) => {
+    //     orgName.push({
+    //       name: item.organizationName,
+    //     });
+
+    // })
+    // getOrganizations((r)=>{
+    //   let data = r.data;
+    //   console.log("DataOrg",data)
+    //   // data.forEach((item) => {
+    //   //   orgName.push({
+    //   //     name: item.organizationName,
+    //   //   });
+    //   // });
+    // })
     setEventType(eventType);
     setOrganizationName(orgName);
   };
