@@ -1,5 +1,11 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  ActivityIndicator,
+} from "react-native";
 import { Image } from "react-native-elements";
 import { scale, verticalScale } from "react-native-size-matters";
 import Carousel, { Pagination } from "react-native-snap-carousel";
@@ -9,8 +15,9 @@ import CustomButton from "../../../../components/CustomButton";
 import CustomText from "../../../../components/CustomText";
 import { Spacer } from "../../../../components/Spacer";
 import { colors } from "../../../../utils/Colors";
-import moment from 'moment';
+import moment from "moment";
 import { getOrganizationById } from "../../../../services/Organization";
+import { getTimingBy } from "../../../../services/Organization copy";
 
 const data = [
   { id: 1, text: "Item 1" },
@@ -22,6 +29,7 @@ const data = [
 
 // console.log("dataTimeData",moment("2023-03-12T20:30:11.000Z",).utc().format('dddd MMM YYYY'));
 // console.log("dataTimeData",moment("2023-03-12T20:30:11.000Z",).utc().format('DD MMM YYYY'));
+const currentDate = new Date().toString();
 
 const { height, width } = Dimensions.get("window");
 const TicketCarousel = ({
@@ -32,135 +40,242 @@ const TicketCarousel = ({
   setState,
 }) => {
   const [activeSlide, setActiveSlide] = useState(0);
-  const [org, setOrg] = useState('...');
+  const [org, setOrg] = useState([]);
+  const [time, setTime] = useState([]);
+  const [loader, setLoader] = useState(false);
 
-  const renderItem = ({ item, index }) =>
-   {
-    getOrganizationById(item.orgId).then((r)=>setOrg(r.data.organizationName))
-    // console.log(r)
-    return(
-      <View style={styles.cardStyle}>
-        <Image
-          source={images.cardHeader}
-          containerStyle={{ width: "100%", height: 40 }}
-          resizeMode={"stretch"}
-        />
-        <Spacer height={10} />
-        <View
-          style={{
-            paddingHorizontal: scale(50),
-            paddingVertical: verticalScale(5),
-            backgroundColor: colors.darkOrange,
-            alignSelf: "center",
-            borderRadius: 5,
-          }}
-        >
-          <CustomText
-            label={org}
-            fontFamily={"semiBold"}
-            color={colors.white}
-            fontSize={14}
-          />
-        </View>
-        <Spacer height={20} />
-        <View>
-          <View style={{ flexDirection: "row" }}>
-            <Spacer width={15} />
-            <Image
-              source={icons.calender}
-              resizeMode={"contain"}
-              containerStyle={{ height: scale(30), width: scale(30) }}
-            />
-            <Spacer width={10} />
-            <View>
-              <CustomText
-                label={
-                  moment(item?.eventStartTime).utc().format("dddd") +
-                  ", " +
-                  moment(item?.eventStartTime).utc().format("MMMM") +
-                  " " +
-                  moment(item?.eventStartTime).utc().format("DD")
-                }
-                fontFamily={"semiBold"}
-                color={colors.secondary}
-                fontSize={14}
-              />
-              <CustomText
-                label={moment(item.eventStartTime).utc().format('hh:mm A')}
-                fontFamily={"semiBold"}
-                color={colors.perFectDark}
-                fontSize={11}
-              />
-            </View>
-          </View>
-          <Spacer height={25} />
-          <View style={{ flexDirection: "row" }}>
-            <Spacer width={10} />
-            <Image
-              source={icons.marker}
-              resizeMode={"contain"}
-              containerStyle={{ height: scale(30), width: scale(30) }}
-            />
-            <Spacer width={15} />
-            <View>
-              <CustomText
-                label={item.addresses[0].place}
-                fontFamily={"semiBold"}
-                color={colors.secondary}
-                fontSize={14}
-              />
-              <CustomText
-                label={item.addresses[0].house}
-                fontFamily={"semiBold"}
-                color={colors.perFectDark}
-                fontSize={11}
-              />
-              <CustomText
-                label={item.addresses[0].zip}
-                fontFamily={"semiBold"}
-                color={colors.perFectDark}
-                fontSize={11}
-              />
-            </View>
-          </View>
-        </View>
-        <Spacer height={15} />
-  
-        <View style={{ flexDirection: "row" }}>
-          <Spacer width={10} />
+  // useEffect(() => {
+  //   let ti=[]
+  //   tickets.map((t)=>{
+  //     getTimingBy(t.eventGroupID).then((t) => {
+  //       ti.push(t.data.eventStartTime)
+  //     });
+  //   })
+  //   setTime(ti)
+  //   console.log(time)
+  // }, [tickets])
+
+  // useEffect(() => {
+  //   let or=[]
+  //   tickets.map((t)=>{
+  //     getOrganizationById(t.orgId).then((o) =>
+  //     or.push(o.data.organizationName)
+  //     );
+  //   })
+  //   setOrg(or)
+  //   console.log(org)
+  // }, [tickets])
+
+  const renderItem = ({ item, index }) => {
+    // var time =''
+
+    console.log(moment(time[index]).utc().format("YYYY-MM-DD"));
+    if (
+      moment(time).utc().format("YYYY-MM-DD") ==
+      moment(currentDate).utc().format("YYYY-MM-DD")
+    )
+      return loader ? (
+        <View style={styles.cardStyle}>
           <Image
-            source={icons.ticket1}
-            resizeMode={"contain"}
-            style={{
-              tintColor: colors.secondary,
-            }}
-            containerStyle={{ height: scale(30), width: scale(30) }}
+            source={images.cardHeader}
+            containerStyle={{ width: "100%", height: 40 }}
+            resizeMode={"stretch"}
           />
-          <Spacer width={15} />
-          <View>
+          <Spacer height={10} />
+
+          <View style={{ alignSelf: "center", paddingVertical: 125 }}>
+            <ActivityIndicator size={"large"} color={colors.primary} />
+          </View>
+
+          <Image
+            source={images.cardBottom}
+            containerStyle={{
+              width: "100%",
+              height: 40,
+              position: "absolute",
+              bottom: 0,
+            }}
+            resizeMode={"stretch"}
+          />
+          <Spacer height={40} />
+        </View>
+      ) : (
+        <View style={styles.cardStyle}>
+          <Image
+            source={images.cardHeader}
+            containerStyle={{ width: "100%", height: 40 }}
+            resizeMode={"stretch"}
+          />
+          <Spacer height={10} />
+          <View
+            style={{
+              paddingHorizontal: scale(50),
+              paddingVertical: verticalScale(5),
+              backgroundColor: colors.darkOrange,
+              alignSelf: "center",
+              borderRadius: 5,
+            }}
+          >
             <CustomText
-              label={item.eventType}
-              fontFamily={"bold"}
-              color={colors.secondary}
-              fontSize={16}
+              label={org || "..."}
+              fontFamily={"semiBold"}
+              color={colors.white}
+              fontSize={14}
             />
           </View>
+          <Spacer height={20} />
+          <View>
+            <View style={{ flexDirection: "row" }}>
+              <Spacer width={15} />
+              <Image
+                source={icons.calender}
+                resizeMode={"contain"}
+                containerStyle={{ height: scale(30), width: scale(30) }}
+              />
+              <Spacer width={10} />
+              <View>
+                <CustomText
+                  label={
+                    moment(time).utc().format("dddd") +
+                    ", " +
+                    moment(time).utc().format("MMMM") +
+                    " " +
+                    moment(time).utc().format("DD")
+                  }
+                  fontFamily={"semiBold"}
+                  color={colors.secondary}
+                  fontSize={14}
+                />
+                <CustomText
+                  label={moment(time).utc().format("hh:mm A")}
+                  fontFamily={"semiBold"}
+                  color={colors.perFectDark}
+                  fontSize={11}
+                />
+              </View>
+            </View>
+            <Spacer height={25} />
+            <View style={{ flexDirection: "row" }}>
+              <Spacer width={10} />
+              <Image
+                source={icons.marker}
+                resizeMode={"contain"}
+                containerStyle={{ height: scale(30), width: scale(30) }}
+              />
+              <Spacer width={15} />
+              <View>
+                <CustomText
+                  label={item.addresses[0].place}
+                  fontFamily={"semiBold"}
+                  color={colors.secondary}
+                  fontSize={14}
+                />
+                <CustomText
+                  label={item.addresses[0].house}
+                  fontFamily={"semiBold"}
+                  color={colors.perFectDark}
+                  fontSize={11}
+                />
+                <CustomText
+                  label={item.addresses[0].zip}
+                  fontFamily={"semiBold"}
+                  color={colors.perFectDark}
+                  fontSize={11}
+                />
+              </View>
+            </View>
+          </View>
+          <Spacer height={15} />
+
+          <View style={{ flexDirection: "row" }}>
+            <Spacer width={10} />
+            <Image
+              source={icons.ticket1}
+              resizeMode={"contain"}
+              style={{
+                tintColor: colors.secondary,
+              }}
+              containerStyle={{ height: scale(30), width: scale(30) }}
+            />
+            <Spacer width={15} />
+            <View>
+              <CustomText
+                label={item.eventType}
+                fontFamily={"bold"}
+                color={colors.secondary}
+                fontSize={16}
+              />
+            </View>
+          </View>
+
+          <Image
+            source={images.cardBottom}
+            containerStyle={{
+              width: "100%",
+              height: 40,
+              position: "absolute",
+              bottom: 0,
+            }}
+            resizeMode={"stretch"}
+          />
+          <Spacer height={40} />
         </View>
-  
-        <Image
-          source={images.cardBottom}
-          containerStyle={{
-            width: "100%",
-            height: 40,
-            position: "absolute",
-            bottom: 0,
-          }}
-          resizeMode={"stretch"}
-        />
-        <Spacer height={40} />
-      </View>
-    );
-   }
+      );
+    else
+      return loader ? (
+        <View style={styles.cardStyle}>
+          <Image
+            source={images.cardHeader}
+            containerStyle={{ width: "100%", height: 40 }}
+            resizeMode={"stretch"}
+          />
+          <Spacer height={10} />
+
+          <View style={{ alignSelf: "center", paddingVertical: 125 }}>
+            <ActivityIndicator size={"large"} color={colors.primary} />
+          </View>
+
+          <Image
+            source={images.cardBottom}
+            containerStyle={{
+              width: "100%",
+              height: 40,
+              position: "absolute",
+              bottom: 0,
+            }}
+            resizeMode={"stretch"}
+          />
+          <Spacer height={40} />
+        </View>
+      ) : (
+        <View style={styles.cardStyle}>
+          <Image
+            source={images.cardHeader}
+            containerStyle={{ width: "100%", height: 40 }}
+            resizeMode={"stretch"}
+          />
+          <Spacer height={10} />
+
+          <View style={{ alignSelf: "center", paddingVertical: 125 }}>
+            <Text style={{ fontSize: 22, color: "#000" }}>
+              Time Not Reached Yet
+            </Text>
+          </View>
+
+          <Image
+            source={images.cardBottom}
+            containerStyle={{
+              width: "100%",
+              height: 40,
+              position: "absolute",
+              bottom: 0,
+            }}
+            resizeMode={"stretch"}
+          />
+          <Spacer height={40} />
+        </View>
+      );
+  };
 
   const InfoText = () => (
     <View style={{ alignSelf: "center", alignItems: "center" }}>
@@ -195,20 +310,34 @@ const TicketCarousel = ({
       <Spacer height={20} />
       <InfoText />
       <Spacer height={20} />
-      <Carousel
-        data={tickets}
-        renderItem={renderItem}
-        // sliderHeight={300}
-        // itemHeight={60}
-        sliderWidth={width}
-        itemWidth={width / 1.3}
-        layout="default"
-        inactiveSlideScale={0.8} // set inactive slide scale to make items smaller
-        onSnapToItem={(index) => {
-          setActiveSlide(index);
-          setState({ ...state, currentTicket: tickets[index] });
-        }} // update the active slide index
-      />
+      {tickets.length ? (
+        <Carousel
+          data={tickets}
+          renderItem={renderItem}
+          // sliderHeight={300}
+          // itemHeight={60}
+          sliderWidth={width}
+          itemWidth={width / 1.3}
+          layout="default"
+          inactiveSlideScale={0.8} // set inactive slide scale to make items smaller
+          onSnapToItem={(index) => {
+            setLoader(true);
+            setActiveSlide(index);
+            setState({ ...state, currentTicket: tickets[index] });
+            getOrganizationById(tickets[index].orgId).then((o) =>
+              setOrg(o.data.organizationName)
+            );
+            getTimingBy(tickets[index].eventGroupID).then((t) => {
+              setTime(t.data.eventStartTime);
+              setLoader(false);
+            });
+          }} // update the active slide index
+        />
+      ) : (
+        <View style={{ alignSelf: "center" }}>
+          <Text style={{ fontSize: 22, color: "#000" }}>Not Found</Text>
+        </View>
+      )}
       <View style={{ alignItems: "center" }}>
         <Spacer height={10} />
         <Pagination
@@ -222,43 +351,48 @@ const TicketCarousel = ({
         />
       </View>
       <Spacer height={40} />
-      <View style={{ flexDirection: "row", justifyContent: "center" }}>
-        <CustomButton
-          title={"PROCEED"}
-          fontFamily="bold"
-          btnStyle={{
-            shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
-            shadowRadius: 2,
-            elevation: 5,
-            shadowOpacity: 0.4,
-            // inputMarginTop:-20,
-            shadowOffset: { width: -1, height: 3 },
-          }}
-          width={"37%"}
-          borderRadius={15}
-          onPress={() => {
-            handleProceedPress(tickets[activeSlide]);
-          }}
-        />
-        <Spacer width={20} />
-        <CustomButton
-          title={"Cancel"}
-          fontFamily="bold"
-          btnStyle={{
-            shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
-            shadowRadius: 2,
-            elevation: 5,
-            shadowOpacity: 0.4,
-            // inputMarginTop:-20,
-            shadowOffset: { width: -1, height: 3 },
-          }}
-          width={"37%"}
-          backgroundColor={colors.gray2}
-          color={colors.secondary}
-          borderRadius={15}
-          onPress={handleCancelPress}
-        />
-      </View>
+      {moment(time).utc().format("YYYY-MM-DD") ==
+      moment(currentDate).utc().format("YYYY-MM-DD") ? (
+        <View style={{ flexDirection: "row", justifyContent: "center" }}>
+          <CustomButton
+            title={"PROCEED"}
+            fontFamily="bold"
+            btnStyle={{
+              shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+              shadowRadius: 2,
+              elevation: 5,
+              shadowOpacity: 0.4,
+              // inputMarginTop:-20,
+              shadowOffset: { width: -1, height: 3 },
+            }}
+            width={"37%"}
+            borderRadius={15}
+            onPress={() => {
+              handleProceedPress(tickets[activeSlide]);
+            }}
+          />
+          <Spacer width={20} />
+          <CustomButton
+            title={"Cancel"}
+            fontFamily="bold"
+            btnStyle={{
+              shadowColor: Platform.OS == "ios" ? "#343a40" : colors.black,
+              shadowRadius: 2,
+              elevation: 5,
+              shadowOpacity: 0.4,
+              // inputMarginTop:-20,
+              shadowOffset: { width: -1, height: 3 },
+            }}
+            width={"37%"}
+            backgroundColor={colors.gray2}
+            color={colors.secondary}
+            borderRadius={15}
+            onPress={handleCancelPress}
+          />
+        </View>
+      ) : (
+        <></>
+      )}
     </View>
   );
 };
@@ -275,8 +409,7 @@ const styles = StyleSheet.create({
     // bottom: 0,
     paddingVertical: 10,
     width: width / 8,
-    overflow:'hidden'
-    
+    overflow: "hidden",
   },
   dot: {
     width: 8,
