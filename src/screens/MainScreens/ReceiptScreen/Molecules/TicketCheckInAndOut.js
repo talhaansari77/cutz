@@ -22,6 +22,7 @@ import moment from "moment";
 import OTP from "./OTP";
 import { URLS } from "../../../../services/Urls";
 import { onClickImage } from "../../EditProfile/EditProfile";
+const currentDate = new Date().toString();
 
 const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
   const navigation = useNavigation();
@@ -102,16 +103,43 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
             console.log(eventCode, state?.currentTicket?.eventCode);
             if (!state.checkIn) {
               if (eventCode === state?.currentTicket?.eventCode) {
-                setState({ ...state, checkIn: true });
+                setState({
+                  ...state,
+                  checkIn: true,
+                  pin1: "",
+                  pin2: "",
+                  pin3: "",
+                  pin4: "",
+                });
+                modelClose();
+              } else {
+                alert("Invalid Code");
               }
             } else {
-              if (eventCode === state?.currentTicket?.eventCode) {
-                setState({ ...state, checkOut: true, greet: true });
-              }
+              // if (
+              //   moment(currentDate).utc().format("hh:mm A") >
+              //   moment(state?.time?.eventEndTime).utc().format("hh:mm A")
+              // ) {
+                if (eventCode === state?.currentTicket?.eventCode) {
+                  setState({
+                    ...state,
+                    checkOut: true,
+                    greet: true,
+                    pin1: "",
+                    pin2: "",
+                    pin3: "",
+                    pin4: "",
+                  });
+                  modelClose();
+                } else {
+                  alert("Invalid Code");
+                }
+              // } else {
+              //   alert("There is still some time left");
+              // }
             }
             // setState({ ...state, pin1: "", pin2: "", pin3: "", pin4: "" });
 
-            modelClose();
             // setTimeout(() => {
             //   setState({ ...state, pin1: "", pin2: "", pin3: "", pin4: "" })
             // }, 1000);
@@ -235,7 +263,7 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
             <View style={styles.whiteCircle} />
             <View style={{ alignItems: "center", marginTop: -10 }}>
               <CustomButton
-                title={"Get In Line!"}
+                title={state.checkIn ? "Upon Exit" : "Get In Line!"}
                 width={"95%"}
                 height={40}
                 activeOpacity={1}
@@ -264,11 +292,9 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
               /> */}
               <CustomText
                 label={
-                  moment(state?.currentTicket?.eventStartTime).utc().format("DD/MM/YY") +
+                  moment(state?.time?.eventStartTime).utc().format("DD/MM/YY") +
                   " @ " +
-                  moment(state?.currentTicket?.eventStartTime)
-                    .utc()
-                    .format("hh:mm A")
+                  moment(state?.time?.eventStartTime).utc().format("hh:mm A")
                 }
                 // label={"2/12/23 @ 2PM"}
                 color={colors.white}

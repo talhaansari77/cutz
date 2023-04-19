@@ -32,12 +32,14 @@ const MyCarousel = ({
   //   carouselRef.current.snapToItem(companyIndex);
   // }, [companyIndex])
 
-  // useEffect(() => {
-  //   // setActiveSlide(companyIndex + 3);
-  //   setTimeout(() => {
-  //     carouselRef.current.snapToItem(3);
-  //   }, 3000);
-  // }, []);
+  useEffect(() => {
+    // setActiveSlide(companyIndex + 3);
+    // if (data.length) {
+      setTimeout(() => {
+        carouselRef.current.snapToItem(2);
+      }, 3500);
+    // }
+  }, []);
 
   const [activeSlide, setActiveSlide] = useState(3);
 
