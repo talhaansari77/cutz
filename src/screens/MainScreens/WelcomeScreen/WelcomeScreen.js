@@ -182,7 +182,7 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
         if (i) {
           setState({ ...state, searchIndex: i });
         } else {
-          alert("Not Found");
+          // alert("Not Found");
         }
       }
     }, 1000);
