@@ -34,7 +34,8 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
     timings: [],
     ticketData: {},
     loading: false,
-    searchIndex: -1,
+    searchOrg: -1,
+    searchType: -1,
     error: 0,
   });
   const [ticketVisible, setTicketVisible] = useState(false);
@@ -207,19 +208,27 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
 
   useEffect(() => {
     setTimeout(() => {
-      if (isFocused && route?.params?.data) {
-        let eventID = route?.params?.data[0]?._id;
-        let i = state.events.findIndex((e) => e._id === eventID);
-        // console.log("index", i);
-        if (i) {
-          setState({ ...state, searchIndex: i });
-        } else {
-          // alert("Not Found");
+      if (isFocused) {
+        if (route?.params?.eventData) {
+          state.events.map((item, index) => {
+            if (item.eventType === route?.params?.eventData)
+              setState({ ...state, searchType: item.eventType });
+            // if (item.title===route?.params?.org)
+            // setState({ ...state, searchIndex: index });
+          });
+        } else if (route?.params?.org) {
+          state.companyData.map((item, index) => {
+            // console.log(index,item.organizationName);
+            if (item.title === route?.params?.org)
+              setState({ ...state, searchOrg: index });
+            // console.log(route?.params?.org);
+          });
         }
       }
     }, 1000);
     // console.log("Data=>",route?.params?.data)
   }, [isFocused]);
+
   return (
     <>
       <SafeAreaView style={styles.container}>

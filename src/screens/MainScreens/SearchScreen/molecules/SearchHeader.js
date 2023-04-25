@@ -21,7 +21,7 @@ import SepratorLine from "../../../../components/SepratorLine";
 const SearchHeader = ({eventType, organizationName, setEventData,
   setOrgData,}) => {
 
-    console.log("organizationName",organizationName)
+    // console.log("organizationName",organizationName)
   const [modalVisible, setModalVisible] = useState(false);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);

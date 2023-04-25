@@ -33,11 +33,26 @@ const MyCarousel = ({
   // }, [companyIndex])
 
   useEffect(() => {
+    let searchIndex = state.searchType;
+    // carouselRef.current.snapToItem(searchIndex-data.length);
+    if (searchIndex) {
+      data.map((t, index) => {
+        if (t.title === state.searchType) {
+          carouselRef.current.snapToItem(index);
+        }
+        // else{
+        //   alert("Choose the right organization")
+        // }
+      });
+    }
+  }, [state.searchType]);
+
+  useEffect(() => {
     // setActiveSlide(companyIndex + 3);
     // if (data.length) {
-      setTimeout(() => {
-        carouselRef.current.snapToItem(2);
-      }, 3500);
+    setTimeout(() => {
+      carouselRef.current.snapToItem(2);
+    }, 3500);
     // }
   }, []);
 

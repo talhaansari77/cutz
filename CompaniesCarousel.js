@@ -26,9 +26,11 @@ const CompaniesCarousel = ({ data, setCompanyIndex, companyIndex, state }) => {
   }, []);
 
   useEffect(() => {
-    let searchIndex = state.searchIndex;
-    carouselRef.current.snapToItem(searchIndex);
-  }, [state.searchIndex]);
+    let searchIndex = state.searchOrg;
+    if (searchIndex >= 0) {
+      carouselRef.current.snapToItem(searchIndex);
+    }
+  }, [state.searchOrg]);
 
   const renderItem = ({ item, index }) => {
     const isFocused = index === activeSlide;
