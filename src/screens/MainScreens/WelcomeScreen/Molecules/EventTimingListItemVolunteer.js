@@ -4,7 +4,7 @@ import { colors } from "../../../../utils/Colors";
 import { Spacer } from "../../../../components/Spacer";
 import CustomText from "../../../../components/CustomText";
 
-const EventTimingListItemVolunteer = ({ label }) => {
+const EventTimingListItemVolunteer = ({ label ,setState,state}) => {
   const [status, setStatus] = useState(false);
 
   return (
@@ -18,7 +18,14 @@ const EventTimingListItemVolunteer = ({ label }) => {
       }}
     >
       <TouchableOpacity
-        onPress={() => setStatus(!status)}
+        onPress={() => {
+          setStatus(!status);
+          if(status)
+          setState({...state,error:state.error+1})
+          else
+          setState({...state,error:state.error-1})
+
+        }}
         style={{
           height: 20,
           width: 20,

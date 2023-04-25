@@ -186,6 +186,7 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
   const [eventType, setEventType] = useState("FOOD DISTRIBUTION");
   const [eventIndex, setEventIndex] = useState(0);
   const [timingIndex, setTimingIndex] = useState(0);
+  // const [error, setError] = useState(0);
   const [dataLoader, setDataLoader] = useState(false);
   const dateIndexRef = useRef(null);
   const eventIndexRef = useRef(null);
@@ -602,6 +603,8 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
         ) : state.timings.length && state.eventTypes.length ? (
           <>
             <EventTimingListItemVolunteer
+            setState={setState}
+            state={state}
               label={
                 " Prep Event: " +
                 moment(state.timings[dateIndex].priorEventStartTime)
@@ -614,6 +617,8 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
               }
             />
             <EventTimingListItemVolunteer
+            setState={setState}
+            state={state}
               label={
                 " Event: " +
                 moment(state.timings[dateIndex].eventStartTime)
@@ -626,6 +631,8 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
               }
             />
             <EventTimingListItemVolunteer
+            setState={setState}
+            state={state}
               label={
                 " Clean Up: " +
                 moment(state.timings[dateIndex].afterEventStartTime)

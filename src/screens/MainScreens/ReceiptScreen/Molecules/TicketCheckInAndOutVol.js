@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Spacer } from "../../../../components/Spacer";
 import { Image } from "react-native-elements";
 import CustomText from "../../../../components/CustomText";
@@ -9,9 +9,39 @@ import CustomButton from "../../../../components/CustomButton";
 import InputItem from "./InputItem";
 import { verticalScale } from "react-native-size-matters";
 import OTP from "./OTP";
+import moment from "moment";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+const currentDate = new Date().toString();
 
-const TicketCheckInAndOutVol = ({ state, setState }) => {
-  return (
+const TicketCheckInAndOutVol = ({ state, setState, currentDate }) => {
+  const isFocused = useIsFocused();
+  const { navigate } = useNavigation();
+
+  useEffect(() => {
+    if (isFocused) {
+      if (
+        moment(state?.time?.eventStartTime).utc().format("YYYY-MM-DD") ==
+          moment(currentDate).utc().format("YYYY-MM-DD") &&
+        moment(currentDate).utc().format("hh:mm A") >
+          moment(state?.time?.eventStartTime)
+            .subtract(10, "minutes")
+            .utc()
+            .format("hh:mm A")
+      ) {
+        console.log("its time");
+      } else {
+        navigate("Receipt");
+      }
+    }
+  }, [isFocused]);
+
+  return moment(state?.time?.eventStartTime).utc().format("YYYY-MM-DD") ==
+    moment(currentDate).utc().format("YYYY-MM-DD") &&
+    moment(currentDate).utc().format("hh:mm A") >
+      moment(state?.time?.eventStartTime)
+        .subtract(10, "minutes")
+        .utc()
+        .format("hh:mm A") ? (
     <View>
       <Spacer height={40} />
       <View style={{ alignItems: "center" }}>
@@ -121,34 +151,34 @@ const TicketCheckInAndOutVol = ({ state, setState }) => {
               <Spacer height={20} />
               <OTP state={state} setState={setState} />
               {/* <View style={{ flexDirection: "row" }}>
-                <InputItem
-                  value={state.pin1}
-                  onChange={(v) => {
-                    setState({ ...state, pin1: v });
-                  }}
-                />
-                <InputItem
-                  value={state.pin2}
-                  onChange={(v) => {
-                    setState({ ...state, pin2: v });
-                  }}
-                  spacer
-                />
-                <InputItem
-                  value={state.pin3}
-                  onChange={(v) => {
-                    setState({ ...state, pin3: v });
-                  }}
-                  spacer
-                />
-                <InputItem
-                  value={state.pin4}
-                  onChange={(v) => {
-                    setState({ ...state, pin4: v });
-                  }}
-                  spacer
-                />
-              </View> */}
+                              <InputItem
+                                value={state.pin1}
+                                onChange={(v) => {
+                                  setState({ ...state, pin1: v });
+                                }}
+                              />
+                              <InputItem
+                                value={state.pin2}
+                                onChange={(v) => {
+                                  setState({ ...state, pin2: v });
+                                }}
+                                spacer
+                              />
+                              <InputItem
+                                value={state.pin3}
+                                onChange={(v) => {
+                                  setState({ ...state, pin3: v });
+                                }}
+                                spacer
+                              />
+                              <InputItem
+                                value={state.pin4}
+                                onChange={(v) => {
+                                  setState({ ...state, pin4: v });
+                                }}
+                                spacer
+                              />
+                            </View> */}
             </View>
             <Spacer height={10} />
             <View style={{ alignItems: "center" }}>
@@ -251,6 +281,10 @@ const TicketCheckInAndOutVol = ({ state, setState }) => {
           />
         </TouchableOpacity>
       </View>
+    </View>
+  ) : (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text style={{ fontSize: 22 }}>Time Not Reached</Text>
     </View>
   );
 };

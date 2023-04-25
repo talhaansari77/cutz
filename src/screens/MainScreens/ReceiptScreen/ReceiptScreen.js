@@ -175,22 +175,7 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
           <>
             {/* <Spacer height={notch?30:10} /> */}
 
-            <AppHeader
-              ticket={
-                moment(state?.time?.eventStartTime)
-                  .utc()
-                  .format("YYYY-MM-DD") ==
-                  moment(currentDate).utc().format("YYYY-MM-DD") &&
-                moment(currentDate).utc().format("hh:mm A") >
-                  moment(state?.time?.eventStartTime)
-                    .subtract(10, "minutes")
-                    .utc()
-                    .format("hh:mm A")
-                  ? true
-                  : false
-              }
-              onPressTicket={handleTicketPress}
-            />
+            <AppHeader ticket onPressTicket={handleTicketPress} />
 
             <TicketCarousel
               tickets={state.tickets}
@@ -217,7 +202,12 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
           </>
         ) : (
           <>
-            <AppHeader />
+            <AppHeader
+              backButton={state.checkOut ? false : true}
+              onPressBack={() => {
+                setState({ ...state, ticketDetail: false });
+              }}
+            />
             {state.greet ? (
               state.checkOut ? (
                 <SmileGreeting

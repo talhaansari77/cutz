@@ -1,5 +1,6 @@
 export const URLS={
-    BASE_URL:'https://event-app-production-production.up.railway.app/',
+    // BASE_URL:'https://event-app-production-production.up.railway.app/',
+    BASE_URL:'https://event-apis-production.up.railway.app/',
     CLIENT_SIGNUP:'api/v1/client/signup',
     CLIENT_LOGIN:'api/v1/client/login',
     GET_CLIENT:'api/v1/client',

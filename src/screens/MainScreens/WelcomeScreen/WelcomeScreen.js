@@ -35,6 +35,7 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
     ticketData: {},
     loading: false,
     searchIndex: -1,
+    error: 0,
   });
   const [ticketVisible, setTicketVisible] = useState(false);
   const isFocused = useIsFocused();
@@ -71,32 +72,63 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
 
         let time = index ? index : state.timings[index];
         if (time.eventId) {
-          getEventById(time.eventId).then((r) => {
-            let event = r.data;
-            getOrganizationById(event.orgId).then((r) => {
-              let org = r.data;
-              setState({
-                ...state,
-                ticketData: {
+          if (AuthUser.clientStatus) {
+            getEventById(time.eventId).then((r) => {
+              let event = r.data;
+              getOrganizationById(event.orgId).then((r) => {
+                let org = r.data;
+                setState({
+                  ...state,
+                  ticketData: {
+                    ...time,
+                    ...event,
+                    eventId: event._id,
+                    groupId: time._id,
+                    organization: org.organizationName,
+                  },
+                });
+                setTicketVisible(true);
+                console.log("state.ticketData", {
                   ...time,
                   ...event,
-                  eventId: event._id,
-                  groupId: time._id,
                   organization: org.organizationName,
-                },
+                });
               });
-              setTicketVisible(true);
-              console.log("state.ticketData", {
-                ...time,
-                ...event,
-                organization: org.organizationName,
-              });
+              // loaderOff();
             });
-            // loaderOff();
-          });
+          } else {
+            if (state.error) {
+              getEventById(time.eventId).then((r) => {
+                let event = r.data;
+                getOrganizationById(event.orgId).then((r) => {
+                  let org = r.data;
+                  setState({
+                    ...state,
+                    ticketData: {
+                      ...time,
+                      ...event,
+                      eventId: event._id,
+                      groupId: time._id,
+                      organization: org.organizationName,
+                    },
+                  });
+                  setTicketVisible(true);
+                  console.log("state.ticketData", {
+                    ...time,
+                    ...event,
+                    organization: org.organizationName,
+                  });
+                });
+                // loaderOff();
+              });
+            } else {
+              loaderOff();
+              alert("Select Timing");
+            }
+          }
         } else {
           loaderOff();
-          alert('Error');
+          alert("Error");
         }
       } else {
         alert("Select Timing");
