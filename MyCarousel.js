@@ -50,13 +50,13 @@ const MyCarousel = ({
 
   useEffect(() => {
     // setActiveSlide(companyIndex + 3);
-    if (data.length) {
+    // if (data.length) {
     if (isFocused) {
       setTimeout(() => {
-        carouselRef.current.snapToItem(2);
+        // carouselRef.current.snapToItem();
       }, 3500);
     }
-    }
+    // }
   }, []);
 
   const [activeSlide, setActiveSlide] = useState(3);
