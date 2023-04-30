@@ -375,6 +375,10 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
     //   setEventIndex(companyIndex);
     //   dateIndexRef.current.scrollTo({ x: 100 * companyIndex });
     //   eventIndexRef.current.scrollTo({ y: 100 * companyIndex });
+    setState({
+      ...state,
+      eventTypes: [],
+    });
     setDataLoader(true);
     getEvents().then((r) => {
       let events = r.data;
@@ -392,6 +396,7 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
       });
       setDataLoader(false);
     });
+    
   }, [companyIndex]);
 
   useEffect(() => {

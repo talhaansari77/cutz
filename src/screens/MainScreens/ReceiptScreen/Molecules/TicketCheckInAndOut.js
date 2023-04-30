@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { colors } from "../../../../utils/Colors";
 import { Avatar, Image } from "react-native-elements";
 import { images } from "../../../../../assets/images";
@@ -17,7 +17,7 @@ import CustomText from "../../../../components/CustomText";
 import { verticalScale } from "react-native-size-matters";
 import InputItem from "./InputItem";
 import { Platform } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import moment from "moment";
 import OTP from "./OTP";
 import { URLS } from "../../../../services/Urls";
@@ -27,12 +27,25 @@ const currentDate = new Date().toString();
 const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
   const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
+  const isFocused = useIsFocused();
   const modelClose = () => {
     setVisible(false);
   };
   const modelOpen = () => {
     setVisible(true);
   };
+
+  useEffect(() => {
+    console.log(moment(state?.time?.eventStartTime).utc().format("YYYY-MM-DD"));
+    console.log(moment(currentDate).utc().format("YYYY-MM-DD"));
+    console.log(moment(currentDate).add(3,'hours').utc().format("hh:mm A"));
+    console.log(
+      moment(state?.time?.eventStartTime)
+        .subtract(10, "minutes")
+        .utc()
+        .format("hh:mm A")
+    );
+  }, [isFocused]);
   const ModalContent = () => (
     <View
       style={{
@@ -148,7 +161,13 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
       </View>
     </View>
   );
-  return (
+  return moment(state?.time?.eventStartTime).utc().format("YYYY-MM-DD") ===
+  moment(currentDate).utc().format("YYYY-MM-DD") &&
+  moment(currentDate).add(3,'hours').utc().format("hh:mm A") >
+    moment(state?.time?.eventStartTime) 
+      .subtract(10, "minutes")
+      .utc()
+      .format("hh:mm A") ?(
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <Spacer height={20} />
       {state.greet ? (
@@ -318,14 +337,14 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
                   />
                 </View>
                 <CustomText
-                  label={state?.ticketData?.groupLetter?.toUpperCase()}
+                  label={state?.ticketData?.groupLetter?.toUpperCase() || "Z"}
                   color={colors.white}
                   fontFamily={"Righteous"}
                   fontSize={120}
                 />
               </View>
               <CustomText
-                label={state.ticketData.groupCapacity + " People"}
+                label={state.ticketData.groupCapacity||'7' + " People"}
                 color={colors.white}
                 fontFamily={"bold"}
                 fontSize={27}
@@ -354,7 +373,9 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
         </>
       )}
     </View>
-  );
+  ):( <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+  <Text style={{ fontSize: 22 }}>Time Not Reached</Text>
+</View>)
 };
 
 export default TicketCheckInAndOut;

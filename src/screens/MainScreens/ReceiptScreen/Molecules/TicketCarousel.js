@@ -84,7 +84,7 @@ const TicketCarousel = ({
         }}
       >
         <CustomText
-          label={org || "..."}
+          label={ !loader? org : "..."}
           fontFamily={"semiBold"}
           color={colors.white}
           fontSize={14}
@@ -103,11 +103,13 @@ const TicketCarousel = ({
           <View>
             <CustomText
               label={
+                !loader? 
                 moment(time).utc().format("dddd") +
                 ", " +
                 moment(time).utc().format("MMMM") +
                 " " +
                 moment(time).utc().format("DD")
+                :"..."
               }
               fontFamily={"semiBold"}
               color={colors.secondary}
@@ -217,6 +219,21 @@ const TicketCarousel = ({
       />
     </View>
   );
+
+  useEffect(() => {
+    if (tickets.length > 0) {
+      setLoader(true);
+      getOrganizationById(tickets[0].orgId).then((o) =>
+        setOrg(o.data.organizationName)
+      );
+      getTimingBy(tickets[0].eventGroupID).then((t) => {
+        setTime(t.data.eventStartTime);
+        setState({ ...state, time: t.data });
+        setLoader(false);
+      });
+    }
+  }, [tickets]);
+
   return (
     <View style={styles.container}>
       <Spacer height={20} />

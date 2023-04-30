@@ -13,32 +13,41 @@ import moment from "moment";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 const currentDate = new Date().toString();
 
-const TicketCheckInAndOutVol = ({ state, setState, currentDate }) => {
+const TicketCheckInAndOutVol = ({ state, setState,  }) => {
   const isFocused = useIsFocused();
   const { navigate } = useNavigation();
 
   useEffect(() => {
-    if (isFocused) {
-      if (
-        moment(state?.time?.eventStartTime).utc().format("YYYY-MM-DD") ==
-          moment(currentDate).utc().format("YYYY-MM-DD") &&
-        moment(currentDate).utc().format("hh:mm A") >
-          moment(state?.time?.eventStartTime)
-            .subtract(10, "minutes")
-            .utc()
-            .format("hh:mm A")
-      ) {
-        console.log("its time");
-      } else {
-        navigate("Receipt");
-      }
-    }
+    console.log(moment(state?.time?.eventStartTime).utc().format("YYYY-MM-DD"));
+    console.log(moment(currentDate).utc().format("YYYY-MM-DD"));
+    console.log(moment(currentDate).add(3,'hours').utc().format("hh:mm A"));
+    console.log(
+      moment(state?.time?.eventStartTime)
+        .subtract(10, "minutes")
+        .utc()
+        .format("hh:mm A")
+    );
+    // if (isFocused) {
+    //   if (
+    //     moment(state?.time?.eventStartTime).utc().format("YYYY-MM-DD") ==
+    //       moment(currentDate).utc().format("YYYY-MM-DD") &&
+    //     moment(currentDate).utc().format("hh:mm A") >
+    //       moment(state?.time?.eventStartTime)
+    //         .subtract(10, "minutes")
+    //         .utc()
+    //         .format("hh:mm A")
+    //   ) {
+    //     console.log("its time");
+    //   } else {
+    //     navigate("Receipt");
+    //   }
+    // }
   }, [isFocused]);
 
-  return moment(state?.time?.eventStartTime).utc().format("YYYY-MM-DD") ==
+  return moment(state?.time?.eventStartTime).utc().format("YYYY-MM-DD") ===
     moment(currentDate).utc().format("YYYY-MM-DD") &&
-    moment(currentDate).utc().format("hh:mm A") >
-      moment(state?.time?.eventStartTime)
+    moment(currentDate).add(3,'hours').utc().format("hh:mm A") >
+      moment(state?.time?.eventStartTime) 
         .subtract(10, "minutes")
         .utc()
         .format("hh:mm A") ? (
@@ -150,35 +159,7 @@ const TicketCheckInAndOutVol = ({ state, setState, currentDate }) => {
               />
               <Spacer height={20} />
               <OTP state={state} setState={setState} />
-              {/* <View style={{ flexDirection: "row" }}>
-                              <InputItem
-                                value={state.pin1}
-                                onChange={(v) => {
-                                  setState({ ...state, pin1: v });
-                                }}
-                              />
-                              <InputItem
-                                value={state.pin2}
-                                onChange={(v) => {
-                                  setState({ ...state, pin2: v });
-                                }}
-                                spacer
-                              />
-                              <InputItem
-                                value={state.pin3}
-                                onChange={(v) => {
-                                  setState({ ...state, pin3: v });
-                                }}
-                                spacer
-                              />
-                              <InputItem
-                                value={state.pin4}
-                                onChange={(v) => {
-                                  setState({ ...state, pin4: v });
-                                }}
-                                spacer
-                              />
-                            </View> */}
+              
             </View>
             <Spacer height={10} />
             <View style={{ alignItems: "center" }}>
@@ -197,19 +178,7 @@ const TicketCheckInAndOutVol = ({ state, setState, currentDate }) => {
                 borderRadius={15}
                 backgroundColor={colors.btnDark}
                 onPress={() => {
-                  // if (state.checkIn) {
-                  //   setState({ ...state, checkOut: true, greet: true });
-                  // } else {
-                  //   setState({ ...state, checkIn: true, greet: true });
-                  //   setTimeout(() => {
-                  //     setState({
-                  //       ...state,
-                  //       greet: false,
-                  //       checkIn: true,
-                  //     });
-                  //   }, 3000);
-                  // }
-                  // let pinTemplate = { pin1: "", pin2: "", pin3: "", pin4: "" };
+                  
                   let eventCode =
                     state.pin1 + state.pin2 + state.pin3 + state.pin4;
                   console.log(eventCode, state?.currentTicket?.eventCode);
@@ -229,7 +198,7 @@ const TicketCheckInAndOutVol = ({ state, setState, currentDate }) => {
                     }
                   } else {
                     if (
-                      moment(currentDate).utc().format("hh:mm A") >
+                      moment(currentDate).add(3,'hours').utc().format("hh:mm A") >
                       moment(state?.time?.eventEndTime).utc().format("hh:mm A")
                     ) {
                       if (eventCode === state?.currentTicket?.eventCode) {
@@ -246,6 +215,7 @@ const TicketCheckInAndOutVol = ({ state, setState, currentDate }) => {
                         alert("Invalid Code");
                       }
                     } else {
+                      console.log(state.time.eventEndTime)
                       alert("There is still some time left");
                     }
                   }

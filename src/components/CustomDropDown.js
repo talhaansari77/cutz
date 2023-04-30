@@ -33,6 +33,7 @@ const CustomDropDown = ({ dropData, modalVisible, setModalVisible,setEventData,l
     <View
       style={{
         width: modalWidth|| "62%",
+        height:250,
         // height: verticalScale(130),
         borderRadius: 10,
         backgroundColor: colors.white,

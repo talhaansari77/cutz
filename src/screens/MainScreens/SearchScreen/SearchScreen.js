@@ -43,24 +43,24 @@ const SearchScreen = ({ navigation }) => {
     //  console.log("EventData", resp?.data)
     getEvents().then((r) => {
       let data = r.data;
-      
+
       data.forEach((item) => {
-        eventType.push({
-          name: item.eventType,
-        });
+        // if (eventType.find((e) => e?.name !== item?.eventType))
+          eventType.push({
+            name: item.eventType,
+          });
       });
     });
 
     getOrganizations().then((r) => {
       let data = r.data;
-      
+
       data.forEach((item) => {
         orgName.push({
           name: item.organizationName,
         });
       });
     });
-
 
     // getOrganizations().then((r)=>{
     //     let data = r.data;
@@ -109,20 +109,20 @@ const SearchScreen = ({ navigation }) => {
           setSearchError(true);
         }
       } else if (orgData) {
-        console.log("filterOrg",orgData);
+        console.log("filterOrg", orgData);
 
         // const companyData = data.filter((item) => {
         //   return item?.organization == orgData;
         // });
         // if (companyData.length != 0) {
-          // console.log("filterOrg", companyData);
+        // console.log("filterOrg", companyData);
 
-          setTimeout(() => {
-            navigation.navigate("Welcome", { org: orgData });
-          }, 1000);
-          setOrgData("");
+        setTimeout(() => {
+          navigation.navigate("Welcome", { org: orgData });
+        }, 1000);
+        setOrgData("");
 
-          setSearchError(false);
+        setSearchError(false);
         // } else {
         //   setOrgData("");
 

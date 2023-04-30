@@ -151,6 +151,9 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
   useEffect(() => {
     // let companyData = [];
     // let eventTypes = [];
+    if(isFocused){
+
+    
     loaderOn();
     getOrganizations().then((r) => {
       let data = r.data;
@@ -182,7 +185,7 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
         });
       });
     });
-
+  }
     // setTimeout(() => {
     //   setState({
     //     ...state,
@@ -191,7 +194,7 @@ const WelcomeScreen = ({ navigation: { navigate }, route }) => {
     //   });
     //   console.log("companyData", companyData);
     // }, 3000);
-  }, []);
+  }, [isFocused]);
 
   // useEffect(() => {
   //   loaderOn();

@@ -1,3 +1,4 @@
+import { useIsFocused } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
 import {
   View,
@@ -31,7 +32,7 @@ const MyCarousel = ({
   //   setActiveSlide(companyIndex)
   //   carouselRef.current.snapToItem(companyIndex);
   // }, [companyIndex])
-
+  const isFocused = useIsFocused();
   useEffect(() => {
     let searchIndex = state.searchType;
     // carouselRef.current.snapToItem(searchIndex-data.length);
@@ -49,11 +50,13 @@ const MyCarousel = ({
 
   useEffect(() => {
     // setActiveSlide(companyIndex + 3);
-    // if (data.length) {
-    setTimeout(() => {
-      carouselRef.current.snapToItem(2);
-    }, 3500);
-    // }
+    if (data.length) {
+    if (isFocused) {
+      setTimeout(() => {
+        carouselRef.current.snapToItem(2);
+      }, 3500);
+    }
+    }
   }, []);
 
   const [activeSlide, setActiveSlide] = useState(3);
