@@ -18,6 +18,7 @@ import { colors } from "../../../../utils/Colors";
 import moment from "moment";
 import { getOrganizationById } from "../../../../services/Organization";
 import { getTimingBy } from "../../../../services/Organization copy";
+import { useSelector } from "react-redux";
 
 const data = [
   { id: 1, text: "Item 1" },
@@ -42,7 +43,10 @@ const TicketCarousel = ({
   const [activeSlide, setActiveSlide] = useState(0);
   const [org, setOrg] = useState([]);
   const [time, setTime] = useState([]);
+  const [prepTimes, setPrepTimes] = useState([]);
+  const [prepTimee, setPrepTimee] = useState([]);
   const [loader, setLoader] = useState(false);
+  const AuthUser = useSelector((state) => state.authReducers.authState);
 
   // useEffect(() => {
   //   let ti=[]
@@ -84,7 +88,7 @@ const TicketCarousel = ({
         }}
       >
         <CustomText
-          label={ !loader? org : "..."}
+          label={!loader ? org : "..."}
           fontFamily={"semiBold"}
           color={colors.white}
           fontSize={14}
@@ -103,24 +107,38 @@ const TicketCarousel = ({
           <View>
             <CustomText
               label={
-                !loader? 
-                moment(time).utc().format("dddd") +
-                ", " +
-                moment(time).utc().format("MMMM") +
-                " " +
-                moment(time).utc().format("DD")
-                :"..."
+                !loader
+                  ? moment(time).utc().format("dddd") +
+                    ", " +
+                    moment(time).utc().format("MMMM") +
+                    " " +
+                    moment(time).utc().format("DD")
+                  : "..."
               }
               fontFamily={"semiBold"}
               color={colors.secondary}
               fontSize={14}
             />
-            <CustomText
-              label={moment(time).utc().format("hh:mm A")}
-              fontFamily={"semiBold"}
-              color={colors.perFectDark}
-              fontSize={11}
-            />
+            {AuthUser.clientStatus ? (
+              <CustomText
+                label={moment(time).utc().format("hh:mm A")}
+                fontFamily={"semiBold"}
+                color={colors.perFectDark}
+                fontSize={11}
+              />
+            ) : (
+              <CustomText
+                label={
+                  "PREP " +
+                  moment(prepTimes).utc().format("hh:mm A") +
+                  " - " +
+                  moment(prepTimee).utc().format("hh:mm A")
+                }
+                fontFamily={"semiBold"}
+                color={colors.secondary}
+                fontSize={11}
+              />
+            )}
           </View>
         </View>
         <Spacer height={25} />
@@ -228,6 +246,8 @@ const TicketCarousel = ({
       );
       getTimingBy(tickets[0].eventGroupID).then((t) => {
         setTime(t.data.eventStartTime);
+        setPrepTimes(t.data.priorEventStartTime);
+        setPrepTimee(t.data.priorEventEndTime);
         setState({ ...state, time: t.data });
         setLoader(false);
       });
@@ -258,6 +278,8 @@ const TicketCarousel = ({
             );
             getTimingBy(tickets[index].eventGroupID).then((t) => {
               setTime(t.data.eventStartTime);
+              setPrepTimes(t.data.priorEventStartTime);
+              setPrepTimee(t.data.priorEventEndTime);
               setState({ ...state, time: t.data });
               setLoader(false);
             });
