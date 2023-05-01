@@ -261,7 +261,7 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
               size={80}
               containerStyle={{}}
             />
-            {!profilePicture && (
+            {/* {!profilePicture && (
               <TouchableOpacity activeOpacity={0.6} onPress={onClickImage}>
                 <Avatar
                   source={icons.cameraPlus}
@@ -275,7 +275,7 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
                   }}
                 />
               </TouchableOpacity>
-            )}
+            )} */}
           </View>
 
           <Spacer height={10} />
