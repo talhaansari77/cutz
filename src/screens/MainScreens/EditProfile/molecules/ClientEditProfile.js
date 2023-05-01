@@ -119,7 +119,7 @@ const ClientEditProfile = ({
           console.log("resImage", res);
           data[
             "profilePicture"
-          ] = `${"https://event-app-production-production.up.railway.app"}${
+          ] = `${URLS.BASE_URL}${
             res.link
           }`;
         } catch (error) {}

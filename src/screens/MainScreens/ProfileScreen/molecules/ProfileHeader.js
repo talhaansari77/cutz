@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import ProfilePhoto from "../../../../components/ProfilePhoto";
 import CustomText from "../../../../components/CustomText";
@@ -27,18 +27,17 @@ const ProfileHeader = ({ AuthUser }) => {
             borderRadius: 50,
             alignSelf: "center",
             zIndex: 100,
-
           }}
         >
           {AuthUser.profilePicture ? (
             <>
               <Image
                 style={{
-                  height: 70,
-                  width: 70,
-                  borderRadius: 50,
+                  height: scale(60),
+                  width: scale(60),
+                  borderRadius: 100,
                 }}
-                source={{uri:AuthUser.profilePicture}}
+                source={{ uri: AuthUser.profilePicture }}
               />
             </>
           ) : (
@@ -49,20 +48,6 @@ const ProfileHeader = ({ AuthUser }) => {
                 size={70}
                 containerStyle={{}}
               />
-                            <TouchableOpacity activeOpacity={0.6} onPress={onClickImage}>
-
-              <Avatar
-                source={icons.cameraPlus}
-                rounded
-                size={35}
-                containerStyle={{
-                  alignSelf: "center",
-                  position: "absolute",
-                  bottom: -5,
-                  right: -5,
-                }}
-              />
-              </TouchableOpacity>
             </>
           )}
         </View>

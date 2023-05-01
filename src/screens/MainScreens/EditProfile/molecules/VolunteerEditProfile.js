@@ -296,10 +296,12 @@ const VolunteerEditProfile = (props) => {
         try {
           const res = await UploadImage(props.imageUri);
           console.log("resImage", res);
+
+          const imageData=res.link.slice( 1 )
           data[
             "profilePicture"
-          ] = `${"https://event-app-production-production.up.railway.app"}${
-            res.link
+          ] = `${URLS.BASE_URL}${
+            imageData
           }`;
         } catch (error) {}
       }
