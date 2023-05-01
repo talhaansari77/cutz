@@ -161,13 +161,14 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
       </View>
     </View>
   );
-  return moment(state?.time?.eventStartTime).utc().format("YYYY-MM-DD") ===
-  moment(currentDate).utc().format("YYYY-MM-DD") &&
-  moment(currentDate).add(3,'hours').utc().format("hh:mm A") >
-    moment(state?.time?.eventStartTime) 
-      .subtract(10, "minutes")
-      .utc()
-      .format("hh:mm A") ?(
+  // moment(state?.time?.eventStartTime).utc().format("YYYY-MM-DD") ===
+  // moment(currentDate).utc().format("YYYY-MM-DD") &&
+  // moment(currentDate).add(3,'hours').utc().format("hh:mm A") >
+  //   moment(state?.time?.eventStartTime) 
+  //     .subtract(10, "minutes")
+  //     .utc()
+  //     .format("hh:mm A") 
+  return true?(
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <Spacer height={20} />
       {state.greet ? (

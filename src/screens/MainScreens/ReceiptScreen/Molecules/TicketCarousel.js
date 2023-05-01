@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Dimensions,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 import { Image } from "react-native-elements";
 import { scale, verticalScale } from "react-native-size-matters";
@@ -290,7 +291,22 @@ const TicketCarousel = ({
           <Text style={{ fontSize: 22, color: "#000" }}>Not Found</Text>
         </View>
       )}
-      <View style={{ alignItems: "center" }}>
+      
+      <View style={{ alignSelf: "center" ,width:100}}>
+        <Spacer height={15} />
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {tickets.map((item, index) => (
+            <View
+              style={{
+                ...styles.dot,
+                backgroundColor: activeSlide === index ? "black" : "grey",
+              }}
+            />
+          ))}
+        </ScrollView>
+      </View>
+
+      {/* <View style={{ alignItems: "center" }}>
         <Spacer height={10} />
         <Pagination
           dotsLength={tickets.length}
@@ -301,7 +317,7 @@ const TicketCarousel = ({
           inactiveDotOpacity={1}
           inactiveDotScale={1}
         />
-      </View>
+      </View> */}
       <Spacer height={40} />
       <View style={{ flexDirection: "row", justifyContent: "center" }}>
         <CustomButton
@@ -362,7 +378,7 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 5,
-    backgroundColor: colors.black,
+    // backgroundColor: colors.black,
     marginHorizontal: 8,
   },
   inactiveDot: {
