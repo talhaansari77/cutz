@@ -16,6 +16,7 @@ import PersonalScreen from "../../screens/MainScreens/PersonalScreen/PersonalScr
 import EditProfile from "../../screens/MainScreens/EditProfile/EditProfile";
 import ManageNotification from "../../screens/MainScreens/ManageNotification/ManageNotification";
 import ProfileStack from "../ProfileStack/ProfileStack";
+import TicketOtp from "../../screens/MainScreens/TicketOtp/TicketOtp";
 
 const Tab = createBottomTabNavigator();
 
@@ -80,6 +81,13 @@ const MainStack = ({ route }) => {
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Receipt" component={ReceiptScreen} />
       <Tab.Screen name="Profile" component={ProfileStack} />
+      <Tab.Screen
+        options={{
+          tabBarItemStyle: { display: "none" },
+        }}
+        name="TicketOtp"
+        component={TicketOtp}
+      />
       <Tab.Screen
         options={{
           tabBarItemStyle: { display: "none" },

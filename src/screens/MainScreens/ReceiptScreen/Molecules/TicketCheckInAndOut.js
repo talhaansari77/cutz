@@ -38,7 +38,7 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
   useEffect(() => {
     console.log(moment(state?.time?.eventStartTime).utc().format("YYYY-MM-DD"));
     console.log(moment(currentDate).utc().format("YYYY-MM-DD"));
-    console.log(moment(currentDate).add(3,'hours').utc().format("hh:mm A"));
+    console.log(moment(currentDate).add(3, "hours").utc().format("hh:mm A"));
     console.log(
       moment(state?.time?.eventStartTime)
         .subtract(10, "minutes")
@@ -133,20 +133,20 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
               //   moment(currentDate).utc().format("hh:mm A") >
               //   moment(state?.time?.eventEndTime).utc().format("hh:mm A")
               // ) {
-                if (eventCode === state?.currentTicket?.eventCode) {
-                  setState({
-                    ...state,
-                    checkOut: true,
-                    greet: true,
-                    pin1: "",
-                    pin2: "",
-                    pin3: "",
-                    pin4: "",
-                  });
-                  modelClose();
-                } else {
-                  alert("Invalid Code");
-                }
+              if (eventCode === state?.currentTicket?.eventCode) {
+                setState({
+                  ...state,
+                  checkOut: true,
+                  greet: true,
+                  pin1: "",
+                  pin2: "",
+                  pin3: "",
+                  pin4: "",
+                });
+                modelClose();
+              } else {
+                alert("Invalid Code");
+              }
               // } else {
               //   alert("There is still some time left");
               // }
@@ -161,14 +161,14 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
       </View>
     </View>
   );
-  
-  return moment(state?.time?.eventStartTime).utc().format("YYYY-MM-DD") ===
-  moment(currentDate).utc().format("YYYY-MM-DD") &&
-  moment(currentDate).add(3,'hours').utc().format("hh:mm A") >
-    moment(state?.time?.eventStartTime) 
-      .subtract(10, "minutes")
-      .utc()
-      .format("hh:mm A") ?(
+  moment(state?.time?.eventStartTime).utc().format("YYYY-MM-DD") ===
+    moment(currentDate).utc().format("YYYY-MM-DD") &&
+    moment(currentDate).add(3, "hours").utc().format("hh:mm A") >
+      moment(state?.time?.eventStartTime)
+        .subtract(10, "minutes")
+        .utc()
+        .format("hh:mm A");
+  return true ? (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <Spacer height={20} />
       {state.greet ? (
@@ -345,7 +345,7 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
                 />
               </View>
               <CustomText
-                label={state.ticketData.groupCapacity||'7' + " People"}
+                label={state.ticketData.groupCapacity || "7" + " People"}
                 color={colors.white}
                 fontFamily={"bold"}
                 fontSize={27}
@@ -368,15 +368,23 @@ const TicketCheckInAndOut = ({ setState, state, profilePicture }) => {
               width={"50%"}
               borderRadius={10}
               fontFamily={"bold"}
-              onPress={modelOpen}
+              onPress={() => {
+                navigation.navigate("TicketOtp", {
+                  setState: setState,
+                  state: state,
+                  navigation: navigation,
+                });
+              }}
             />
           </View>
         </>
       )}
     </View>
-  ):( <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-  <Text style={{ fontSize: 22 }}>Time Not Reached</Text>
-</View>)
+  ) : (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text style={{ fontSize: 22 }}>Time Not Reached</Text>
+    </View>
+  );
 };
 
 export default TicketCheckInAndOut;

@@ -4,4 +4,5 @@ export const images={
     cardHeader:require("./cardHeader.png"),
     cardBottom:require("./cardBottom.png"),
     userAvatar:require("./userAvatar.png"),
+    ticketBackground:require("./ticketbg.png"),
 }

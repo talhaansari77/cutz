@@ -8,6 +8,7 @@ const OTP = ({ state, setState }) => {
   const pin2Ref = useRef("");
   const pin3Ref = useRef("");
   const pin4Ref = useRef("");
+  
 
   
   return (
