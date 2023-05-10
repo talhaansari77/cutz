@@ -23,6 +23,7 @@ const MyCarousel = ({
   data,
   state,
   typeIndex,
+  companyIndex,
   setTypeIndex,
   setCompanyIndex1,
   dataLoader,
@@ -49,15 +50,8 @@ const MyCarousel = ({
   }, [state.searchType]);
 
   useEffect(() => {
-    // setActiveSlide(companyIndex + 3);
-    // if (data.length) {
-    if (isFocused) {
-      setTimeout(() => {
-        // carouselRef.current.snapToItem();
-      }, 3500);
-    }
-    // }
-  }, []);
+    setActiveSlide(3)
+  }, [companyIndex]);
 
   const [activeSlide, setActiveSlide] = useState(3);
 

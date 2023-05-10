@@ -78,14 +78,18 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
         let data = r.data;
         getReservationData().then((r1) => {
           let res = SetReservationData(data, r1.data);
-          console.log("res", res);
-          setState({ ...state, tickets: res, currentTicket: res[0] });
+          let res1 =setTimeAndName(res);
+          setTimeout(() => {
+            setState({ ...state, tickets: res1, currentTicket: res1[0] });
+          }, 3000);
         });
       });
 
       // loaderOff();
     }
   }, [isFocused]);
+
+ 
 
   const getReservationData = () => {
     let data = [];
@@ -109,6 +113,18 @@ const ReceiptScreen = ({ navigation: { navigate }, route }) => {
       });
     });
     return myTickets;
+  };
+
+  const setTimeAndName = (userTickets) => {
+    let res=[];
+    userTickets.map((t) => {
+      getOrganizationById(t.orgId).then((o) => {
+        getTimingBy(t.eventGroupID).then((r) => {
+          res.push({ ...t, orgName: o.data.organizationName, time: r.data });
+        });
+      });
+    });
+    return res;
   };
 
   const handleProceedPress = (ticket) => {

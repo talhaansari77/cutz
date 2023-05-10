@@ -89,7 +89,7 @@ const TicketCarousel = ({
         }}
       >
         <CustomText
-          label={!loader ? org : "..."}
+          label={item.orgName}
           fontFamily={"semiBold"}
           color={colors.white}
           fontSize={14}
@@ -108,13 +108,13 @@ const TicketCarousel = ({
           <View>
             <CustomText
               label={
-                !loader
-                  ? moment(time).utc().format("dddd") +
+                
+                   moment(item.time.eventStartTime).utc().format("dddd") +
                     ", " +
-                    moment(time).utc().format("MMMM") +
+                    moment(item.time.eventStartTime).utc().format("MMMM") +
                     " " +
-                    moment(time).utc().format("DD")
-                  : "..."
+                    moment(item.time.eventStartTime).utc().format("DD")
+                  
               }
               fontFamily={"semiBold"}
               color={colors.secondary}
@@ -122,7 +122,7 @@ const TicketCarousel = ({
             />
             {AuthUser.clientStatus ? (
               <CustomText
-                label={moment(time).utc().format("hh:mm A")}
+                label={moment(item.time.eventStartTime).utc().format("hh:mm A")}
                 fontFamily={"semiBold"}
                 color={colors.perFectDark}
                 fontSize={11}
@@ -131,9 +131,9 @@ const TicketCarousel = ({
               <CustomText
                 label={
                   "PREP " +
-                  moment(prepTimes).utc().format("hh:mm A") +
+                  moment(item.time.priorEventStartTime).utc().format("hh:mm A") +
                   " - " +
-                  moment(prepTimee).utc().format("hh:mm A")
+                  moment(item.time.priorEventEndTime).utc().format("hh:mm A")
                 }
                 fontFamily={"semiBold"}
                 color={colors.secondary}
@@ -239,21 +239,7 @@ const TicketCarousel = ({
     </View>
   );
 
-  useEffect(() => {
-    if (tickets.length > 0) {
-      setLoader(true);
-      getOrganizationById(tickets[0].orgId).then((o) =>
-        setOrg(o.data.organizationName)
-      );
-      getTimingBy(tickets[0].eventGroupID).then((t) => {
-        setTime(t.data.eventStartTime);
-        setPrepTimes(t.data.priorEventStartTime);
-        setPrepTimee(t.data.priorEventEndTime);
-        setState({ ...state, time: t.data });
-        setLoader(false);
-      });
-    }
-  }, [tickets]);
+  
 
   return (
     <View style={styles.container}>
@@ -262,7 +248,7 @@ const TicketCarousel = ({
       <Spacer height={20} />
       {tickets.length ? (
         <Carousel
-          data={tickets}
+          data={tickets} 
           renderItem={renderItem}
           // sliderHeight={300}
           // itemHeight={60}
@@ -271,22 +257,12 @@ const TicketCarousel = ({
           layout="default"
           inactiveSlideScale={0.8} // set inactive slide scale to make items smaller
           onSnapToItem={(index) => {
-            setLoader(true);
             setActiveSlide(index);
             setState({ ...state, currentTicket: tickets[index] });
-            getOrganizationById(tickets[index].orgId).then((o) =>
-              setOrg(o.data.organizationName)
-            );
-            getTimingBy(tickets[index].eventGroupID).then((t) => {
-              setTime(t.data.eventStartTime);
-              setPrepTimes(t.data.priorEventStartTime);
-              setPrepTimee(t.data.priorEventEndTime);
-              setState({ ...state, time: t.data });
-              setLoader(false);
-            });
+            
           }} // update the active slide index
         />
-      ) : (
+      ) : ( 
         <View style={{ alignSelf: "center" }}>
           <Text style={{ fontSize: 22, color: "#000" }}>Not Found</Text>
         </View>

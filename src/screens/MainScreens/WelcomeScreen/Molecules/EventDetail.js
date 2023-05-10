@@ -516,6 +516,7 @@ const EventDetail = ({ handleBookingPress, userType, state, setState }) => {
       <MyCarousel
         data={state.eventTypes}
         dataLoader={dataLoader}
+        companyIndex={companyIndex}
         companyIndex1={companyIndex1}
         setCompanyIndex1={setCompanyIndex1}
         state={state}
