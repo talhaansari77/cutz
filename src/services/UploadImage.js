@@ -7,14 +7,14 @@ export const UploadImage = async (imageUri) => {
   
     // Append the image file to the FormData object
     formData.append('image', {
-      uri: imageUri.uri,
+      uri: imageUri?.assets[0]?.uri,
       name: 'image.jpg',
       type: 'image/jpeg'
     });
   
     try {
       // Make a POST request to the server with the FormData object
-      const response = await fetch('https://event-app-production-production.up.railway.app/api/v1/upload', {
+      const response = await fetch(`${URLS.BASE_URL}api/v1/upload`, {
         method: 'POST',
         body: formData,
         headers: {

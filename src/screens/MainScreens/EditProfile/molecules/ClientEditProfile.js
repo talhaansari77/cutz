@@ -75,7 +75,7 @@ const ClientEditProfile = ({
       phoneRaw
     );
     if (ValidateResponse) {
-    const  data = {
+      const data = {
         firstName: signupValue.firstName,
         lastName: signupValue.lastName,
         email: signupValue.email,
@@ -85,7 +85,7 @@ const ClientEditProfile = ({
         // password: signupValue.password,
         // confirmPassword: signupValue.confirmPassword,
       };
-   
+
       if (newPassword) {
         if (newPassword.length <= 7) {
           setNewPassError("password must be greater then 7 digits");
@@ -99,29 +99,17 @@ const ClientEditProfile = ({
           setNewConfirmError("confirm password is not match");
           return;
         }
-        data[
-          "password"
-        ] = newPassword;
-        data[
-          "confirmPassword"
-        ] = newConfirmPassword;
-
+        data["password"] = newPassword;
+        data["confirmPassword"] = newConfirmPassword;
       }
-
-
-    
 
       setLoading(true);
 
       if (imageUri) {
         try {
           const res = await UploadImage(imageUri);
-          console.log("resImage", res);
-          data[
-            "profilePicture"
-          ] = `${URLS.BASE_URL}${
-            res.link
-          }`;
+          let host = "https://event-apis-production.up.railway.app";
+          data["profilePicture"] = `${host}${res.link}`;
         } catch (error) {}
       }
 
@@ -305,7 +293,7 @@ const ClientEditProfile = ({
         rigthIcon={showPassword ? icons.eyeSlash : icons.eye}
         onChangeText={(txt) => {
           setNewPassword(txt);
-        setNewPassError  ('');
+          setNewPassError("");
         }}
       />
       <Spacer height={30} />
@@ -324,7 +312,7 @@ const ClientEditProfile = ({
         rigthIcon={showPassword1 ? icons.eyeSlash : icons.eye}
         onChangeText={(txt) => {
           setNewConfirmPassword(txt);
-          setNewConfirmError( "" );
+          setNewConfirmError("");
         }}
       />
       <Spacer height={50} />

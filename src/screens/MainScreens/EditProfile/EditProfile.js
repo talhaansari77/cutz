@@ -33,8 +33,9 @@ export const onClickImage = async (setImageUri,setImage) => {
       // base64: true,
     });
     if (result) {
+      // console.log('result ===>',result?.assets[0]?.uri)
       setImageUri(result);
-      setImage(result.uri);
+      setImage(result?.assets[0]?.uri);
       // console.log("ResulteImageData",result.type)
     } else {
       setImageUri("");
@@ -50,7 +51,7 @@ const EditProfile = ({ route, navigation }) => {
   const [loading, setLoading] = useState(false);
 
   // console.log("RoutesType",route?.params?.type?.params?.userType)
-  console.log("ImageAssets", authUser);
+  console.log("UserDetail", authUser);
   useEffect(() => {
     // setImage(route?.params?.AuthUser?.profilePicture)
     setImage(route?.params?.AuthUser?.profilePicture);
