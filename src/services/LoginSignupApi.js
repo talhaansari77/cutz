@@ -136,7 +136,11 @@ export const ClientLogin = async (
       .then(async function (response) {
         console.log("userCreated", response.data);
         if (response) {
-          const res = await GetClientEvent(response.data.token);
+          const res = await axios.get(`${URLS.BASE_URL}${URLS.CLIENT_LOGIN}`, {
+            headers: {
+              Authorization: "Bearer " + response.data.token,
+            },
+          })
           const data = res?.data;
           //  console.log("ResData",res?.data)
           if (remember) {
@@ -200,15 +204,20 @@ export const VolunteerLogin = async (
 
   setLoading(true);
 
-  try {
+  // try {
     await axios
       .request(options)
       .then(async function (response) {
-        console.log("userCreated", response.data);
+        // console.log("userCreated", response.data);
         if (response) {
-          const res = await GetVolunteerEvent(response.data.token);
+          const res =  await axios.get(`${URLS.BASE_URL}${URLS.VOLUNTEER_LOGIN}`, {
+            headers: {
+              Authorization: "Bearer " + response.data.token,
+            },
+          })
           const data = res?.data;
-          //  console.log("ResData",res?.data)
+           console.log("ResData",res?.data)
+          console.log('===> then ✋')
 
           if (remember) {
             const CurrentAuth = {
@@ -216,7 +225,7 @@ export const VolunteerLogin = async (
               rememberMe: remember,
               currentUser: checkUser,
             };
-            console.log("RememberAuth", CurrentAuth);
+            // console.log("RememberAuth", CurrentAuth);
 
             await AsyncStorage.setItem(
               "CurrentAuth",
@@ -249,10 +258,10 @@ export const VolunteerLogin = async (
       .catch((error) => {
         setLoading(false);
         Toast.show("email or password is incorrect");
-
+        console.log('===> catch ✋')
         console.log("SignError=>", error);
       });
-  } catch (error) {
-    return error;
-  }
+  // } catch (error) {
+  //   return error;
+  // }
 };

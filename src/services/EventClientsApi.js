@@ -17,7 +17,7 @@ export const GetClientEvent = async (token) => {
 export const GetVolunteerEvent = async (token) => {
   console.log("ClietnToken", token);
   try {
-    return await axios.get(`${URLS.BASE_URL}${URLS.GET_VOLUNTEER}`, {
+    return await axios.get(`https://event-app-production-production.up.railway.app/api/v1/volunteer/login`, {
       headers: {
         Authorization: "Bearer " + token,
       },
